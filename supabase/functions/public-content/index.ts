@@ -11,7 +11,7 @@ function cors(req: Request) {
   const local = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
   return {
     "Access-Control-Allow-Origin": allowedOrigins.includes(origin) || local ? origin : allowedOrigins[0] || "null",
-    "Access-Control-Allow-Headers": "authorization, apikey, content-type",
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
     "Access-Control-Allow-Methods": "GET, OPTIONS",
     Vary: "Origin",
   };

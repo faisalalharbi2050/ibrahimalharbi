@@ -717,6 +717,8 @@ async function loadData(){
   }catch(e){
     console.warn('Public content unavailable; using the last cached version.');
   }
+  updateVisitorCounter();
+  startPublicRealtime();
 }
 
 function applyPublicData(nextData){
