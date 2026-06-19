@@ -17,7 +17,7 @@ for (const file of publicFiles) {
 
 fs.rmSync(adminOut, { recursive: true, force: true });
 fs.mkdirSync(adminOut, { recursive: true });
-fs.copyFileSync(path.join(root, 'admin.html'), path.join(adminOut, 'index.html'));
-fs.copyFileSync(path.join(root, 'vercel-admin.json'), path.join(adminOut, 'vercel.json'));
+fs.copyFileSync(path.join(root, 'admin/index.html'), path.join(adminOut, 'index.html'));
+fs.copyFileSync(path.join(root, 'admin/vercel.json'), path.join(adminOut, 'vercel.json'));
 
 console.log(`Built public site in dist/ and admin portal in dist-admin/`);

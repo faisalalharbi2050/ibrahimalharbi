@@ -39,9 +39,9 @@ supabase functions deploy manage-admin-user
 
 ## 4. الاستضافة والحماية
 
-- انشر الملفات عبر Vercel، وتحقق من تفعيل ترويسات الحماية المعرفة في `vercel.json` و`vercel-admin.json`.
+- انشر الملفات عبر Vercel، وتحقق من تفعيل ترويسات الحماية المعرفة في `vercel.json` و`admin/vercel.json`.
 - اربط النطاق بـ HTTPS فقط.
-- اجعل `/admin.html` محميًا أيضًا بقواعد WAF وrate limiting.
+- اجعل بوابة الإدارة المستقلة محميًا أيضًا بقواعد WAF وrate limiting.
 - لا تعِد إظهار رابط الإدارة في الصفحة العامة.
 
 ## 5. التحقق

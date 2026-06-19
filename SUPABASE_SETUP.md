@@ -47,4 +47,4 @@ After deployment, sign in to the database connection card with the first admin a
 - Never place the `service_role` key in frontend files.
 - Do not disable RLS on `collab_requests`.
 - Admin request reading and adding additional users works through Supabase Auth, not through the public anon session.
-- Never place the `service_role` key in `index.html`, `admin.html`, or any frontend file.
+- Never place the `service_role` key in `index.html`, `admin/index.html`, or any frontend file.

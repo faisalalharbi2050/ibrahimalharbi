@@ -6,7 +6,7 @@ const root = __dirname;
 const host = '127.0.0.1';
 const requestedPort = Number(process.env.PORT || 4173);
 let port = requestedPort;
-const watched = ['index.html', 'admin.html', 'package.json', 'dev-server.js'];
+const watched = ['index.html', 'admin/index.html', 'package.json', 'dev-server.js'];
 
 const types = {
   '.html': 'text/html; charset=utf-8',
@@ -58,7 +58,7 @@ function injectLiveReload(html) {
 function safePath(urlPath) {
   const clean = decodeURIComponent(urlPath.split('?')[0]);
   const target = clean === '/' ? 'index.html' : clean.replace(/^\/+/, '');
-  if (target === 'admin') return path.resolve(root, 'admin.html');
+  if (target === 'admin') return path.resolve(root, 'admin/index.html');
   const resolved = path.resolve(root, target);
   if (!resolved.startsWith(root)) return null;
   return resolved;

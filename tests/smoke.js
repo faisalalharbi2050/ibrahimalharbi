@@ -37,7 +37,7 @@ async function waitForServer() {
       throw new Error(`فشل فحص الواجهة العامة: ${JSON.stringify(publicState)}`);
     }
 
-    await page.goto(`${base}/admin.html`, { waitUntil: 'domcontentloaded' });
+    await page.goto(`${base}/admin/index.html`, { waitUntil: 'domcontentloaded' });
     await page.locator('#loginScreen').waitFor({ state: 'visible', timeout: 5000 });
     if (!(await page.locator('#loginScreen').isVisible())) throw new Error('شاشة دخول الإدارة غير ظاهرة');
     if (await page.locator('#dashboard').isVisible()) throw new Error('لوحة الإدارة ظهرت دون جلسة موثقة');

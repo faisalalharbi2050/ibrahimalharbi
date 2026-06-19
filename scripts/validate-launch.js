@@ -4,7 +4,7 @@ const path = require('path');
 const root = path.resolve(__dirname, '..');
 const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
 const index = read('index.html');
-const admin = read('admin.html');
+const admin = read('admin/index.html');
 const schema = read('supabase/migrations/20260618000000_launch_hardening.sql');
 const loginGuardSchema = read('supabase/migrations/20260619001000_admin_login_guard.sql');
 const loginFunction = read('supabase/functions/admin-login/index.ts');
