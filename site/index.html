@@ -88,7 +88,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
 .visitor-card{display:none;background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:24px;padding:16px 18px;box-shadow:0 4px 14px rgba(120,128,140,.05);margin-bottom:22px;text-align:center;animation:up .5s ease both}
 .visitor-card .vcounter{background:transparent;border:none;padding:0}
-.card-title-lite{font-family:var(--fn);font-size:12px;font-weight:var(--fw-sb);color:var(--tx);margin-bottom:14px}
+.card-title-lite{font-family:var(--fn);font-size:12px;font-weight:var(--fw-sb);color:var(--tx);margin-bottom:14px;text-align:right}
 
 /* SECTION LABEL */
 .sec-lbl{font-size:11px;font-weight:var(--fw-b);letter-spacing:1.2px;text-transform:uppercase;color:var(--lt);margin:28px 0 12px 2px}
@@ -108,7 +108,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 .section-frame .books-grid{margin-top:2px}
 .section-frame .partner-row:last-child{margin-bottom:0}
 #lblPartners{display:none}
-#lblBooks{display:block;margin-bottom:14px;font-size:13px;letter-spacing:0;text-transform:none;color:var(--tx)}
+#lblBooks{display:none}
 #socialSec,#booksWrap,#partnersWrap,#collabWrap{margin-bottom:6px}
 
 /* BOOKS */
@@ -902,7 +902,7 @@ function renderBooks(){
   if(!books.length){wrap.style.display='none';sec.innerHTML='';return;}
   wrap.style.display='block';
   const buyLabel='شراء';
-  sec.innerHTML=`<div class="section-frame"><div class="books-grid">${books.map(b=>{
+  sec.innerHTML=`<div class="section-frame"><div class="card-title-lite">مؤلفاتي</div><div class="books-grid">${books.map(b=>{
     const title=escapeHtml(b.titleAr||b.titleEn||'');
     const pub=escapeHtml(b.publisherAr||'غير مذكورة');
     const coverSrc=safeImageSrc(b.cover);
