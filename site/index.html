@@ -578,6 +578,14 @@ function normalizeAdLink(item){
   };
 }
 
+function bookLinksFor(item){
+  const current=Array.isArray(item?.links)?item.links.filter(link=>link&&String(link.url||'').trim()).map((link,index)=>({id:String(link.id||('link_'+index)),label:String(link.label||'شراء').trim()||'شراء',url:String(link.url||'').trim()})):[];
+  if(current.length)return current;
+  const legacy=[];
+  if(item?.printUrl)legacy.push({id:'legacy_print',label:'شراء',url:String(item.printUrl).trim()});
+  if(item?.digitalUrl)legacy.push({id:'legacy_digital',label:legacy.length?'رابط إضافي':'شراء',url:String(item.digitalUrl).trim()});
+  return legacy;
+}
 function normalizeData(){
   if(!D||typeof D!=='object')D={};
   if(!Array.isArray(D.social))D.social=[];
@@ -588,7 +596,7 @@ function normalizeData(){
   delete D.partners;
   if(!D.collab)D.collab={plans:[]};
   if(!Array.isArray(D.collab.plans))D.collab.plans=[];
-  D.books.forEach(b=>{if(b.active===undefined)b.active=true;});
+  D.books.forEach(b=>{if(b.active===undefined)b.active=true;b.links=bookLinksFor(b);delete b.printUrl;delete b.digitalUrl;});
   D.adLinks.forEach(p=>{if(p.active===undefined)p.active=true;});
   if(!D.sectionsOff)D.sectionsOff={};
   if(D.sectionsOff.books===undefined)D.sectionsOff.books=false;
@@ -907,7 +915,7 @@ function renderBooks(){
     const pub=escapeHtml(b.publisherAr||'غير مذكورة');
     const coverSrc=safeImageSrc(b.cover);
     const cover=coverSrc?`<div class="book-cover-shell"><img class="book-cover" src="${escapeHtml(coverSrc)}" alt="${title}"></div>`:`<div class="book-cover-shell"><div class="book-cover-ph"><svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span>غلاف</span></div></div>`;
-    const printUrl=safeHttpUrl(b.printUrl);const digitalUrl=safeHttpUrl(b.digitalUrl);
+    const links=bookLinksFor(b).map((link,index)=>({id:link.id||('link_'+index),label:link.label||buyLabel,url:safeHttpUrl(link.url)})).filter(link=>link.url);
     const buttonsClass='book-btns';
     return `<div class="book-card">${cover}<div class="book-info">
       <div class="book-title">${title}</div>
@@ -915,8 +923,7 @@ function renderBooks(){
         <div class="book-meta-item"><span class="book-meta-label">دار النشر:</span><span class="book-meta-value">${pub}</span></div>
       </div>
       <div class="${buttonsClass}">
-        ${printUrl?`<a class="bbtn bbtn-p" href="${escapeHtml(printUrl)}" target="_blank" rel="noopener" data-track-id="${escapeHtml(`${b.id}_print`)}"><svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>${buyLabel}</a>`:''}
-        ${digitalUrl?`<a class="bbtn bbtn-d" href="${escapeHtml(digitalUrl)}" target="_blank" rel="noopener" data-track-id="${escapeHtml(`${b.id}_digital`)}"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1.9-2 2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/></svg>${buyLabel}</a>`:''}
+        ${links.map((link,index)=>`<a class="bbtn ${index===0?'bbtn-p':'bbtn-d'}" href="${escapeHtml(link.url)}" target="_blank" rel="noopener" data-track-id="${escapeHtml(`${b.id}_link_${index}`)}"><svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>${escapeHtml(link.label)}</a>`).join('')}
       </div>
     </div></div>`;
   }).join('')}</div></div>`;

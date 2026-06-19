@@ -321,7 +321,10 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 .books-empty-admin{display:none;padding:18px;border:1px dashed var(--bd);border-radius:16px;background:#fff;color:var(--lt);font-size:13px;text-align:center}
 .book-form-layout{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:start}
 .book-form-fields{display:flex;flex-direction:column}
-.book-links-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.book-links-editor{display:flex;flex-direction:column;gap:10px}
+.book-link-input-row{display:grid;grid-template-columns:minmax(120px,.7fr) minmax(180px,1.3fr) auto;gap:10px;align-items:end;padding:12px;border:1px solid var(--bd);border-radius:15px;background:#fff}
+.book-link-remove{width:42px;height:42px;border:1px solid #ead4d4;border-radius:12px;background:#fff;color:var(--dn);cursor:pointer;font-family:var(--fn);font-size:18px}
+.book-link-add{margin-top:10px}
 .books-form-trigger{flex-shrink:0}
 .social-form-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:11px}
 .social-text{width:100%;border:1px solid var(--bd);border-radius:var(--rs);padding:10px 12px;font-family:var(--fn);font-size:14px;background:#fff;color:var(--tx);outline:none}
@@ -360,7 +363,7 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
   .book-form-layout{grid-template-columns:1fr}
   .cover-btn-wrap,.cover-btn-face{width:100%}
   .ad-cover-remove{width:100%}
-  .book-links-grid{grid-template-columns:1fr}
+  .book-link-input-row{grid-template-columns:1fr}.book-link-remove{width:100%}
   .book-grid-admin{grid-template-columns:1fr}
 }
 
@@ -707,10 +710,8 @@ window.adminQuickLogin=async function(){
                   <div class="field"><label>عنوان الكتاب / المؤلف</label><input id="bTitle" placeholder="عنوان الكتاب أو اسم المؤلف"></div>
                   <div class="field"><label>دار النشر</label><input id="bPub" placeholder="دار النشر"></div>
                 </div>
-                <div class="book-links-grid">
-                  <div class="field"><label>رابط النسخة الورقية</label><input id="bPrint" placeholder="https://..." dir="ltr"></div>
-                  <div class="field"><label>رابط النسخة الالكترونية</label><input id="bDigital" placeholder="https://..." dir="ltr"></div>
-                </div>
+                <div id="bookLinksEditor" class="book-links-editor"></div>
+                <button class="btn-add book-link-add" type="button" onclick="addBookLinkRow()"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>إضافة رابط آخر</button>
                 <div class="form-btns">
                   <button class="btn-save" id="bookSubmitBtn" onclick="addBook()">إضافة</button>
                   <button class="btn-cancel" onclick="closeBookForm()">إلغاء</button>
@@ -1434,10 +1435,42 @@ function toggleForm(id){
   if(form.classList.contains('open'))form.classList.remove('open');
   else focusOpenedForm(form);
 }
+function bookLinksFor(item){
+  const current=Array.isArray(item?.links)?item.links.filter(link=>link&&String(link.url||'').trim()).map((link,index)=>({id:String(link.id||('link_'+index)),label:String(link.label||'شراء').trim()||'شراء',url:String(link.url||'').trim()})):[];
+  if(current.length)return current;
+  const legacy=[];
+  if(item?.printUrl)legacy.push({id:'legacy_print',label:'شراء',url:String(item.printUrl).trim()});
+  if(item?.digitalUrl)legacy.push({id:'legacy_digital',label:legacy.length?'رابط إضافي':'شراء',url:String(item.digitalUrl).trim()});
+  return legacy;
+}
+function addBookLinkRow(label='شراء',url=''){
+  const editor=document.getElementById('bookLinksEditor');if(!editor)return;
+  const row=document.createElement('div');row.className='book-link-input-row';
+  row.innerHTML='<div class="field"><label>اسم الرابط</label><input class="b-link-label" placeholder="شراء"></div><div class="field"><label>الرابط</label><input class="b-link-url" placeholder="https://..." dir="ltr"></div><button class="book-link-remove" type="button" onclick="removeBookLinkRow(this)" title="حذف الرابط">×</button>';
+  row.querySelector('.b-link-label').value=label||'شراء';
+  row.querySelector('.b-link-url').value=url||'';
+  editor.appendChild(row);
+}
+function renderBookLinkEditor(links=[]){
+  const editor=document.getElementById('bookLinksEditor');if(!editor)return;
+  editor.innerHTML='';
+  const values=links.length?links:[{label:'شراء',url:''}];
+  values.forEach(link=>addBookLinkRow(link.label,link.url));
+}
+function removeBookLinkRow(button){
+  const editor=document.getElementById('bookLinksEditor');if(!editor)return;
+  const rows=editor.querySelectorAll('.book-link-input-row');
+  if(rows.length===1){rows[0].querySelector('.b-link-label').value='شراء';rows[0].querySelector('.b-link-url').value='';return;}
+  button.closest('.book-link-input-row')?.remove();
+}
+function collectBookLinks(){
+  return [...document.querySelectorAll('#bookLinksEditor .book-link-input-row')].map((row,index)=>({id:'link_'+(index+1),label:row.querySelector('.b-link-label').value.trim()||'شراء',url:row.querySelector('.b-link-url').value.trim()})).filter(link=>link.url);
+}
 function resetBookForm(){
   bookEditId=null;
   bookCover=null;
-  ['bTitle','bPub','bPrint','bDigital'].forEach(id=>document.getElementById(id).value='');
+  ['bTitle','bPub'].forEach(id=>document.getElementById(id).value='');
+  renderBookLinkEditor();
   const img=document.getElementById('coverPreviewImg');
   img.removeAttribute('src');
   img.style.display='none';
@@ -1455,8 +1488,7 @@ function openBookForm(id=null){
     bookEditId=id;
     document.getElementById('bTitle').value=item.titleAr||'';
     document.getElementById('bPub').value=item.publisherAr||'';
-    document.getElementById('bPrint').value=item.printUrl||'';
-    document.getElementById('bDigital').value=item.digitalUrl||'';
+    renderBookLinkEditor(bookLinksFor(item));
     bookCover=item.cover||null;
     const img=document.getElementById('coverPreviewImg');
     if(bookCover){
@@ -1740,7 +1772,7 @@ function normalizeData(){
   if(!D.collab)D.collab={plans:[]};
   if(!Array.isArray(D.collab.plans))D.collab.plans=[];
   if(!Array.isArray(D.collab.requests))D.collab.requests=[];
-  D.books.forEach(b=>{if(b.active===undefined)b.active=true;});
+  D.books.forEach(b=>{if(b.active===undefined)b.active=true;b.links=bookLinksFor(b);delete b.printUrl;delete b.digitalUrl;});
   D.adLinks.forEach(p=>{if(p.active===undefined)p.active=true;});
   if(!D.sectionsOff)D.sectionsOff={};
   if(D.sectionsOff.books===undefined)D.sectionsOff.books=false;
@@ -2299,8 +2331,7 @@ async function addBook(){
   if(!title){toast('أدخل عنوان الكتاب');return;}
   toast('جاري الإضافة...');
   const pub=document.getElementById('bPub').value.trim();
-  const printUrl=document.getElementById('bPrint').value.trim();
-  const digitalUrl=document.getElementById('bDigital').value.trim();
+  const links=collectBookLinks();
   const isEdit=!!bookEditId;
   let titleEn=title,pubEn=pub;
   try{
@@ -2319,11 +2350,12 @@ async function addBook(){
     item.titleEn=titleEn;
     item.publisherAr=pub;
     item.publisherEn=pubEn;
-    item.printUrl=printUrl;
-    item.digitalUrl=digitalUrl;
+    item.links=links;
+    delete item.printUrl;
+    delete item.digitalUrl;
     item.cover=bookCover||null;
   }else{
-    addedItem={id:uid(),titleAr:title,titleEn,publisherAr:pub,publisherEn:pubEn,printUrl,digitalUrl,cover:bookCover||null,active:true};
+    addedItem={id:uid(),titleAr:title,titleEn,publisherAr:pub,publisherEn:pubEn,links,cover:bookCover||null,active:true};
     D.books.push(addedItem);
   }
   await save();
@@ -2349,15 +2381,15 @@ function renderBooksAdmin(){
   D.books.forEach(b=>{
     const card=document.createElement('div');card.className='book-card-admin';
     const cover=b.cover?`<div class="book-cover-frame-admin"><img src="${b.cover}" alt="${b.titleAr}"></div>`:`<div class="book-cover-frame-admin"><div class="book-ph"><svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div></div>`;
-    const printLink=b.printUrl?`<a class="book-link-chip" href="${b.printUrl}" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24"><path d="M14 3v2h3.59L7 15.59 8.41 17 19 6.41V10h2V3z"/><path d="M5 5h6v2H7v10h10v-4h2v6H5z"/></svg>النسخة الورقية</a>`:'';
-    const digitalLink=b.digitalUrl?`<a class="book-link-chip" href="${b.digitalUrl}" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24"><path d="M14 3v2h3.59L7 15.59 8.41 17 19 6.41V10h2V3z"/><path d="M5 5h6v2H7v10h10v-4h2v6H5z"/></svg>النسخة الالكترونية</a>`:'';
-    const linksInfo=(b.printUrl||b.digitalUrl)
+    const bookLinks=bookLinksFor(b);
+    const linksHtml=bookLinks.map(link=>`<a class="book-link-chip" href="${escHtml(link.url)}" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24"><path d="M14 3v2h3.59L7 15.59 8.41 17 19 6.41V10h2V3z"/><path d="M5 5h6v2H7v10h10v-4h2v6H5z"/></svg>${escHtml(link.label)}</a>`).join('');
+    const linksInfo=bookLinks.length
       ?`<div class="book-meta-row"><div class="book-meta-label">روابط الشراء</div><div class="book-meta-value"></div></div>`
       :`<div class="book-meta-row"><div class="book-meta-label">روابط الشراء</div><div class="book-meta-value">لا توجد روابط متاحة</div></div>`;
     card.innerHTML=`${cover}<div class="book-info"><div class="book-name">${b.titleAr}</div>
       <div class="book-meta-row"><div class="book-meta-label">دار النشر</div><div class="book-meta-value">${b.publisherAr||'غير مذكورة'}</div></div>
       ${linksInfo}
-      <div class="book-links-admin">${printLink}${digitalLink}</div></div>
+      <div class="book-links-admin">${linksHtml}</div></div>
       <div class="book-actions">
         <div class="book-actions-meta"><strong>${b.active?'مفعل':'غير مفعل'}</strong><span>إظهار / إخفاء</span></div>
         <div class="book-action-buttons">
@@ -3078,7 +3110,7 @@ async function delItem(sec,id){
 function getNames(){
   const n={};
   (D.social||[]).forEach(s=>{n[s.id]=(PLATS[s.platform]||PLATS.other).ar;});
-  (D.books||[]).forEach(b=>{n[b.id+'_print']=b.titleAr+' (ورقي)';n[b.id+'_digital']=b.titleAr+' (إلكتروني)';});
+  (D.books||[]).forEach(b=>bookLinksFor(b).forEach((link,index)=>{n[b.id+'_link_'+index]=b.titleAr+' ('+link.label+')';}));
   (D.partners||[]).forEach(p=>{n[p.id]=p.nameAr;});
   (D.collab?.plans||[]).forEach(p=>{n['advert_'+p.id]=p.titleAr;});
   return n;
@@ -3121,7 +3153,7 @@ async function delItem(sec,id){
 function getNames(){
   const n={};
   (D.social||[]).forEach(s=>{n[s.id]=(PLATS[s.platform]||PLATS.other).ar;});
-  (D.books||[]).forEach(b=>{n[b.id+'_print']=b.titleAr+' (ورقي)';n[b.id+'_digital']=b.titleAr+' (إلكتروني)';});
+  (D.books||[]).forEach(b=>bookLinksFor(b).forEach((link,index)=>{n[b.id+'_link_'+index]=b.titleAr+' ('+link.label+')';}));
   (D.adLinks||[]).forEach(p=>{n[p.id]=p.titleAr;});
   (D.collab?.plans||[]).forEach(p=>{n['advert_'+p.id]=p.titleAr;});
   return n;
