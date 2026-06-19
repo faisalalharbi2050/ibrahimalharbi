@@ -1,0 +1,17 @@
+{
+  "name": "ibrahim-harbi-profile",
+  "private": true,
+  "version": "0.1.0",
+  "description": "واجهة عربية شخصية مع لوحة تحكم مدمجة للمؤثر.",
+  "scripts": {
+    "dev": "node dev-server.js",
+    "start": "node dev-server.js",
+    "build": "node scripts/build.js",
+    "lint": "node scripts/validate-launch.js",
+    "test": "node tests/smoke.js",
+    "check": "npm run lint && npm test"
+  },
+  "devDependencies": {
+    "playwright": "^1.61.0"
+  }
+}

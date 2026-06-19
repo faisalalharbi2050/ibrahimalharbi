@@ -1,0 +1,37 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Build / cache
+dist/
+dist-admin/
+build/
+coverage/
+node_modules/
+
+# Local exports
+*.pdf
+*.tmp
+
+
+.vercel
+
+# Local agent workspace
+.agents/
+
+# Supabase local state
+supabase/.temp/

@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="metaTitle">صفحتي</title>
+<meta name="description" id="metaDesc" content="الصفحة الرسمية لإبراهيم بن عبدالله الحربي">
+<meta property="og:type" content="profile">
+<meta property="og:title" id="ogTitle" content="صفحتي">
+<meta property="og:description" id="ogDesc" content="الصفحة الرسمية لإبراهيم بن عبدالله الحربي">
+<meta property="og:image" id="ogImage" content="">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" id="twTitle" content="صفحتي">
+<meta name="twitter:image" id="twImage" content="">
+<meta name="theme-color" content="#2A5C1F">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="canonical" href="/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#ffffff;--sf:#ffffff;--sf2:#f7f7f8;
+  --bd:rgba(15,23,42,.08);--bds:rgba(15,23,42,.16);
+  --tx:#111111;--mt:#5f6368;--lt:#90959c;
+  --ac:#111111;--al:#f1f1f1;--am:#3f3f46;
+  --gd:#2f2f35;--gl:#f4f4f5;
+  --r:20px;--rs:12px;
+  --fw-r:400;--fw-m:500;--fw-sb:600;--fw-b:700;
+  --sh:none;
+  --shh:none;
+  --fn:'Tajawal',sans-serif;--fs:'Tajawal',sans-serif;
+}
+body{font-family:var(--fn);font-weight:var(--fw-r);background:#fff;color:var(--tx);direction:rtl;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at top right,rgba(17,17,17,.018) 0,transparent 34%),radial-gradient(circle at bottom left,rgba(17,17,17,.012) 0,transparent 26%);pointer-events:none;z-index:0}
+
+/* SKELETON */
+@keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
+.sk{background:linear-gradient(90deg,var(--sf2) 25%,rgba(255,255,255,.7) 50%,var(--sf2) 75%);background-size:400px 100%;animation:shimmer 1.4s infinite;border-radius:8px}
+
+/* WRAP */
+.wrap{position:relative;z-index:1;max-width:560px;margin:0 auto;padding:32px 18px 90px}
+
+/* SKELETON UI */
+#skLoader{animation:none}
+.sk-card{background:var(--sf);border-radius:var(--r);border:1px solid var(--bd);padding:32px 24px;text-align:center;margin-bottom:14px;box-shadow:var(--sh)}
+.sk-av{width:88px;height:88px;border-radius:50%;margin:0 auto 16px}
+.sk-line{height:13px;margin:0 auto 10px;border-radius:6px}
+.sk-icons{display:flex;justify-content:center;gap:14px;background:var(--sf);border-radius:var(--r);border:1px solid var(--bd);padding:20px;margin-bottom:12px}
+.sk-ic{width:48px;height:48px;border-radius:10px}
+
+/* MAIN */
+#mainContent{display:none}
+
+/* TOPBAR */
+.topbar{display:none;align-items:center;justify-content:flex-end;gap:14px;margin-bottom:22px}
+.brand-mark{display:flex;align-items:center;gap:10px}
+.brand-dot{width:12px;height:12px;border-radius:50%;background:var(--tx);box-shadow:0 0 0 6px rgba(17,17,17,.08)}
+.brand-copy{display:flex;flex-direction:column;gap:2px}
+.brand-copy strong{font-size:14px;font-weight:700}
+.brand-copy span{font-size:11px;color:var(--mt)}
+.admin-trigger{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.82);backdrop-filter:blur(10px);border:1px solid var(--bd);border-radius:999px;padding:10px 16px;color:var(--tx);font-family:var(--fn);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:var(--sh);text-decoration:none}
+.admin-trigger:hover{transform:translateY(-1px);box-shadow:var(--shh)}
+.admin-trigger svg{width:16px;height:16px;fill:currentColor}
+.lang-row{display:none}
+
+/* PROFILE CARD */
+@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.profile-card{position:relative;overflow:hidden;background:#fff;backdrop-filter:none;border-radius:30px;border:1px solid rgba(15,23,42,.08);padding:36px 24px 30px;text-align:center;margin-bottom:24px;box-shadow:0 4px 14px rgba(120,128,140,.05);animation:up .5s ease both}
+.av-wrap{position:relative;width:116px;height:116px;margin:0 auto 18px}
+.av-img{width:116px;height:116px;border-radius:50%;object-fit:cover;border:2px solid #d9dde3;box-shadow:0 0 0 1px rgba(15,23,42,.04),0 6px 16px rgba(120,128,140,.06)}
+.av-ph{width:116px;height:116px;border-radius:50%;background:var(--al);border:2px solid #d9dde3;box-shadow:0 0 0 1px rgba(15,23,42,.04),0 6px 16px rgba(120,128,140,.06);display:flex;align-items:center;justify-content:center}
+.av-ph svg{width:38px;height:38px;fill:var(--ac);opacity:.4}
+.vbadge{position:absolute;bottom:2px;left:2px;width:22px;height:22px;background:var(--ac);border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center}
+.vbadge svg{width:11px;height:11px;fill:#fff}
+.p-name{font-family:var(--fn);font-size:29px;font-weight:var(--fw-b);line-height:1.2;margin-bottom:6px}
+.p-title{font-size:14px;color:var(--am);font-weight:var(--fw-m);letter-spacing:.3px;margin-bottom:10px}
+
+/* MOWTHOOQ BADGE */
+.mw-badge{display:inline-flex;align-items:center;gap:7px;background:#f4f4f5;border:1px solid rgba(17,17,17,.08);border-radius:22px;padding:6px 14px;font-size:13px;color:var(--tx);font-weight:var(--fw-sb);margin-bottom:14px}
+.mw-badge svg{width:15px;height:15px;fill:var(--tx)}
+
+.p-bio{font-size:15px;color:var(--mt);line-height:1.85;max-width:390px;margin:0 auto 18px;font-weight:var(--fw-r)}
+.vcounter{display:inline-flex;align-items:center;gap:7px;background:var(--gl);border:1px solid rgba(17,17,17,.08);border-radius:20px;padding:6px 14px;font-size:13px;color:var(--gd);font-weight:var(--fw-b)}
+.vdot{width:7px;height:7px;border-radius:50%;background:var(--gd);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+.visitor-card{display:none;background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:24px;padding:16px 18px;box-shadow:0 4px 14px rgba(120,128,140,.05);margin-bottom:22px;text-align:center;animation:up .5s ease both}
+.visitor-card .vcounter{background:transparent;border:none;padding:0}
+.card-title-lite{font-family:var(--fn);font-size:12px;font-weight:var(--fw-sb);color:var(--tx);margin-bottom:14px}
+
+/* SECTION LABEL */
+.sec-lbl{font-size:11px;font-weight:var(--fw-b);letter-spacing:1.2px;text-transform:uppercase;color:var(--lt);margin:28px 0 12px 2px}
+
+/* SOCIAL — grey square icons */
+.social-card{background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:24px;padding:18px 20px;box-shadow:0 4px 14px rgba(120,128,140,.05);margin-bottom:22px;text-align:center;animation:up .5s ease both}
+.social-icons-row{display:grid;grid-template-columns:repeat(4,64px);gap:10px;justify-content:center}
+.si-btn{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;width:64px;transition:transform .2s;border:none;background:none;padding:0;text-decoration:none}
+.si-btn:hover{transform:translateY(-2px)}
+.si-box{width:52px;height:52px;border-radius:14px;background:var(--sf2);border:1px solid rgba(15,23,42,.08);display:flex;align-items:center;justify-content:center;transition:all .2s}
+.si-btn:hover .si-box{border-color:rgba(15,23,42,.14);background:#fff;box-shadow:none}
+.si-box svg{width:24px;height:24px;fill:#555}
+.si-lbl{font-size:12px;font-weight:600;color:var(--mt);text-align:center}
+#lblSocial{display:none}
+
+.section-frame{background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:26px;padding:18px 20px;box-shadow:0 4px 14px rgba(120,128,140,.05);margin-bottom:22px;animation:up .5s ease both}
+.section-frame .books-grid{margin-top:2px}
+.section-frame .partner-row:last-child{margin-bottom:0}
+#lblPartners{display:none}
+#lblBooks{display:block;margin-bottom:14px;font-size:13px;letter-spacing:0;text-transform:none;color:var(--tx)}
+#socialSec,#booksWrap,#partnersWrap,#collabWrap{margin-bottom:6px}
+
+/* BOOKS */
+.books-grid{display:grid;grid-template-columns:1fr;gap:14px}
+.book-card{background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:22px;padding:14px;box-shadow:0 4px 14px rgba(120,128,140,.05);animation:up .5s ease both;transition:all .22s;display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:start}
+.book-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(120,128,140,.08)}
+.book-cover-shell{padding:7px;border-radius:16px;background:linear-gradient(180deg,#fafafa,#f1f2f4);border:1px solid #d8dce2;box-shadow:0 6px 14px rgba(120,128,140,.08)}
+.book-cover{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;border-radius:12px}
+.book-cover-ph{width:100%;aspect-ratio:3/4;background:#f6f6f7;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border-radius:12px}
+.book-cover-ph svg{width:32px;height:32px;fill:var(--ac);opacity:.3}
+.book-cover-ph span{font-size:11px;color:var(--lt)}
+.book-info{padding:2px 0 0}
+.book-title{font-size:15px;font-weight:var(--fw-b);line-height:1.6;margin-bottom:8px}
+.book-meta{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.book-meta-item{display:flex;flex-wrap:wrap;gap:6px;font-size:12px;line-height:1.7}
+.book-meta-label{color:var(--lt);font-weight:var(--fw-sb)}
+.book-meta-value{color:var(--tx)}
+.book-btns{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:8px}
+.bbtn{display:inline-flex;align-items:center;justify-content:center;gap:7px;width:auto;min-width:148px;max-width:190px;padding:11px 22px;border-radius:12px;font-size:12px;font-weight:600;font-family:var(--fn);text-decoration:none;cursor:pointer;border:none;transition:all .18s;white-space:nowrap}
+.bbtn-p{background:var(--ac);color:#fff}.bbtn-p:hover{background:#2a2a2a}
+.bbtn-d{background:#f1f3f5;color:var(--tx);border:1px solid rgba(15,23,42,.08)}.bbtn-d:hover{background:#e8ebef}
+.bbtn svg{width:12px;height:12px;fill:currentColor;flex-shrink:0}
+
+/* PARTNERS */
+.partner-row{display:grid;grid-template-columns:58px minmax(0,1fr);align-items:start;gap:13px;background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:20px;padding:15px 16px;text-decoration:none;color:var(--tx);margin-bottom:10px;box-shadow:0 4px 14px rgba(120,128,140,.05);transition:all .22s;cursor:pointer;width:100%;font-family:var(--fn);text-align:right}
+.partner-row:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(120,128,140,.07)}
+.p-icon{width:42px;height:42px;border-radius:10px;background:var(--gl);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.p-icon svg{width:20px;height:20px;fill:var(--tx)}
+.p-image{width:58px;height:58px;border-radius:13px;object-fit:cover;flex-shrink:0;border:1px solid rgba(15,23,42,.08);background:#f5f5f6}
+.p-content{min-width:0;display:flex;flex-direction:column;align-items:flex-start}
+.p-body{width:100%;min-width:0}
+.partner-name{font-size:14px;font-weight:var(--fw-sb);margin-bottom:2px}
+.p-desc{font-size:12px;color:var(--mt);line-height:1.75;overflow-wrap:anywhere}
+.p-cta{display:inline-flex;align-items:center;justify-content:center;min-width:112px;margin-top:10px;background:var(--tx);color:#fff;font-size:12px;font-weight:600;font-family:var(--fn);padding:8px 14px;border-radius:999px;white-space:nowrap;box-shadow:0 8px 18px rgba(120,128,140,.08)}
+
+/* COLLAB — refined premium card */
+.collab-card{
+  position:relative;
+  overflow:hidden;
+  background:#fff;
+  border:1px solid rgba(15,23,42,.08);
+  border-radius:30px;
+  padding:30px 24px 24px;
+  margin-bottom:22px;
+  text-align:center;
+  animation:up .5s ease both;
+  box-shadow:0 4px 14px rgba(120,128,140,.05);
+}
+.collab-title{font-family:var(--fn);font-size:23px;font-weight:var(--fw-b);letter-spacing:-.2px;color:var(--tx);margin-bottom:8px}
+.collab-sub{font-size:13px;color:var(--mt);line-height:1.85;max-width:420px;margin:0 auto 18px}
+.collab-stats{display:flex;justify-content:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.cstat{min-width:86px;padding:10px 12px;border-radius:18px;background:rgba(247,247,248,.92);border:1px solid rgba(15,23,42,.06);text-align:center}
+.cstat-val{font-size:20px;font-weight:var(--fw-b);color:var(--tx);line-height:1.1}
+.cstat-lbl{font-size:11px;color:var(--lt);margin-top:4px}
+.cstat-div{width:1px;background:var(--bd);align-self:stretch}
+.collab-note{background:var(--sf2);border:1px solid var(--bd);border-radius:18px;padding:12px 14px;font-size:12px;line-height:1.8;color:var(--mt);margin-bottom:18px}
+.collab-entry-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  background:#111;
+  color:#fff;
+  padding:14px 28px;
+  border-radius:16px;
+  font-family:var(--fn);
+  font-size:15px;
+  font-weight:var(--fw-sb);
+  text-decoration:none;
+  cursor:pointer;
+  border:1px solid #d6d9de;
+  transition:all .2s;
+  width:min(100%,340px);
+  max-width:340px;
+  box-shadow:0 10px 24px rgba(17,17,17,.16);
+}
+.collab-entry-btn:hover{background:#27272a;border-color:#27272a;transform:translateY(-2px);box-shadow:0 14px 30px rgba(17,17,17,.2)}
+.collab-entry-btn svg{width:19px;height:19px;fill:#fff;flex-shrink:0;opacity:1}
+.collab-title + .collab-entry-btn{margin-top:22px}
+
+/* ADVERT CARDS */
+.advert-card{
+  position:relative;
+  overflow:hidden;
+  background:#fff;
+  border:1px solid rgba(15,23,42,.08);
+  border-radius:26px;
+  padding:18px 18px 16px;
+  margin-bottom:14px;
+  box-shadow:0 4px 14px rgba(120,128,140,.05);
+}
+.advert-hdr{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+}
+.advert-title{
+  flex:1;
+  font-size:16px;
+  font-weight:700;
+  line-height:1.55;
+  color:var(--tx);
+}
+.advert-badge-on,.advert-badge-rem{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:700;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.advert-badge-on{background:rgba(17,17,17,.06);color:var(--tx);border:1px solid rgba(17,17,17,.08)}
+.advert-badge-rem{background:var(--sf2);color:var(--mt);border:1px solid var(--bd)}
+.advert-body{display:flex;flex-direction:column;gap:14px}
+.advert-feats{display:grid;gap:8px}
+.advert-feat{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--mt);line-height:1.7}
+.feat-dot{width:6px;height:6px;border-radius:50%;background:var(--tx);flex-shrink:0;margin-top:7px;opacity:.8}
+.advert-footer{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:12px;
+  padding-top:12px;
+  margin-top:4px;
+  border-top:1px solid var(--bd);
+}
+.advert-price-cur{display:block;font-size:11px;color:var(--lt);margin-bottom:2px}
+.advert-price-val{font-size:26px;font-weight:700;letter-spacing:-.5px;color:var(--tx)}
+.advert-price-note{font-size:11px;color:var(--lt);margin-top:4px;line-height:1.6;max-width:240px}
+.advert-wa-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-width:150px;
+  background:var(--tx);
+  color:#fff;
+  padding:12px 16px;
+  border-radius:999px;
+  font-family:var(--fn);
+  font-size:13px;
+  font-weight:700;
+  text-decoration:none;
+  border:none;
+  transition:all .2s;
+  white-space:nowrap;
+  box-shadow:0 4px 14px rgba(120,128,140,.05);
+}
+.advert-wa-btn:hover{background:#2d2d2d;transform:translateY(-1px)}
+.advert-wa-btn svg{width:16px;height:16px;fill:#fff;flex-shrink:0}
+
+/* ADVERT CARDS */
+.offer-modal{position:fixed;inset:0;background:rgba(17,17,17,.48);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:18px;z-index:60}
+.offer-modal.open{display:flex}
+.offer-shell{width:min(720px,100%);max-height:calc(100vh - 36px);background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:24px;box-shadow:0 8px 22px rgba(120,128,140,.05);overflow:hidden;display:flex;flex-direction:column}
+.offer-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px;border-bottom:1px solid var(--bd);background:#fcfcfc}
+.offer-head>div{min-width:0}
+.offer-head h3{font-family:var(--fn);font-size:20px;font-weight:var(--fw-b)}
+.offer-head p{font-size:12px;color:var(--mt);margin-top:4px;line-height:1.7;overflow-wrap:anywhere}
+.offer-close{border:none;background:#f1f1f1;color:var(--tx);width:42px;height:42px;border-radius:14px;cursor:pointer;font-size:20px;line-height:1;flex-shrink:0}
+.offer-body{padding:20px;overflow:auto}
+.offer-step{display:none}
+.offer-step.open{display:block}
+.offer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.offer-plan{background:#fff;border:1px solid var(--bd);border-radius:26px;padding:18px;box-shadow:0 4px 14px rgba(120,128,140,.05);display:flex;flex-direction:column;min-height:100%}
+.offer-plan.featured{border-color:#111;background:#fff;box-shadow:0 6px 18px rgba(120,128,140,.07)}
+.offer-plan-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:14px}
+.offer-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:var(--sf2);border:1px solid var(--bd);font-size:11px;font-weight:var(--fw-b);color:var(--tx)}
+.offer-badge.featured{background:#111;color:#fff;border-color:#111}
+.offer-plan h4{font-family:var(--fn);font-size:18px;font-weight:var(--fw-b);line-height:1.4;margin-bottom:6px}
+.offer-plan-desc{font-size:12px;line-height:1.8;color:var(--mt);margin-bottom:14px;min-height:44px}
+.offer-price{margin-bottom:14px}
+.offer-price strong{font-size:32px;font-weight:var(--fw-b);color:var(--tx)}
+.offer-price span{font-size:13px;color:var(--mt);margin-right:4px}
+.offer-price-note{font-size:11px;color:var(--lt);margin-top:4px;line-height:1.6}
+.offer-feats{display:flex;flex-direction:column;gap:8px;margin-bottom:18px;flex:1}
+.offer-feat{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--mt);line-height:1.7}
+.offer-feat-dot{width:6px;height:6px;border-radius:50%;background:#111;flex-shrink:0;margin-top:7px}
+.offer-select-btn{width:100%;border:1px solid #d6d9de;border-radius:14px;background:#fff;color:var(--tx);padding:10px 14px;font-family:var(--fn);font-size:13px;font-weight:var(--fw-sb);cursor:pointer;transition:all .2s}
+.offer-select-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(120,128,140,.06);background:#fff;border-color:#cfd4da}
+.offer-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.offer-form{max-width:480px;margin:0 auto}
+.offer-back{display:inline-flex;align-items:center;gap:8px;border:none;background:none;color:var(--mt);font-family:var(--fn);font-size:13px;font-weight:var(--fw-sb);cursor:pointer;margin-bottom:14px}
+.offer-picked{background:var(--sf2);border:1px solid var(--bd);border-radius:20px;padding:14px 16px;margin-bottom:16px}
+.offer-picked strong{display:block;font-size:16px;margin-bottom:4px}
+.offer-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.offer-field{margin-bottom:12px}
+.offer-field label{display:block;font-size:12px;font-weight:var(--fw-sb);margin-bottom:6px;color:var(--tx)}
+.req-star{color:#b42318;margin-inline-start:3px;font-weight:700}
+.offer-field input,.offer-field textarea{width:100%;border:1px solid var(--bds);border-radius:14px;padding:13px 14px;font-family:var(--fn);font-size:14px;background:#fff;color:var(--tx);outline:none}
+.offer-field select{width:100%;border:1px solid var(--bds);border-radius:14px;padding:13px 14px;font-family:var(--fn);font-size:14px;background:#fff;color:var(--tx);outline:none}
+.offer-field textarea{min-height:110px;resize:vertical}
+.platform-checks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.platform-check{position:relative;display:block;padding:12px 13px 12px 44px;border:1px solid var(--bds);border-radius:16px;background:#fff;font-size:13px;font-weight:700;color:var(--tx);cursor:pointer;transition:all .2s;white-space:nowrap;min-height:48px;line-height:22px}
+.platform-check input{position:absolute;opacity:0;pointer-events:none}
+.platform-check > span:first-child{display:block;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.platform-mark{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:20px;height:20px;border-radius:50%;border:1.5px solid #c9ced6;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.platform-mark svg{width:13px;height:13px;fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;opacity:0}
+.platform-check:has(input:checked){border-color:#111;background:#f7f7f8}
+.platform-check:has(input:checked) .platform-mark{background:#111;border-color:#111}
+.platform-check:has(input:checked) .platform-mark svg{opacity:1}
+.optional-tag{display:inline-flex;margin-inline-start:6px;padding:2px 7px;border-radius:999px;background:#f4f4f5;border:1px solid var(--bd);color:var(--mt);font-size:10px;font-weight:700}
+.offer-consent{display:flex;align-items:flex-start;gap:9px;margin:4px 0 14px;padding:12px 13px;border:1px solid var(--bd);border-radius:16px;background:#fafafb;color:var(--mt);font-size:12px;line-height:1.7;cursor:pointer}
+.offer-consent input{width:16px;height:16px;margin-top:3px;accent-color:#111;flex-shrink:0}
+.offer-consent a{color:var(--tx);font-weight:700;text-underline-offset:3px}
+.offer-submit{width:100%;border:none;border-radius:16px;background:#111;color:#fff;padding:14px 16px;font-family:var(--fn);font-size:14px;font-weight:var(--fw-b);cursor:pointer}
+.offer-submit:disabled{opacity:.6;cursor:not-allowed}
+.offer-error{display:none;margin-bottom:12px;padding:11px 13px;border-radius:14px;background:#fff5f5;border:1px solid rgba(180,35,24,.18);color:#b42318;font-size:12px;line-height:1.7}
+.offer-success{background:#f8faf8;border:1px solid #d9e6da;border-radius:22px;padding:28px 22px;text-align:center}
+.offer-success h4{font-size:20px;font-weight:700;margin-bottom:8px}
+.offer-success p{font-size:13px;color:var(--mt);line-height:1.9}
+.offer-ref{display:inline-flex;margin-top:12px;padding:8px 12px;border-radius:999px;background:#fff;border:1px solid #d9e6da;color:#1f5120;font-size:12px;font-weight:700;direction:ltr}
+.platform-alert{position:fixed;inset:0;z-index:90;display:none;align-items:center;justify-content:center;background:rgba(17,17,17,.42);backdrop-filter:blur(8px);padding:18px}
+.platform-alert.open{display:flex}
+.platform-alert-card{width:min(420px,100%);background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:22px;box-shadow:0 24px 60px rgba(0,0,0,.18);overflow:hidden}
+.platform-alert-head{display:flex;align-items:center;gap:10px;padding:17px 18px;border-bottom:1px solid var(--bd);background:#fcfcfc}
+.platform-alert-icon{width:38px;height:38px;border-radius:14px;background:#f4f4f5;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.platform-alert-icon svg{width:18px;height:18px;fill:#111}
+.platform-alert-title{font-size:15px;font-weight:var(--fw-b);color:var(--tx)}
+.platform-alert-body{padding:16px 18px;color:var(--mt);font-size:13px;line-height:1.9}
+.platform-alert-actions{display:flex;justify-content:flex-end;padding:0 18px 18px}
+.platform-alert-ok{border:none;border-radius:14px;background:#111;color:#fff;font-family:var(--fn);font-size:13px;font-weight:700;padding:10px 18px;cursor:pointer}
+@media(max-width:560px){
+  .collab-card{padding:24px 16px 18px;border-radius:26px}
+  .collab-title{font-size:21px}
+  .collab-stats{gap:8px}
+  .cstat{min-width:0;flex:1}
+  .advert-card{padding:16px 14px 14px;border-radius:22px}
+  .advert-hdr{flex-direction:column;align-items:flex-start}
+  .advert-title{font-size:15px}
+  .advert-footer{flex-direction:column;align-items:stretch}
+  .advert-wa-btn{width:100%}
+  .platform-checks{grid-template-columns:1fr}
+}
+
+/* EMPTY */
+.empty{background:var(--sf2);border:1px dashed var(--bds);border-radius:var(--rs);padding:26px;text-align:center;color:var(--lt);font-size:13px}
+
+/* FOOTER */
+.footer{text-align:center;margin-top:52px;padding:28px 12px 8px;border-top:1px solid var(--bd);display:flex;flex-direction:column;align-items:center;gap:8px}
+.footer #footerTxt{font-size:12px;color:var(--mt)}
+.footer #footerCredit{font-size:11px;color:var(--lt)}
+.legal-links{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;font-size:12px}
+.legal-links a{color:var(--tx);font-weight:600;text-decoration:none;border-bottom:1px solid #cfd2d7;padding:2px 1px}
+.admin-modal{position:fixed;inset:0;background:rgba(17,17,17,.48);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}
+.admin-modal.open{display:flex}
+.admin-shell{width:min(1120px,100%);max-height:calc(100vh - 36px);background:var(--sf);border:1px solid rgba(255,255,255,.35);border-radius:28px;box-shadow:none;overflow:hidden;display:flex;flex-direction:column}
+.admin-shell.login-mode{width:min(460px,100%);max-height:none}
+.admin-login{padding:28px}
+.admin-login-card{max-width:420px;margin:0 auto;background:linear-gradient(180deg,#fff 0%,#f6f6f7 100%);border:1px solid var(--bd);border-radius:24px;padding:28px;box-shadow:none}
+.admin-login-card h3{font-size:22px;font-weight:700;margin-bottom:8px;text-align:center}
+.admin-login-card p{font-size:13px;color:var(--mt);line-height:1.8;margin-bottom:16px;text-align:center}
+.gateway-remember{display:flex;align-items:center;justify-content:flex-start;gap:8px;margin:0 0 6px;font-size:12px;color:var(--mt);cursor:pointer;text-align:right}
+.gateway-remember input{accent-color:var(--ac)}
+.gateway-forgot{display:inline-flex;border:0;background:none;color:var(--tx);font-family:var(--fn);font-size:12px;font-weight:700;padding:4px 0 10px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.admin-input{width:100%;border:1px solid var(--bds);border-radius:14px;padding:14px 16px;font-family:var(--fn);font-size:15px;background:#fff;color:var(--tx);outline:none;transition:border .2s;margin-bottom:10px;text-align:center;letter-spacing:3px}
+.admin-input:focus{border-color:var(--tx)}
+.admin-db-fields{margin:12px 0 10px;padding:12px;border:1px solid var(--bd);border-radius:16px;background:#fafafb;text-align:right}
+.admin-db-fields strong{display:block;font-size:12px;color:var(--tx);margin-bottom:4px}
+.admin-db-fields span{display:block;font-size:11px;color:var(--mt);line-height:1.6;margin-bottom:9px}
+.admin-db-fields .admin-input{text-align:left;direction:ltr;letter-spacing:0;margin-bottom:8px}
+.admin-error{min-height:18px;font-size:12px;color:#b42318;margin-bottom:10px;text-align:center}
+.admin-actions{display:flex;gap:10px}
+.admin-submit,.admin-close{flex:1;border:none;border-radius:14px;padding:13px 16px;font-family:var(--fn);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
+.admin-submit{background:var(--tx);color:#fff}
+.admin-submit:disabled{opacity:.65;cursor:not-allowed}
+.admin-close{background:#efeff1;color:var(--tx)}
+.admin-panel{display:none;flex-direction:column;min-height:0}
+.admin-panel.open{display:flex}
+.admin-panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--bd);background:#fcfcfc}
+.admin-panel-head strong{font-size:14px}
+.admin-panel-head span{font-size:11px;color:var(--mt)}
+.admin-panel-tools{display:flex;align-items:center;gap:10px}
+.admin-frame{width:100%;height:min(820px,calc(100vh - 120px));border:none;background:#fff}
+.ghost-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;background:#efeff1;color:var(--tx);padding:10px 14px;border-radius:999px;font-family:var(--fn);font-size:12px;font-weight:700;cursor:pointer}
+.ghost-btn svg{width:14px;height:14px;fill:currentColor}
+.admin-panel-tools .ghost-btn:last-child{background:var(--tx);color:#fff}
+@media(max-width:768px){
+  .topbar{align-items:flex-start;flex-direction:column}
+  .admin-trigger{width:100%;justify-content:center}
+  .admin-shell{border-radius:22px}
+  .admin-shell.login-mode{width:100%}
+  .admin-actions{flex-direction:column}
+  .offer-grid{grid-template-columns:1fr}
+  .offer-form-grid{grid-template-columns:1fr}
+  .offer-shell{border-radius:22px}
+  .offer-head{align-items:flex-start}
+  .offer-shell{max-height:calc(100vh - 20px)}
+  .offer-plan{padding:16px}
+  .offer-head{padding:16px}
+  .offer-body{padding:16px}
+}
+@media(max-width:560px){
+  .offer-modal{padding:0;align-items:flex-start;background:#fff;backdrop-filter:none}
+  .offer-shell{width:100%;height:100vh;height:100dvh;max-height:100vh;max-height:100dvh;border:none;border-radius:0;box-shadow:none}
+  .offer-head{position:relative;z-index:3;flex-shrink:0;align-items:flex-start;padding:calc(14px + env(safe-area-inset-top)) 16px 14px;background:#fff}
+  .offer-head>div{padding-top:2px}
+  .offer-head h3{font-size:18px}
+  .offer-head p{font-size:11px;max-width:calc(100vw - 86px)}
+  .offer-body{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:16px 16px calc(28px + env(safe-area-inset-bottom))}
+  .offer-submit{position:sticky;bottom:0;z-index:2;box-shadow:0 -10px 22px rgba(255,255,255,.94)}
+  .offer-plan h4{font-size:16px}
+  .offer-price strong{font-size:26px}
+  .offer-select-btn,.offer-submit,.collab-entry-btn{min-height:48px}
+  .av-wrap{width:102px;height:102px}
+  .av-img,.av-ph{width:102px;height:102px}
+  .p-name{font-size:26px}
+  .mw-badge{font-size:12px;padding:6px 13px}
+  .p-bio{font-size:14px}
+}
+@media(max-width:400px){.si-btn{width:56px}.si-box{width:46px;height:46px}.offer-body{padding:14px 14px calc(26px + env(safe-area-inset-bottom))}.offer-head{padding:calc(12px + env(safe-area-inset-top)) 14px 12px}.offer-plan{padding:14px}}
+@media(max-width:520px){
+  .book-card{grid-template-columns:88px 1fr;padding:12px;gap:10px;border-radius:20px}
+  .book-cover-shell{padding:6px;border-radius:14px}
+  .book-title{font-size:14px;margin-bottom:7px}
+  .book-meta{gap:5px;margin-bottom:9px}
+  .book-meta-item{font-size:11.5px}
+  .book-btns{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .bbtn{padding:9px 8px;font-size:10.5px;border-radius:10px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- SKELETON -->
+  <div id="skLoader">
+    <div style="height:36px;margin-bottom:24px"></div>
+    <div class="sk-card">
+      <div class="sk sk-av"></div>
+      <div class="sk sk-line" style="width:44%;margin-bottom:10px"></div>
+      <div class="sk sk-line" style="width:28%;margin-bottom:10px"></div>
+      <div class="sk sk-line" style="width:64%;margin-bottom:10px"></div>
+      <div class="sk sk-line" style="width:36%"></div>
+    </div>
+    <div class="sk-icons">
+      <div class="sk sk-ic"></div><div class="sk sk-ic"></div><div class="sk sk-ic"></div><div class="sk sk-ic"></div>
+    </div>
+  </div>
+
+    <!-- MAIN -->
+    <div id="mainContent">
+      <div class="topbar">
+    </div>
+
+    <!-- Profile -->
+    <div class="profile-card">
+      <div class="av-wrap">
+        <div class="av-ph" id="avPh"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
+        <img class="av-img" id="avImg" src="" alt="" style="display:none">
+        <div class="vbadge"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+      </div>
+      <h1 class="p-name" id="pName">إبراهيم بن عبدالله الحربي</h1>
+      <div class="p-title" id="pTitle">كاتب · مؤثر إسلامي</div>
+      <!-- Mowthooq badge -->
+      <div id="mwBadge" style="display:none" class="mw-badge">
+        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+        <span id="mwText">موثوق</span>
+      </div>
+      <div class="p-bio" id="pBio"></div>
+    </div>
+
+    <!-- Social -->
+    <div class="sec-lbl" id="lblSocial">تابعني على</div>
+    <div id="socialSec"></div>
+
+    <!-- Books -->
+    <div id="booksWrap">
+      <div class="sec-lbl" id="lblBooks">مؤلفاتي</div>
+      <div id="booksSec"></div>
+    </div>
+
+    <!-- Partners -->
+    <div id="partnersWrap">
+      <div class="sec-lbl" id="lblPartners">دعم وإعلانات</div>
+      <div id="partnersSec"></div>
+    </div>
+
+    <!-- Collab -->
+    <div id="collabWrap">
+      <div class="sec-lbl" id="lblCollab" style="display:none">التعاون والإعلان</div>
+      <div id="collabSec"></div>
+    </div>
+
+    <div class="visitor-card">
+      <div class="vcounter"><div class="vdot"></div><span id="vCount">٠</span>&nbsp;<span id="vLbl">متواجد الآن</span></div>
+    </div>
+
+    <footer class="footer"><nav class="legal-links" aria-label="الروابط القانونية"><a href="privacy.html">سياسة الخصوصية</a><span aria-hidden="true">•</span><a href="terms.html">الشروط والأحكام</a></nav><span id="footerTxt">© جميع الحقوق محفوظة لإبراهيم الحربي</span></footer>
+  </div>
+</div>
+<div class="offer-modal" id="offerModal" role="dialog" aria-modal="true" aria-labelledby="offerModalTitle" aria-hidden="true" onclick="if(event.target===this)closeOfferFlow()">
+  <div class="offer-shell">
+    <div class="offer-head">
+      <div>
+      <h3 id="offerModalTitle">الإعلان والدعم</h3>
+        <p id="offerHeadSub">أرسل تفاصيل الإعلان وسيتم التواصل معكم بعد مراجعة الطلب.</p>
+      </div>
+      <button class="offer-close" onclick="closeOfferFlow()" aria-label="إغلاق">&times;</button>
+    </div>
+    <div class="offer-body">
+      <div class="offer-step open" id="offerCatalogStep"></div>
+      <div class="offer-step" id="offerFormStep"></div>
+      <div class="offer-step" id="offerSuccessStep"></div>
+    </div>
+  </div>
+</div>
+
+<div class="platform-alert" id="platformAlert" aria-hidden="true" onclick="if(event.target===this)closePlatformAlert()">
+  <div class="platform-alert-card" role="dialog" aria-modal="true">
+    <div class="platform-alert-head">
+      <div class="platform-alert-icon"><svg viewBox="0 0 24 24"><path d="M12 2 1 21h22L12 2zm0 6 1 7h-2l1-7zm0 10a1.25 1.25 0 1 1 0-2.5A1.25 1.25 0 0 1 12 18z"/></svg></div>
+      <div class="platform-alert-title" id="platformAlertTitle">تنبيه</div>
+    </div>
+    <div class="platform-alert-body" id="platformAlertMessage"></div>
+    <div class="platform-alert-actions">
+      <button class="platform-alert-ok" type="button" onclick="closePlatformAlert()">حسنًا</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+const SB_URL='https://lqqxdwzyeagtrcmdonso.supabase.co';
+const SB_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxxcXhkd3p5ZWFndHJjbWRvbnNvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1NDEwMTUsImV4cCI6MjA5NzExNzAxNX0.NuMcvZv2TZSZDktpOZvrUsOPBWHl8tp4-Rw9KjwS4F8';
+const sb=window.supabase?supabase.createClient(SB_URL,SB_ANON_KEY,{
+  auth:{storage:window.sessionStorage,persistSession:true,autoRefreshToken:true}
+}):null;
+const lang='ar';
+const DEFAULT_SOCIAL_PLATFORMS=['snapchat','youtube','twitter','instagram','tiktok','telegram','facebook','whatsapp'];
+const VISITOR_SESSION_KEY='public_visit_tracked_v1';
+const ACTIVE_SESSION_KEY='public_active_session_id_v1';
+const LAST_VISITOR_COUNT_KEY='visitor_count_last_known';
+const LOCAL_CLICK_CACHE_LIMIT=5000;
+const ACTIVE_VISITOR_HEARTBEAT_MS=30000;
+const ACTIVE_VISITOR_CLEANUP_MS=60000;
+const PUBLIC_DATA_POLL_INTERVAL_MS=300000;
+let D={};
+let selectedOfferId=null;
+let activeVisitorHeartbeatTimer=null;
+let activeVisitorCleanupTimer=null;
+let publicRealtimeChannel=null;
+let publicDataRefreshTimer=null;
+let publicDataPollingTimer=null;
+let publicDataIsRefreshing=false;
+let publicDataSignature='';
+
+function normalizeAdLink(item){
+  return {
+    id:item.id||('link_'+Date.now().toString(36)+Math.random().toString(36).slice(2,5)),
+    titleAr:item.titleAr||item.nameAr||'',
+    titleEn:item.titleEn||item.nameEn||item.titleAr||item.nameAr||'',
+    entityAr:item.entityAr||item.descAr||'',
+    entityEn:item.entityEn||item.descEn||item.entityAr||item.descAr||'',
+    licenseNo:item.licenseNo||'',
+    url:item.url||'',
+    image:item.image||'',
+    startDate:item.startDate||'',
+    endDate:item.endDate||'',
+    autoStop:!!item.autoStop,
+    active:item.active!==false
+  };
+}
+
+function normalizeData(){
+  if(!D||typeof D!=='object')D={};
+  if(!Array.isArray(D.social))D.social=[];
+  if(!Array.isArray(D.books))D.books=[];
+  const legacy=Array.isArray(D.partners)?D.partners.map(normalizeAdLink):[];
+  const current=Array.isArray(D.adLinks)?D.adLinks.map(normalizeAdLink):[];
+  D.adLinks=current.length?current:legacy;
+  delete D.partners;
+  if(!D.collab)D.collab={plans:[]};
+  if(!Array.isArray(D.collab.plans))D.collab.plans=[];
+  D.books.forEach(b=>{if(b.active===undefined)b.active=true;});
+  D.adLinks.forEach(p=>{if(p.active===undefined)p.active=true;});
+  if(!D.sectionsOff)D.sectionsOff={};
+  if(D.sectionsOff.books===undefined)D.sectionsOff.books=false;
+  if(D.sectionsOff.adLinks===undefined)D.sectionsOff.adLinks=D.sectionsOff.partners===undefined?false:D.sectionsOff.partners;
+  delete D.sectionsOff.partners;
+  D.sectionsOff.collab=false;
+  ensureSocialDefaults();
+}
+
+function mergeRemoteData(localData,remoteData){
+  const local=localData&&typeof localData==='object'?localData:{};
+  const remote=remoteData&&typeof remoteData==='object'?remoteData:{};
+  const merged={...local,...remote};
+  if(local.avatar&&!remote.avatar)merged.avatar=local.avatar;
+  ['books','adLinks'].forEach(key=>{
+    if(Array.isArray(local[key])&&local[key].length&&(!Array.isArray(remote[key])||!remote[key].length)){
+      merged[key]=local[key];
+    }
+  });
+  if(local.sectionsOff||remote.sectionsOff)merged.sectionsOff={...(local.sectionsOff||{}),...(remote.sectionsOff||{})};
+  if(local.collab||remote.collab)merged.collab={...(local.collab||{}),...(remote.collab||{})};
+  return merged;
+}
+
+function ensureSocialDefaults(){
+  if(!Array.isArray(D.social))D.social=[];
+  let changed=false;
+  const existing=new Set(D.social.map(item=>item.platform||'other'));
+  DEFAULT_SOCIAL_PLATFORMS.forEach(platform=>{
+    if(existing.has(platform))return;
+    D.social.push({id:platform,platform,url:'',handle:'',active:true});
+    changed=true;
+  });
+  D.social.forEach(item=>{
+    if(item.active===undefined)item.active=true;
+    if(item.url===undefined)item.url='';
+    if(item.handle===undefined)item.handle='';
+    if((item.platform||'other')==='other'){
+      const label=String(item.handle||item.label||'').toLowerCase();
+      if(label.includes('واتساب')||label.includes('whatsapp'))item.platform='whatsapp';
+      else if(label.includes('فيس')||label.includes('facebook'))item.platform='facebook';
+    }
+    if(!item.platform)item.platform='other';
+  });
+  return changed;
+}
+
+function getSocialMeta(item){
+  const platform=String(item?.platform||'').toLowerCase();
+  const label=String(item?.handle||item?.label||'').toLowerCase();
+  if(platform==='whatsapp' || label.includes('واتساب') || label.includes('whatsapp')){
+    return {ar:'واتساب',en:'WhatsApp',path:'M20.52 3.48A11.82 11.82 0 0 0 12.05 0C5.49 0 .14 5.34.14 11.9c0 2.07.54 4.06 1.57 5.83L0 24l6.47-1.69a11.84 11.84 0 0 0 5.58 1.42h.01c6.56 0 11.91-5.34 11.91-11.9 0-3.18-1.24-6.16-3.45-8.35zm-8.47 18.25h-.01a9.72 9.72 0 0 1-4.95-1.35l-.35-.21-3.7.97.99-3.61-.23-.37a9.74 9.74 0 0 1-1.48-5.2c0-5.37 4.38-9.74 9.76-9.74 2.6 0 5.04 1.01 6.87 2.84a9.68 9.68 0 0 1 2.84 6.9c0 5.37-4.39 9.74-9.77 9.74zm5.37-7.3c-.29-.14-1.72-.85-2-.95-.27-.1-.46-.14-.66.14-.19.29-.74.95-.91 1.15-.17.2-.34.23-.63.08-.29-.14-1.21-.45-2.31-1.44-.85-.76-1.42-1.7-1.6-2-.17-.29-.02-.45.12-.59.12-.12.29-.34.43-.5.14-.16.19-.29.29-.49.1-.2.05-.37-.03-.51-.08-.14-.66-1.58-.9-2.16-.24-.57-.49-.49-.67-.5h-.57c-.2 0-.5.07-.76.36-.27.29-1.02 1-1.02 2.44s1.04 2.83 1.18 3.02c.14.19 2.06 3.14 4.99 4.39.7.3 1.26.48 1.68.61.71.22 1.34.19 1.85.11.57-.08 1.74-.71 1.99-1.38.25-.67.25-1.27.17-1.38-.08-.11-.29-.2-.58-.34z'};
+  }
+  if(platform==='facebook' || label.includes('فيس') || label.includes('facebook')){
+    return {ar:'فيس بوك',en:'Facebook',path:'M18.77 2.1H5.23C3.41 2.1 2.1 3.43 2.1 5.25v13.5c0 1.82 1.31 3.15 3.13 3.15H12v-7.47H9.9V11.7H12V9.8c0-2.08 1.27-3.22 3.12-3.22.88 0 1.63.06 1.85.09v2.15h-1.27c-1.26 0-1.51.6-1.51 1.48v1.94h2.99l-.39 2.73h-2.6V22h4.73c1.82 0 3.13-1.33 3.13-3.15V5.25c0-1.82-1.31-3.15-3.13-3.15z'};
+  }
+  return PI[platform]||PI.other;
+}
+
+// Platform icons (grey SVG paths)
+const PI={
+  snapchat:{ar:'سناب شات',en:'Snapchat',path:'M12.017 2C9.5 2 7.5 3.1 6.3 5c-.7 1.2-.9 2.5-.9 3.5 0 .3 0 .5.1.8-.4.2-.8.3-1.2.3-.3 0-.6-.1-.8-.1-.1 0-.3.1-.3.3 0 .3.2.5.4.6.9.4 1.5.9 1.8 1.5.3.5.1 1-.1 1.4-.5 1.2-1.5 2-2.5 2.4-.2.1-.3.2-.3.4 0 .4.5.6 1 .7.5.1 1 .3 1.3.6.2.2.2.4.3.6.1.3.3.4.6.4.2 0 .4-.1.7-.2.5-.2 1.1-.3 1.8-.3.4 0 .9.1 1.3.3.7.4 1.3.9 2.4.9 1 0 1.7-.5 2.4-.9.4-.2.9-.3 1.3-.3.7 0 1.3.1 1.8.3.3.1.5.2.7.2.3 0 .5-.2.6-.4.1-.2.1-.4.3-.6.3-.3.8-.5 1.3-.6.5-.1 1-.3 1-.7 0-.2-.1-.3-.3-.4-1-.4-2-1.2-2.5-2.4-.2-.4-.4-.9-.1-1.4.3-.6.9-1.1 1.8-1.5.2-.1.4-.3.4-.6 0-.2-.2-.3-.3-.3-.2 0-.5.1-.8.1-.4 0-.8-.1-1.2-.3.1-.3.1-.5.1-.8 0-1-.2-2.3-.9-3.5C16.5 3.1 14.5 2 12.017 2z'},
+  youtube:{ar:'يوتيوب',en:'YouTube',path:'M23.5 6.2s-.3-1.9-1.1-2.7c-1.1-1.1-2.3-1.1-2.8-1.2C16.8 2.1 12 2.1 12 2.1s-4.8 0-7.6.2c-.5.1-1.7.1-2.8 1.2C.8 4.3.5 6.2.5 6.2S.2 8.4.2 10.6v2.1c0 2.2.3 4.4.3 4.4s.3 1.9 1.1 2.7c1.1 1.1 2.5 1.1 3.1 1.2 2.3.2 9.7.3 9.7.3s4.8 0 7.6-.3c.5-.1 1.7-.1 2.8-1.2.8-.8 1.1-2.7 1.1-2.7s.3-2.2.3-4.4v-2c0-2.2-.3-4.5-.3-4.5zm-14 9V8.7l7.6 3.3-7.6 3.2z'},
+  twitter:{ar:'تويتر / X',en:'Twitter/X',path:'M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.63L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z'},
+  instagram:{ar:'إنستغرام',en:'Instagram',path:'M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z'},
+  tiktok:{ar:'تيك توك',en:'TikTok',path:'M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.16 8.16 0 004.77 1.52V6.75a4.85 4.85 0 01-1-.06z'},
+  telegram:{ar:'تليجرام',en:'Telegram',path:'M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z'},
+  other:{ar:'رابط',en:'Link',path:'M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z'},
+};
+
+async function loadData(){
+  document.getElementById('skLoader').style.display='block';
+  document.getElementById('mainContent').style.display='none';
+  updateStaticText();
+  const r=localStorage.getItem('influencer_data');
+  D=r?JSON.parse(r):{};
+  normalizeData();
+
+  // Update SEO
+  const name=D.nameAr||'';
+  const bio=D.bioAr||'';
+  document.getElementById('metaTitle').textContent='صفحتي';
+  document.getElementById('ogTitle').content='صفحتي';
+  document.getElementById('twTitle').content='صفحتي';
+  document.getElementById('metaDesc').content='الصفحة الرسمية لإبراهيم بن عبدالله الحربي';
+  document.getElementById('ogDesc').content='الصفحة الرسمية لإبراهيم بن عبدالله الحربي';
+  if(D.avatar){document.getElementById('ogImage').content=D.avatar;document.getElementById('twImage').content=D.avatar;}
+
+  // Profile
+  document.getElementById('pName').textContent=name||'إبراهيم بن عبدالله الحربي';
+  document.getElementById('pTitle').textContent=D.titleAr||'';
+  document.getElementById('pBio').textContent=bio;
+  if(D.avatar){
+    document.getElementById('avImg').src=D.avatar;
+    document.getElementById('avImg').style.display='block';
+    document.getElementById('avPh').style.display='none';
+  }
+
+  // Mowthooq
+  if(D.mowthooqNum){
+    document.getElementById('mwBadge').style.display='inline-flex';
+    document.getElementById('mwText').textContent='موثوق — '+D.mowthooqNum;
+  }
+
+  renderSocial();renderBooks();renderPartners();renderCollab();
+
+  document.getElementById('skLoader').style.display='none';
+  document.getElementById('mainContent').style.display='block';
+  try{
+    const response=await fetch(`${SB_URL}/functions/v1/public-content`,{
+      method:'GET',
+      headers:{apikey:SB_ANON_KEY,Authorization:`Bearer ${SB_ANON_KEY}`},
+      cache:'default'
+    });
+    if(!response.ok)throw new Error('public-content-unavailable');
+    const payload=await response.json();
+    if(payload?.data)applyPublicData(payload.data);
+  }catch(e){
+    console.warn('Public content unavailable; using the last cached version.');
+  }
+}
+
+function applyPublicData(nextData){
+  if(nextData&&typeof nextData==='object'){
+    publicDataSignature=JSON.stringify(nextData);
+    D=mergeRemoteData(D,nextData);
+    normalizeData();
+    localStorage.setItem('influencer_data',JSON.stringify(D));
+  }
+  const name=D.nameAr||'';
+  const bio=D.bioAr||'';
+  document.getElementById('metaTitle').textContent='صفحتي';
+  document.getElementById('ogTitle').content='صفحتي';
+  document.getElementById('twTitle').content='صفحتي';
+  document.getElementById('metaDesc').content='الصفحة الرسمية لإبراهيم بن عبدالله الحربي';
+  document.getElementById('ogDesc').content='الصفحة الرسمية لإبراهيم بن عبدالله الحربي';
+  if(D.avatar){
+    document.getElementById('ogImage').content=D.avatar;
+    document.getElementById('twImage').content=D.avatar;
+    document.getElementById('avImg').src=D.avatar;
+    document.getElementById('avImg').style.display='block';
+    document.getElementById('avPh').style.display='none';
+  }
+  document.getElementById('pName').textContent=name||'إبراهيم بن عبدالله الحربي';
+  document.getElementById('pTitle').textContent=D.titleAr||'';
+  document.getElementById('pBio').textContent=bio;
+  const mwBadge=document.getElementById('mwBadge');
+  const mwText=document.getElementById('mwText');
+  if(D.mowthooqNum){
+    if(mwBadge)mwBadge.style.display='inline-flex';
+    if(mwText)mwText.textContent='\u0645\u0648\u062b\u0648\u0642 - '+D.mowthooqNum;
+  }else if(mwBadge){
+    mwBadge.style.display='none';
+  }
+  renderSocial();
+  renderBooks();
+  renderPartners();
+  renderCollab();
+}
+
+async function refreshPublicData(){
+  if(publicDataIsRefreshing||!sb?.from)return;
+  publicDataIsRefreshing=true;
+  try{
+    const {data:row,error}=await sb.from('site_data').select('data').eq('id','main').single();
+    if(error)throw error;
+    if(row?.data&&JSON.stringify(row.data)!==publicDataSignature)applyPublicData(row.data);
+  }catch(e){
+    console.warn('Public data refresh failed',e);
+  }finally{
+    publicDataIsRefreshing=false;
+  }
+}
+
+function schedulePublicDataRefresh(){
+  if(publicDataRefreshTimer)clearTimeout(publicDataRefreshTimer);
+  publicDataRefreshTimer=setTimeout(refreshPublicData,250);
+}
+
+function startPublicDataPolling(){
+  if(publicDataPollingTimer)clearInterval(publicDataPollingTimer);
+  publicDataPollingTimer=setInterval(()=>{
+    if(!document.hidden)schedulePublicDataRefresh();
+  },PUBLIC_DATA_POLL_INTERVAL_MS);
+}
+
+function startPublicRealtime(){
+  startPublicDataPolling();
+  if(!sb?.channel||publicRealtimeChannel)return;
+  try{
+    publicRealtimeChannel=sb.channel('public-site-data')
+      .on('postgres_changes',{event:'*',schema:'public',table:'site_data',filter:'id=eq.main'},()=>schedulePublicDataRefresh())
+      .subscribe(status=>{
+        if(status==='CHANNEL_ERROR'||status==='TIMED_OUT'){
+          console.warn('Public realtime channel status:',status);
+        }
+      });
+  }catch(e){
+    console.warn('Public realtime setup failed',e);
+  }
+}
+
+async function updateVisitorCounter(){
+  let currentCount=parseInt(localStorage.getItem(LAST_VISITOR_COUNT_KEY)||'0',10)||0;
+  try{
+    if(!sb)throw new Error('Supabase is not available');
+    if(sessionStorage.getItem(VISITOR_SESSION_KEY)!=='1'){
+      const {data,error}=await sb.functions.invoke('public-events',{body:{type:'visit',payload:{}}});
+      if(!error&&data?.ok){currentCount=Number(data.count||currentCount);sessionStorage.setItem(VISITOR_SESSION_KEY,'1');}
+      else if(data?.error==='rate_limited'||error?.context?.status===429){sessionStorage.setItem(VISITOR_SESSION_KEY,'1');}
+    }
+    if(!currentCount){const {data:row,error}=await sb.from('visitors').select('count').eq('id','counter').single();if(error)throw error;currentCount=Number(row?.count||0);}
+    localStorage.setItem(LAST_VISITOR_COUNT_KEY,String(currentCount));
+  }catch(e){
+    if(sessionStorage.getItem(VISITOR_SESSION_KEY)!=='1')sessionStorage.setItem(VISITOR_SESSION_KEY,'1');
+  }
+}
+function getActiveSessionId(){
+  let id=sessionStorage.getItem(ACTIVE_SESSION_KEY);
+  if(!id){
+    const seed=(crypto?.randomUUID?.()||(`${Date.now()}_${Math.random().toString(36).slice(2)}`));
+    id=`active_${seed}`;
+    sessionStorage.setItem(ACTIVE_SESSION_KEY,id);
+  }
+  return id;
+}
+
+function setActiveVisitorDisplay(count){
+  const countEl=document.getElementById('vCount');
+  const labelEl=document.getElementById('vLbl');
+  if(countEl)countEl.textContent=(count||0).toLocaleString('ar-SA');
+  if(labelEl)labelEl.textContent='متواجد الآن';
+}
+
+async function cleanupActiveVisitorSessions(){
+  if(!sb)return;
+  const staleBefore=new Date(Date.now()-ACTIVE_VISITOR_CLEANUP_MS).toISOString();
+  try{await sb.from('active_sessions').delete().lt('last_seen',staleBefore);}catch(e){}
+}
+
+async function updateActiveVisitorCounter(){
+  const sessionId=getActiveSessionId();
+  if(!sb){
+    setActiveVisitorDisplay(1);
+    return;
+  }
+  const now=new Date().toISOString();
+  const activeSince=new Date(Date.now()-ACTIVE_VISITOR_CLEANUP_MS).toISOString();
+  try{
+    await sb.from('active_sessions').upsert({
+      session_id:sessionId,
+      last_seen:now,
+      user_agent:navigator.userAgent.slice(0,240)
+    },{onConflict:'session_id'});
+    const {count,error}=await sb
+      .from('active_sessions')
+      .select('session_id',{count:'exact',head:true})
+      .gte('last_seen',activeSince);
+    if(error)throw error;
+    setActiveVisitorDisplay(count||1);
+  }catch(e){
+    setActiveVisitorDisplay(1);
+  }
+}
+
+function startActiveVisitorTracking(){
+  setActiveVisitorDisplay(1);
+  updateActiveVisitorCounter();
+  cleanupActiveVisitorSessions();
+  if(activeVisitorHeartbeatTimer)clearInterval(activeVisitorHeartbeatTimer);
+  if(activeVisitorCleanupTimer)clearInterval(activeVisitorCleanupTimer);
+  activeVisitorHeartbeatTimer=setInterval(updateActiveVisitorCounter,ACTIVE_VISITOR_HEARTBEAT_MS);
+  activeVisitorCleanupTimer=setInterval(cleanupActiveVisitorSessions,ACTIVE_VISITOR_CLEANUP_MS);
+}
+
+function escapeHtml(value){
+  return String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+}
+function safeHttpUrl(value){
+  try{const url=new URL(String(value||''));return ['http:','https:'].includes(url.protocol)?url.href:'';}catch(e){return '';}
+}
+function safeImageSrc(value){
+  const raw=String(value||'');
+  if(/^data:image\/(png|jpeg|webp);base64,/i.test(raw))return raw;
+  return safeHttpUrl(raw);
+}
+function jsValue(value){return JSON.stringify(String(value??'')).replace(/</g,'\\u003c');}
+
+function renderSocial(){
+  const sec=document.getElementById('socialSec');
+  const items=(D.social||[]).filter(s=>s.active!==false&&safeHttpUrl(s.url));
+  if(!items.length){sec.innerHTML=`<div class="empty">ستظهر أيقونات التواصل هنا</div>`;return;}
+  sec.innerHTML=`<div class="social-card"><div class="card-title-lite">تابعني على</div><div class="social-icons-row">${
+    items.map(s=>{
+      const m=getSocialMeta(s);
+      const lbl=m.ar;
+      const url=safeHttpUrl(s.url);
+      return `<a class="si-btn" href="${escapeHtml(url)}" target="_blank" rel="noopener" data-track-id="${escapeHtml(s.id)}" title="${escapeHtml(lbl)}">
+        <div class="si-box"><svg viewBox="0 0 24 24"><path d="${m.path}"/></svg></div>
+        <span class="si-lbl">${lbl}</span>
+      </a>`;
+    }).join('')
+  }</div></div>`;
+}
+
+function renderBooks(){
+  const wrap=document.getElementById('booksWrap');
+  const sec=document.getElementById('booksSec');
+  if(D.sectionsOff?.books){wrap.style.display='none';return;}
+  const books=(D.books||[]).filter(b=>b.active!==false);
+  if(!books.length){wrap.style.display='none';sec.innerHTML='';return;}
+  wrap.style.display='block';
+  const buyLabel='شراء';
+  sec.innerHTML=`<div class="section-frame"><div class="books-grid">${books.map(b=>{
+    const title=escapeHtml(b.titleAr||b.titleEn||'');
+    const pub=escapeHtml(b.publisherAr||'غير مذكورة');
+    const coverSrc=safeImageSrc(b.cover);
+    const cover=coverSrc?`<div class="book-cover-shell"><img class="book-cover" src="${escapeHtml(coverSrc)}" alt="${title}"></div>`:`<div class="book-cover-shell"><div class="book-cover-ph"><svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span>غلاف</span></div></div>`;
+    const printUrl=safeHttpUrl(b.printUrl);const digitalUrl=safeHttpUrl(b.digitalUrl);
+    const buttonsClass='book-btns';
+    return `<div class="book-card">${cover}<div class="book-info">
+      <div class="book-title">${title}</div>
+      <div class="book-meta">
+        <div class="book-meta-item"><span class="book-meta-label">دار النشر:</span><span class="book-meta-value">${pub}</span></div>
+      </div>
+      <div class="${buttonsClass}">
+        ${printUrl?`<a class="bbtn bbtn-p" href="${escapeHtml(printUrl)}" target="_blank" rel="noopener" data-track-id="${escapeHtml(`${b.id}_print`)}"><svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>${buyLabel}</a>`:''}
+        ${digitalUrl?`<a class="bbtn bbtn-d" href="${escapeHtml(digitalUrl)}" target="_blank" rel="noopener" data-track-id="${escapeHtml(`${b.id}_digital`)}"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1.9-2 2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/></svg>${buyLabel}</a>`:''}
+      </div>
+    </div></div>`;
+  }).join('')}</div></div>`;
+}
+
+function renderPartners(){
+  const wrap=document.getElementById('partnersWrap');
+  const sec=document.getElementById('partnersSec');
+  if(D.sectionsOff?.adLinks){wrap.style.display='none';return;}
+  const items=(D.adLinks||[]).filter(p=>{
+    if(p.active===false)return false;
+    if(!safeHttpUrl(p.url))return false;
+    return true;
+  });
+  if(!items.length){wrap.style.display='none';sec.innerHTML='';return;}
+  wrap.style.display='block';
+  sec.innerHTML=`<div class="section-frame"><div class="card-title-lite">الدعم / الإعلان</div>${items.map(p=>{
+    const name=escapeHtml(p.titleAr||p.titleEn||'');
+    const desc=escapeHtml([p.entityAr,p.licenseNo?`ترخيص ${p.licenseNo}`:''].filter(Boolean).join(' • '));
+    const cta='فتح الرابط';
+    const image=safeImageSrc(p.image);
+    return `<a class="partner-row" href="${escapeHtml(safeHttpUrl(p.url))}" target="_blank" rel="noopener" data-track-id="${escapeHtml(p.id)}">
+      ${image?`<img class="p-image" src="${escapeHtml(image)}" alt="${name}">`:`<div class="p-icon"><svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></div>`}
+      <div class="p-content"><div class="p-body"><div class="partner-name">${name}</div><div class="p-desc">${desc}</div></div><span class="p-cta">${cta}</span></div>
+    </a>`;
+  }).join('')}</div>`;
+}
+
+function legacyRenderCollabDoNotUse(){
+  const wrap=document.getElementById('collabWrap');
+  const sec=document.getElementById('collabSec');
+  if(D.sectionsOff?.collab){wrap.style.display='none';return;}
+  wrap.style.display='block';
+  const collab=D.collab||{};
+  const waNum=collab.whatsapp||'';
+  const title=collab.heroTitleAr||'للدعم والإعلان تواصل معنا';
+  const sub=collab.heroSubAr||'';
+  const waMsg=encodeURIComponent('السلام عليكم، أودّ الاستفسار عن فرص الدعم والإعلان');
+  const waLink=waNum?`https://wa.me/${waNum.replace(/\D/g,'')}?text=${waMsg}`:'#';
+
+  const fl=collab.followers||'';const cl=collab.monthlyClicks||'';
+  const statsHtml=(fl||cl)?`<div class="collab-stats">
+    ${fl?`<div class="cstat"><div class="cstat-val">${fl}</div><div class="cstat-lbl">متابع</div></div>`:''}
+    ${fl&&cl?'<div class="cstat-div"></div>':''}
+    ${cl?`<div class="cstat"><div class="cstat-val">${cl}</div><div class="cstat-lbl">نقرة شهرياً</div></div>`:''}
+  </div>`:'';
+
+  const waBtnLbl='تواصل عبر واتساب';
+  let html=`<div class="collab-card">
+    <div class="collab-title">${title}</div>
+    ${sub?`<div class="collab-sub">${sub}</div>`:''}
+    ${statsHtml}
+    <a class="wa-btn" href="${waLink}" target="_blank" rel="noopener" onclick="trackClick('collab_wa','${waLink}')">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      ${waBtnLbl}
+    </a>
+  </div>`;
+
+  // Active plans (check schedule)
+  const now=new Date();
+  const plans=(collab.plans||[]).filter(p=>{
+    if(!p.active)return false;
+    if(p.startDate&&new Date(p.startDate)>now)return false;
+    if(p.endDate&&new Date(p.endDate)<now)return false;
+    return true;
+  });
+
+  plans.forEach(p=>{
+    const title2=p.titleAr||p.titleEn||'';
+    const feats=(p.featsAr||p.featsEn||'').split('\n').filter(f=>f.trim());
+    const pNote=p.priceNoteAr||p.priceNoteEn||'';
+    const isOn=p.type==='onsite';
+    const badgeHtml=isOn
+      ?`<span class="advert-badge-on"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:var(--ac)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>حضوري</span>`
+      :`<span class="advert-badge-rem"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:var(--gd)"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/></svg>عن بعد</span>`;
+    const waMsgP=encodeURIComponent('السلام عليكم، أودّ الاستفسار عن فئة إعلان: '+title2);
+    const waLinkP=waNum?`https://wa.me/${waNum.replace(/\D/g,'')}?text=${waMsgP}`:'#';
+    html+=`<div class="advert-card">
+      <div class="advert-hdr">${badgeHtml}<div class="advert-title">${title2}</div></div>
+      <div class="advert-body">
+        ${feats.length?`<div class="advert-feats">${feats.map(f=>`<div class="advert-feat"><div class="feat-dot"></div><span>${f}</span></div>`).join('')}</div>`:''}
+        <div class="advert-footer">
+          <div>
+            ${p.price?`<div><span class="advert-price-cur">ريال</span><span class="advert-price-val">${p.price}</span></div>`:`<div style="font-size:14px;color:var(--mt)">يُحدد عند التواصل</div>`}
+            ${pNote?`<div class="advert-price-note">${pNote}</div>`:''}
+          </div>
+          <a class="advert-wa-btn" href="${waLinkP}" target="_blank" rel="noopener" onclick="trackClick('advert_${p.id}','${waLinkP}')">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            تواصل معنا
+          </a>
+        </div>
+      </div>
+    </div>`;
+  });
+  sec.innerHTML=html;
+}
+
+function getActiveOffers(){
+  const now=new Date();
+  return (D.collab?.plans||[]).filter(p=>{
+    if(!p.active)return false;
+    if(p.startDate&&new Date(p.startDate)>now)return false;
+    if(p.endDate&&new Date(p.endDate)<now)return false;
+    return true;
+  });
+}
+
+function renderCollab(){
+  const wrap=document.getElementById('collabWrap');
+  const sec=document.getElementById('collabSec');
+  wrap.style.display='block';
+  const collab=D.collab||{};
+  const title=escapeHtml(collab.heroTitleAr||'للإعلان أو الدعم');
+  const sub=escapeHtml(collab.heroSubAr||'');
+  const fl=escapeHtml(collab.followers||'');
+  const cl=escapeHtml(collab.monthlyClicks||'');
+  const statsHtml=(fl||cl)?`<div class="collab-stats">
+    ${fl?`<div class="cstat"><div class="cstat-val">${fl}</div><div class="cstat-lbl">متابع</div></div>`:''}
+    ${fl&&cl?'<div class="cstat-div"></div>':''}
+    ${cl?`<div class="cstat"><div class="cstat-val">${cl}</div><div class="cstat-lbl">نقرة شهرية</div></div>`:''}
+  </div>`:'';
+  sec.innerHTML=`<div class="collab-card">
+    <div class="collab-title">${title}</div>
+    ${sub?`<div class="collab-sub">${sub}</div>`:''}
+    ${statsHtml}
+    <button class="collab-entry-btn" type="button" onclick="openOfferFlow()">
+      <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+      ${escapeHtml(collab.entryLabelAr||'طلب إعلان')}
+    </button>
+  </div>`;
+}
+
+function showOfferStep(id){
+  ['offerCatalogStep','offerFormStep','offerSuccessStep'].forEach(stepId=>{
+    document.getElementById(stepId).classList.toggle('open',stepId===id);
+  });
+}
+
+function openOfferFlow(){
+  selectedOfferId=null;
+  renderOfferRequestForm();
+  document.getElementById('offerModal').classList.add('open');
+  document.getElementById('offerModal').setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+  requestAnimationFrame(()=>document.querySelector('.offer-body')?.scrollTo({top:0,behavior:'auto'}));
+}
+
+function closeOfferFlow(){
+  document.getElementById('offerModal').classList.remove('open');
+  document.getElementById('offerModal').setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+}
+
+function platformAlert(message,title='تنبيه'){
+  const modal=document.getElementById('platformAlert');
+  const titleEl=document.getElementById('platformAlertTitle');
+  const msgEl=document.getElementById('platformAlertMessage');
+  if(!modal||!titleEl||!msgEl)return;
+  titleEl.textContent=title;
+  msgEl.textContent=message;
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden','false');
+}
+
+function closePlatformAlert(){
+  const modal=document.getElementById('platformAlert');
+  if(!modal)return;
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden','true');
+}
+
+function showOfferError(message){
+  const err=document.getElementById('offerSubmitError');
+  if(err){err.textContent=message;err.style.display='block';return;}
+  platformAlert(message,'إكمال البيانات');
+}
+
+function renderOfferRequestForm(offerId=''){
+  selectedOfferId=offerId||'';
+  document.getElementById('offerFormStep').innerHTML=`<div class="offer-form">
+    <div class="offer-form-grid">
+      <div class="offer-field">
+        <label>الاسم <span class="req-star">*</span></label>
+        <input id="offerNameInput" placeholder="الاسم الكامل">
+      </div>
+      <div class="offer-field">
+        <label>رقم الجوال <span class="req-star">*</span></label>
+        <input id="offerPhoneInput" placeholder="05xxxxxxxx" dir="ltr" inputmode="tel">
+      </div>
+    </div>
+    <div class="offer-field">
+      <label>الجهة / الشركة <span class="req-star">*</span></label>
+      <input id="offerCompanyInput" placeholder="اسم الجهة أو الشركة">
+    </div>
+    <div class="offer-field">
+      <label>منتج الإعلان <span class="req-star">*</span></label>
+      <input id="offerProductInput" placeholder="ما المنتج أو الخدمة التي سيتم الإعلان عنها؟">
+    </div>
+    <div class="offer-field">
+      <label>المنصات المطلوب الإعلان فيها <span class="req-star">*</span></label>
+      <div class="platform-checks">
+        <label class="platform-check"><span>تيك توك</span><input type="checkbox" name="offerPlatforms" value="تيك توك"><span class="platform-mark"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17l9-10"/></svg></span></label>
+        <label class="platform-check"><span>سناب</span><input type="checkbox" name="offerPlatforms" value="سناب"><span class="platform-mark"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17l9-10"/></svg></span></label>
+        <label class="platform-check"><span>انستغرام</span><input type="checkbox" name="offerPlatforms" value="انستغرام"><span class="platform-mark"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17l9-10"/></svg></span></label>
+      </div>
+    </div>
+    <div class="offer-field">
+      <label>تفاصيل الطلب <span class="req-star">*</span></label>
+      <textarea id="offerNotesInput" placeholder="اكتب تفاصيل الإعلان المطلوبة، الرسالة، المدة، وأي معلومات مهمة للمراجعة."></textarea>
+    </div>
+    <label class="offer-consent">
+      <input id="offerPrivacyNoticeInput" type="checkbox">
+      <span>أقر بأنني اطلعت على <a href="privacy.html" target="_blank" rel="noopener">سياسة الخصوصية</a>، وأعلم أن البيانات الإلزامية لازمة لمراجعة الطلب والتواصل بشأنه.</span>
+    </label>
+    <label class="offer-consent">
+      <input id="offerLegalAcknowledgementInput" type="checkbox">
+      <span>أوافق على <a href="terms.html" target="_blank" rel="noopener">الشروط والأحكام</a>، وأقر بأنني ممثل مخول للجهة وبأن المنتج أو الخدمة والتراخيص والمعلومات المقدمة نظامية وصحيحة.</span>
+    </label>
+    <div class="offer-error" id="offerSubmitError"></div>
+    <button class="offer-submit" id="offerSubmitBtn" type="button" onclick="submitOfferRequest()">إرسال طلب الإعلان</button>
+  </div>`;
+  showOfferStep('offerFormStep');
+}
+
+function renderOfferCatalog(){
+  const items=getActiveOffers();
+  const step=document.getElementById('offerCatalogStep');
+  if(!items.length){
+    step.innerHTML=`<div class="empty">لا توجد باقات متاحة حالياً. يرجى المحاولة لاحقًا.</div>`;
+    showOfferStep('offerCatalogStep');
+    return;
+  }
+  step.innerHTML=`<div class="offer-grid">${items.map(p=>{
+    const feats=(p.featsAr||'').split('\n').filter(f=>f.trim());
+    const typeLabel=p.type==='onsite'?'حضوري':'عن بُعد';
+    return `<article class="offer-plan${p.featured?' featured':''}">
+      <div class="offer-plan-top">
+        <div class="offer-badge${p.featured?' featured':''}">${p.featured?'الأكثر طلبًا':typeLabel}</div>
+        ${p.price?`<div class="offer-badge">${p.price} ريال</div>`:''}
+      </div>
+      <h4>${p.titleAr||''}</h4>
+      <div class="offer-plan-desc">${p.descAr||'باقة جاهزة لعرض التعاون بشكل احترافي ومباشر.'}</div>
+      ${p.priceNoteAr?`<div class="offer-price-note">${p.priceNoteAr}</div>`:''}
+      ${feats.length?`<div class="offer-feats">${feats.map(f=>`<div class="offer-feat"><div class="offer-feat-dot"></div><span>${f}</span></div>`).join('')}</div>`:''}
+      <button class="offer-select-btn" type="button" onclick="selectOffer('${p.id}')">اختيار هذه الباقة</button>
+    </article>`;
+  }).join('')}</div>`;
+  showOfferStep('offerCatalogStep');
+}
+
+function selectOffer(id){
+  renderOfferRequestForm(id);
+  return;
+  const offer=getActiveOffers().find(p=>p.id===id);
+  if(!offer)return;
+  document.getElementById('offerFormStep').innerHTML=`<div class="offer-form">
+    <button class="offer-back" type="button" onclick="renderOfferCatalog()">العودة إلى الباقات</button>
+    <div class="offer-picked">
+      <strong>${offer.titleAr||''}</strong>
+      <span>${offer.price?offer.price+' ريال':'السعر يحدد بعد المراجعة'}${offer.priceNoteAr?` • ${offer.priceNoteAr}`:''}</span>
+    </div>
+    <div class="offer-form-grid">
+      <div class="offer-field">
+        <label>الاسم</label>
+        <input id="offerNameInput" placeholder="الاسم الكامل">
+      </div>
+      <div class="offer-field">
+        <label>رقم الجوال</label>
+        <input id="offerPhoneInput" placeholder="05xxxxxxxx" dir="ltr">
+      </div>
+    </div>
+    <div class="offer-form-grid">
+      <div class="offer-field">
+        <label>الجهة أو الشركة</label>
+        <input id="offerCompanyInput" placeholder="اسم الجهة أو النشاط">
+      </div>
+      <div class="offer-field">
+        <label>الباقة المختارة</label>
+        <input value="${offer.titleAr||''}" disabled>
+      </div>
+    </div>
+    <div class="offer-field">
+      <label>ملاحظات مختصرة</label>
+      <textarea id="offerNotesInput" placeholder="اذكر الهدف من الطلب أو المدة المتوقعة أو أي ملاحظة مهمة."></textarea>
+    </div>
+    <button class="offer-submit" type="button" onclick="submitOfferRequest()">إرسال الطلب</button>
+  </div>`;
+  showOfferStep('offerFormStep');
+}
+
+async function submitOfferRequest(){
+  const err=document.getElementById('offerSubmitError');
+  const submitBtn=document.getElementById('offerSubmitBtn');
+  if(err){err.style.display='none';err.textContent='';}
+  const offer=getActiveOffers().find(p=>p.id===selectedOfferId);
+  const name=document.getElementById('offerNameInput').value.trim();
+  const phone=document.getElementById('offerPhoneInput').value.trim();
+  const company=document.getElementById('offerCompanyInput').value.trim();
+  const product=document.getElementById('offerProductInput')?.value.trim()||'';
+  const platforms=[...document.querySelectorAll('input[name="offerPlatforms"]:checked')].map(i=>i.value);
+  const notes=document.getElementById('offerNotesInput').value.trim();
+  if(!name||!phone||!company||!product||!notes){showOfferError('يرجى إكمال جميع الحقول الإلزامية المشار إليها بالنجمة.');return;}
+  if(!platforms.length){showOfferError('يرجى اختيار منصة واحدة على الأقل للإعلان.');return;}
+  if(!document.getElementById('offerPrivacyNoticeInput')?.checked){showOfferError('يرجى الإقرار بالاطلاع على سياسة الخصوصية قبل إرسال الطلب.');return;}
+  if(!document.getElementById('offerLegalAcknowledgementInput')?.checked){showOfferError('يرجى الموافقة على الشروط والأحكام والإقرار بصحة المعلومات قبل إرسال الطلب.');return;}
+  const requestNo='AD-'+new Date().getFullYear()+'-'+Date.now().toString(36).toUpperCase();
+  const req={
+    id:'req_'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),
+    requestNo,
+    planId:offer?.id||'',
+    planTitle:offer?.titleAr||'طلب إعلان',
+    name,phone,company,product,goal:product,platforms:platforms.join('، '),notes,
+    status:'new',
+    archived:false,
+    internalNotes:'',
+    consent:true,
+    legalAcknowledgement:true,
+    created_at:new Date().toISOString()
+  };
+  let savedRemote=false;
+  if(submitBtn){submitBtn.disabled=true;submitBtn.textContent='جاري إرسال الطلب...';}
+  if(sb){
+    try{
+      const dbReq={
+        id:req.id,
+        request_no:req.requestNo,
+        plan_id:req.planId,
+        plan_title:req.planTitle,
+        name:req.name,
+        phone:req.phone,
+        company:req.company,
+        product:req.product,
+        platforms:req.platforms,
+        notes:req.notes,
+        status:'new',
+        archived:false,
+        internal_notes:'',
+        consent:true,
+        legal_acknowledgement:true,
+        created_at:req.created_at
+      };
+      const {data,error}=await sb.functions.invoke('public-events',{
+        body:{type:'collab_request',payload:dbReq}
+      });
+      if(!error&&data?.ok)savedRemote=true;
+    }catch(e){}
+  }
+  if(submitBtn){submitBtn.disabled=false;submitBtn.textContent='إرسال طلب الإعلان';}
+  if(!savedRemote){showOfferError('تعذر إرسال الطلب حاليًا ولم يتم حفظ بياناته. يرجى المحاولة لاحقًا.');return;}
+  const reviewMsg=(D.collab?.noticeAr||'تخضع جميع الطلبات للمراجعة، وسيتم التواصل معكم قريبًا بعد مراجعة الطلب.');
+  document.getElementById('offerSuccessStep').innerHTML=`<div class="offer-success">
+    <h4>تم استلام طلبك</h4>
+    <p>شكرًا لك. ${reviewMsg}</p>
+    <div class="offer-ref">${requestNo}</div>
+  </div>`;
+  showOfferStep('offerSuccessStep');
+}
+
+function queueClickTracking(id,url){
+  const payload={link_id:id,device:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop'};
+  Promise.resolve().then(async()=>{
+    try{
+      if(!sb)throw new Error('Supabase is not available');
+      await sb.functions.invoke('public-events',{body:{type:'click',payload}});
+    }catch(e){}
+  });
+}
+function trackClick(id,url){
+  if(url&&url.startsWith('http'))window.open(url,'_blank','noopener');
+  queueClickTracking(id,url);
+}
+document.addEventListener('click',event=>{
+  const link=event.target.closest('a[data-track-id]');
+  if(link)queueClickTracking(link.dataset.trackId||'',link.href||'');
+});
+
+function updateStaticText(){
+  document.getElementById('lblSocial').textContent=lang==='ar'?'تابعني على':'Follow Me';
+  document.getElementById('lblBooks').textContent=lang==='ar'?'مؤلفاتي':'My Publications';
+  document.getElementById('lblPartners').textContent=lang==='ar'?'روابط الدعم / الإعلان':'Support / Ad Links';
+  document.getElementById('lblCollab').textContent=lang==='ar'?'التعاون والإعلان':'Advertising & Collaboration';
+  document.getElementById('footerTxt').textContent=lang==='ar'?'© جميع الحقوق محفوظة لإبراهيم الحربي':'© All rights reserved — Ibrahim Al-Harbi';
+  document.getElementById('vLbl').textContent=lang==='ar'?'متواجد الآن':'online now';
+}
+document.addEventListener('DOMContentLoaded',loadData);
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+project_id = "lqqxdwzyeagtrcmdonso"
+
+[functions.public-content]
+verify_jwt = false
+
+[functions.public-events]
+verify_jwt = false
+
+[functions.admin-login]
+verify_jwt = false
