@@ -10,7 +10,7 @@ fs.rmSync(out, { recursive: true, force: true });
 fs.mkdirSync(out, { recursive: true });
 
 for (const file of publicFiles) {
-  const source = path.join(root, file);
+  const source = path.join(root, 'site', file);
   if (!fs.existsSync(source)) throw new Error(`Missing production asset: ${file}`);
   fs.copyFileSync(source, path.join(out, file));
 }
