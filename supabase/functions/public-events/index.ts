@@ -112,6 +112,14 @@ serve(async (req) => {
   }
   if (!/^\+?[0-9\s-]{8,20}$/.test(request.phone)) return json(req, { error: "invalid_phone" }, 400);
 
-  const { error } = await supabase.from("collab_requests").insert(request);
-  return error ? json(req, { error: "request_not_saved" }, 503) : json(req, { ok: true, requestNo: request.request_no });
+  // request_no is assigned server-side by a DB trigger (AB-<seq>); the value
+  // sent by the client is ignored. Return the canonical number to the caller.
+  const { data: inserted, error } = await supabase
+    .from("collab_requests")
+    .insert(request)
+    .select("request_no")
+    .single();
+  return error
+    ? json(req, { error: "request_not_saved" }, 503)
+    : json(req, { ok: true, requestNo: inserted?.request_no || request.request_no });
 });

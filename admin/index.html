@@ -127,10 +127,21 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 .notif-head strong{font-size:14px}
 .notif-head span{font-size:11px;color:var(--mt);display:block;margin-top:3px}
 .notif-list{display:flex;flex-direction:column;gap:8px;max-height:320px;overflow:auto}
-.notif-item{padding:12px;border-radius:16px;border:1px solid var(--bd);background:#fafafb}
+.notif-item{padding:13px 14px;border-radius:16px;border:1px solid var(--bd);background:#fafafb}
 .notif-item strong{display:block;font-size:13px;margin-bottom:4px}
 .notif-item p{font-size:12px;color:var(--mt);line-height:1.7}
 .notif-item time{display:block;font-size:11px;color:var(--lt);margin-top:6px}
+.notif-new-tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;color:#197043;background:#e9f7ef;border-radius:999px;padding:4px 10px;margin-bottom:9px}
+.notif-new-tag::before{content:'';width:7px;height:7px;border-radius:50%;background:#22a55f}
+.notif-line{display:flex;align-items:flex-start;gap:7px;font-size:12.5px;line-height:1.6;margin-top:4px}
+.notif-line .nl-label{color:var(--lt);min-width:62px;flex:0 0 auto}
+.notif-line .nl-value{color:var(--tx);font-weight:600;word-break:break-word}
+.notif-line .nl-value.ltr{direction:ltr}
+.notif-datetime{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:9px;padding-top:9px;border-top:1px dashed var(--bd)}
+.notif-dt-block{display:flex;flex-direction:column;gap:2px}
+.notif-dt-block .ndt-h{font-size:12px;font-weight:700;color:var(--tx)}
+.notif-dt-block .ndt-g{font-size:11px;color:var(--mt)}
+.notif-dt-block .ndt-time{font-size:13px;font-weight:800;color:#197043;direction:ltr}
 .notif-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
 .notif-empty{padding:20px 12px;text-align:center;color:var(--lt);font-size:13px}
 .action-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:12px}
@@ -448,9 +459,9 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 .notif-item::before{content:'';position:absolute;right:0;top:14px;bottom:14px;width:3px;border-radius:3px;background:#111}
 .notif-actions{padding:12px 14px 14px;margin:0;border-top:1px solid var(--bd);background:#fafafa}.notif-actions button{display:inline-flex;align-items:center;gap:6px}
 .preview-top .btn-sm{padding:9px 13px;border-radius:13px}.preview-top .btn-sm svg{width:16px;height:16px}
-.request-table-wrap{overflow:auto;border:1px solid var(--bd);border-radius:18px;background:#fff}.request-table{width:100%;border-collapse:collapse;min-width:980px}
+.request-table-wrap{overflow-x:auto;border:1px solid var(--bd);border-radius:18px;background:#fff}.request-table{width:100%;border-collapse:collapse;min-width:1060px}
 .request-table th{padding:11px 12px;text-align:right;font-size:11px;color:var(--mt);background:#f7f7f8;border-bottom:1px solid var(--bd);white-space:nowrap}
-.request-table td{padding:13px 12px;border-bottom:1px solid var(--bd);font-size:12px;vertical-align:middle}.request-table tr:last-child td{border-bottom:0}.request-table tbody tr:hover{background:#fafafa}
+.request-table td{padding:12px;border-bottom:1px solid var(--bd);font-size:12px;vertical-align:middle;white-space:nowrap}.request-table tr:last-child td{border-bottom:0}.request-table tbody tr:hover{background:#fafafa}
 .request-seq{width:30px;height:30px;border-radius:10px;background:#111;color:#fff;display:grid;place-items:center;font-weight:700}.request-primary{font-weight:700;font-size:13px}.request-secondary{color:var(--mt);margin-top:3px}.request-status-select{padding:8px 9px;border:1px solid var(--bds);border-radius:11px;background:#fff;font-family:var(--fn);font-size:12px}
 .request-row-actions{display:flex;gap:6px;align-items:center}.request-row-actions .ico-btn{flex:0 0 auto}.request-table .btn-sm{white-space:nowrap;padding:7px 10px}
 .status-pill{display:inline-flex;padding:5px 9px;border-radius:999px;background:#f3f4f6;font-size:11px;font-weight:600}.status-pill.archived{background:#e5e7eb;color:#4b5563}
@@ -476,7 +487,55 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 .analytics-table-wrap{overflow:auto}.analytics-table{width:100%;border-collapse:collapse;min-width:680px}.analytics-table th{padding:9px 11px;background:#f7f8f6;color:var(--mt);font-size:10px;text-align:right}.analytics-table td{padding:11px;border-bottom:1px solid var(--bd);font-size:11px}.analytics-table tr:last-child td{border-bottom:0}.interaction-kind{display:inline-flex;padding:4px 8px;border-radius:8px;background:#f1f4ef;color:#315d28;font-weight:700}.interaction-status{color:var(--mt)}.analytics-maintenance{display:flex;align-items:center;justify-content:space-between;gap:18px;border:1px solid rgba(180,35,24,.12);border-radius:22px;background:linear-gradient(135deg,#fff 0%,#fff8f7 100%);padding:18px 20px;margin-top:8px;box-shadow:0 8px 24px rgba(180,35,24,.05)}.maintenance-copy{display:flex;align-items:center;gap:13px}.maintenance-icon{width:42px;height:42px;flex:0 0 42px;border-radius:14px;background:var(--dl);color:var(--dn);display:grid;place-items:center}.maintenance-icon svg{width:19px;height:19px;fill:currentColor}.analytics-maintenance h3{font-size:13px;margin:0 0 4px}.analytics-maintenance p{margin:0;color:var(--mt);font-size:11px;line-height:1.7}.analytics-maintenance .btn-sm{flex-shrink:0;padding:10px 15px}.analytics-loading{height:110px;background:linear-gradient(90deg,#f5f6f4 25%,#eceeea 50%,#f5f6f4 75%);background-size:200% 100%;animation:analyticsPulse 1.2s infinite;border-radius:16px}@keyframes analyticsPulse{to{background-position:-200% 0}}
 @media(max-width:900px){.analytics-kpis{grid-template-columns:repeat(2,1fr)}.analytics-funnel{grid-template-columns:repeat(2,1fr)}.analytics-split{grid-template-columns:1fr}}@media(max-width:600px){.analytics-page-head{align-items:stretch;flex-direction:column}.stats-toolbar{width:100%}.stats-toolbar select{flex:1;min-width:0}.analytics-kpis{grid-template-columns:1fr 1fr;gap:8px}.analytics-kpi{padding:13px;min-height:125px}.analytics-kpi-value{font-size:24px}.analytics-funnel{grid-template-columns:1fr}.funnel-step:not(:last-child)::after{display:none}.status-layout{grid-template-columns:1fr;justify-items:center}.status-list{width:100%}.analytics-maintenance{align-items:stretch;flex-direction:column}.analytics-maintenance .btn-sm{justify-content:center}}/* Profile editor aligned with unified add forms */
 .profile-editor-card{padding-bottom:20px}.profile-form-layout{display:grid;grid-template-columns:180px minmax(0,1fr);gap:22px;align-items:start}.profile-image-field>label{display:block;font-size:12px;font-weight:var(--fw-sb);margin-bottom:7px}.profile-image-picker{display:flex;flex-direction:column;align-items:center;gap:12px;padding:16px;border:1px solid var(--bd);border-radius:18px;background:var(--s2);text-align:center}.profile-image-picker .av-circle{width:146px;height:146px;border-radius:24px;background:#fff}.profile-image-copy{display:flex;flex-direction:column;gap:3px}.profile-image-copy strong{font-size:12px}.profile-image-copy span{font-size:10px;color:var(--lt);line-height:1.5}.profile-upload-btn,.profile-upload-btn .file-btn-face{width:100%}.profile-upload-btn .file-btn-face{justify-content:center;border-radius:12px;background:#fff}.profile-form-fields{min-width:0;display:flex;flex-direction:column}.profile-form-fields textarea{min-height:104px}.profile-form-fields .form-btns{margin-top:4px}
-@media(max-width:700px){.profile-form-layout{grid-template-columns:1fr}.profile-image-picker{align-items:center}.profile-image-field{max-width:100%}.profile-image-picker .av-circle{width:140px;height:140px}.profile-form-fields .r2{grid-template-columns:1fr}}</style>
+@media(max-width:700px){.profile-form-layout{grid-template-columns:1fr}.profile-image-picker{align-items:center}.profile-image-field{max-width:100%}.profile-image-picker .av-circle{width:140px;height:140px}.profile-form-fields .r2{grid-template-columns:1fr}}
+/* Requests table 2026 redesign */
+.request-bulkbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;padding:10px 12px;border:1px solid var(--bd);border-radius:14px;background:#fafafb}
+.request-bulkbar .bulk-count{font-size:12px;color:var(--mt);margin-inline-end:auto}
+.request-bulkbar .bulk-count b{color:var(--tx)}
+.btn-bulk{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--bds);background:#fff;color:var(--tx);border-radius:12px;padding:9px 13px;font-family:var(--fn);font-size:12px;font-weight:600;cursor:pointer;transition:all .18s}
+.btn-bulk svg{width:15px;height:15px;fill:currentColor}
+.btn-bulk:hover{border-color:var(--dn);color:var(--dn);background:var(--dl)}
+.btn-bulk:disabled{opacity:.5;cursor:not-allowed}
+.btn-bulk.danger{color:var(--dn);border-color:#f1c9c4}.btn-bulk.danger:hover{background:var(--dn);color:#fff;border-color:var(--dn)}.btn-bulk.danger:hover svg{fill:#fff}
+.req-check{width:17px;height:17px;accent-color:#111;cursor:pointer}
+.request-no-badge{display:inline-flex;align-items:center;font-weight:800;font-size:12.5px;letter-spacing:.4px;color:#111;background:#f0f1f3;border:1px solid var(--bd);border-radius:9px;padding:5px 10px;direction:ltr}
+.req-date{display:flex;flex-direction:column;gap:2px;line-height:1.5;white-space:nowrap}
+.req-date .req-date-h{font-size:12px;font-weight:700;color:var(--tx)}
+.req-date .req-date-g{font-size:11px;color:var(--mt)}
+.req-day{font-weight:600;font-size:12px}
+.req-phone{direction:ltr;text-align:right;font-variant-numeric:tabular-nums;font-size:12.5px}
+.ico-eye,.ico-dots{width:34px;height:34px;border-radius:11px;border:1px solid var(--bd);background:#fff;cursor:pointer;display:inline-grid;place-items:center;transition:all .18s;color:var(--mt)}
+.ico-eye svg{width:18px;height:18px;fill:currentColor}
+.ico-eye:hover{border-color:var(--ac);color:var(--ac);background:var(--al)}
+.ico-dots{font-size:20px;font-weight:800;line-height:1;letter-spacing:1px;color:var(--tx)}
+.ico-dots:hover{background:#f3f4f6;border-color:var(--bds)}
+.row-actions-menu{position:relative;display:inline-block}
+.row-menu{position:fixed;z-index:1200;min-width:178px;background:#fff;border:1px solid var(--bd);border-radius:14px;box-shadow:0 14px 38px rgba(15,23,42,.16);padding:6px;display:none}
+.row-menu.open{display:block}
+.row-menu button{display:flex;align-items:center;gap:9px;width:100%;border:0;background:transparent;border-radius:10px;padding:10px 11px;font-family:var(--fn);font-size:12.5px;font-weight:600;color:var(--tx);cursor:pointer;text-align:start}
+.row-menu button svg{width:16px;height:16px;fill:currentColor;flex:0 0 16px}
+.row-menu button:hover{background:#f5f6f7}
+.row-menu button.danger{color:var(--dn)}.row-menu button.danger:hover{background:var(--dl)}
+.row-menu .row-menu-sep{height:1px;background:var(--bd);margin:4px 2px}
+.request-table .archived-row td{background:#fbfbfc}
+.req-archived-tag{display:inline-flex;margin-inline-start:6px;font-size:10px;font-weight:700;color:#6b7280;background:#eceef1;border-radius:6px;padding:2px 6px}
+/* Read-only request detail (mirrors public ad-request form) */
+.req-detail-form{display:flex;flex-direction:column;gap:13px}
+.req-detail-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding-bottom:12px;border-bottom:1px solid var(--bd)}
+.req-detail-head .request-no-badge{font-size:13px}
+.req-detail-status{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;padding:5px 11px;border-radius:999px;background:#eef5ec;color:#2a5c1f}
+.req-detail-field{display:flex;flex-direction:column;gap:5px}
+.req-detail-field>label{font-size:11px;font-weight:700;color:var(--mt)}
+.req-detail-field .req-detail-value{border:1px solid var(--bd);border-radius:13px;background:#fafafb;padding:11px 13px;font-size:13px;color:var(--tx);line-height:1.8;white-space:pre-wrap;word-break:break-word;min-height:18px}
+.req-detail-field .req-detail-value.ltr{direction:ltr;text-align:right}
+.req-detail-row{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+@media(max-width:560px){.req-detail-row{grid-template-columns:1fr}}
+.panel-sub{margin:6px 0 18px;color:var(--mt);font-size:13px;line-height:1.7}
+.pw-field{position:relative;display:flex;align-items:center}
+.pw-field input{width:100%;padding-inline-end:42px}
+.pw-toggle{position:absolute;inset-inline-end:8px;width:30px;height:30px;border:0;background:transparent;cursor:pointer;display:grid;place-items:center;color:var(--mt);border-radius:9px;padding:0}
+.pw-toggle:hover{color:var(--tx);background:#f1f2f4}
+.pw-toggle svg{width:19px;height:19px;fill:currentColor}</style>
 </head>
 <body>
 
@@ -540,6 +599,7 @@ window.adminQuickLogin=async function(){
       <div class="ni" onclick="nav('requests',this)"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 4-7 4.5L5 7V5l7 4.5L19 5v2z"/></svg>طلبات الإعلان والدعم</div>
       <div class="ni" onclick="nav('adlinks',this)"><svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>روابط الإعلانات / الدعم</div>
       <div class="side-divider"></div>
+      <div class="ni" onclick="nav('permissions',this)"><svg viewBox="0 0 24 24"><path d="M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>منح الصلاحيات</div>
       <div class="ni" onclick="nav('settings',this)"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>الإعدادات</div>
     </div>
 
@@ -839,6 +899,12 @@ window.adminQuickLogin=async function(){
         </div>
       </div>
 
+      <!-- PERMISSIONS -->
+      <div class="panel" id="panel-permissions">
+        <h2 class="panel-title">منح الصلاحيات</h2>
+        <p class="panel-sub">امنح المشرفين صلاحيات كاملة أو مخصصة حسب الأقسام، وأدِر حساباتهم من هنا.</p>
+      </div>
+
     </div>
   </div>
 </div>
@@ -1024,12 +1090,18 @@ function startLiveClock(){
   window.__liveClockTimer=setInterval(updateLiveHeader,1000);
 }
 
+const PUBLIC_SITE_ORIGIN='https://ibrahimalharbi.vercel.app';
+function publicSiteUrl(extra=''){
+  const host=location.hostname;
+  const base=(host==='localhost'||host==='127.0.0.1')?'index.html':(PUBLIC_SITE_ORIGIN+'/');
+  return `${base}?embedded=1&preview=1${extra}`;
+}
 function openPreview(){
   const shell=document.getElementById('previewShell');
   const frame=document.getElementById('previewFrame');
   if(!shell||!frame)return;
   frame.onload=wirePreviewLinks;
-  frame.src='index.html?embedded=1&preview=1';
+  frame.src=publicSiteUrl();
   shell.classList.add('open');
 }
 function wirePreviewLinks(){
@@ -1052,7 +1124,7 @@ function wirePreviewLinks(){
 }
 function refreshPreview(){
   const frame=document.getElementById('previewFrame');
-  if(frame)frame.src=`index.html?embedded=1&preview=1&ts=${Date.now()}`;
+  if(frame)frame.src=publicSiteUrl(`&ts=${Date.now()}`);
 }
 function closePreview(ev){
   if(ev&&ev.target&&ev.target.id!=='previewShell')return;
@@ -1112,7 +1184,7 @@ function hasAdminAuth(){
 }
 function getAllowedPanels(){
   const role=getSessionRole(verifiedAdminSession);
-  if(role==='owner')return new Set(PERMISSION_SECTIONS.map(item=>item.id));
+  if(role==='owner')return new Set([...PERMISSION_SECTIONS.map(item=>item.id),'permissions']);
   if(role==='admin')return new Set(PERMISSION_SECTIONS.map(item=>item.id));
   if(role==='analyst')return new Set(['analytics']);
   if(role==='support')return new Set(['requests']);
@@ -1554,6 +1626,7 @@ function enhanceAdminUi(){
       books:'الكتب والمؤلفات',
       requests:'طلبات الإعلان والدعم',
       adlinks:'روابط الإعلانات / الدعم',
+      permissions:'منح الصلاحيات',
       settings:'الإعدادات'
     });
     navs.forEach((el)=>{
@@ -1657,6 +1730,9 @@ function enhanceAdminUi(){
     const settingsTitle=settingsPanel.querySelector('h2');
     if(settingsTitle)settingsTitle.remove();
     ensureRequestDbAuthCard(settingsPanel,settingsPanel.firstChild);
+  }
+  const permissionsPanel=document.getElementById('panel-permissions');
+  if(permissionsPanel){
     if(!document.getElementById('permissionsCard')){
       const permissionsCard=document.createElement('div');
       permissionsCard.className='card';
@@ -1679,7 +1755,10 @@ function enhanceAdminUi(){
           </div>
           <div class="field" id="permPasswordField">
             <label>كلمة المرور</label>
-            <input id="permPassword" type="password" placeholder="12 حرفًا على الأقل" dir="ltr" autocomplete="new-password">
+            <div class="pw-field">
+              <input id="permPassword" type="password" placeholder="12 حرفًا على الأقل" dir="ltr" autocomplete="new-password">
+              <button type="button" class="pw-toggle" aria-label="إظهار كلمة المرور" onclick="togglePasswordVisibility('permPassword',this)">${PW_EYE_ICON}</button>
+            </div>
             <span class="fhint">سيتم إنشاء حساب المستخدم وتفعيل صلاحياته مباشرة.</span>
           </div>
           <div class="field"><label>نطاق الصلاحية</label>
@@ -1699,11 +1778,21 @@ function enhanceAdminUi(){
             <button class="btn-cancel" onclick="resetPermissionForm();toggleForm('permForm')">إلغاء</button>
           </div>
         </div>`;
-      settingsPanel.insertBefore(permissionsCard,settingsPanel.firstChild);
+      permissionsPanel.appendChild(permissionsCard);
     }
     if(document.getElementById('permSections'))resetPermissionForm();
   }
   renderPermissions();
+}
+
+const PW_EYE_ICON='<svg viewBox="0 0 24 24"><path d="M12 5c-5.5 0-9 7-9 7s3.5 7 9 7 9-7 9-7-3.5-7-9-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>';
+const PW_EYE_OFF_ICON='<svg viewBox="0 0 24 24"><path d="M12 7a4.5 4.5 0 0 1 4.5 4.5c0 .6-.13 1.16-.34 1.68l2.63 2.63A10.6 10.6 0 0 0 21.5 12S18 5 12 5a9.8 9.8 0 0 0-2.6.35l1.94 1.94c.52-.21 1.08-.29 1.66-.29zM3.3 3.3 1.9 4.7l2.5 2.5A10.7 10.7 0 0 0 2.5 12S6 19 12 19c1.4 0 2.7-.27 3.9-.74l3.4 3.4 1.4-1.4L3.3 3.3zM12 16.5A4.5 4.5 0 0 1 7.5 12c0-.4.06-.78.16-1.14l1.5 1.5A2 2 0 0 0 12 14a2 2 0 0 0 .64-.1l1.5 1.5c-.66.38-1.4.6-2.14.6z"/></svg>';
+function togglePasswordVisibility(inputId,btn){
+  const input=document.getElementById(inputId);
+  if(!input)return;
+  const show=input.type==='password';
+  input.type=show?'text':'password';
+  if(btn){btn.innerHTML=show?PW_EYE_OFF_ICON:PW_EYE_ICON;btn.setAttribute('aria-label',show?'إخفاء كلمة المرور':'إظهار كلمة المرور');}
 }
 
 // TOAST
@@ -1711,6 +1800,7 @@ function toast(m){const t=document.getElementById('toast');t.textContent=m;t.cla
 document.addEventListener('click',e=>{
   const wrap=document.querySelector('.notif-wrap');
   if(wrap && !wrap.contains(e.target))closeNotificationsPanel();
+  if(!e.target.closest('.row-actions-menu'))closeRowMenus();
 });
 
 function ensureSocialDefaults(){
@@ -2790,7 +2880,8 @@ async function signOutRequestsDb(){
 async function loadCollabRequests(){
   const normalizeRequest=r=>({
     ...r,
-    requestNo:r.requestNo||r.request_no||('AD-'+new Date(r.created_at||Date.now()).getFullYear()+'-'+String(r.id||Date.now()).slice(-6).toUpperCase()),
+    requestNo:r.requestNo||r.request_no||(r.seq?('AB-'+r.seq):('AB-'+String(r.id||Date.now()).slice(-6).toUpperCase())),
+    seq:r.seq??null,
     status:r.status||'new',
     archived:!!r.archived,
     internalNotes:r.internalNotes||r.internal_notes||'',
@@ -2821,39 +2912,148 @@ async function loadCollabRequests(){
   D.collab.requests=localRequests;
 }
 
+const ICON_EYE='<svg viewBox="0 0 24 24"><path d="M12 5c-5.5 0-9 7-9 7s3.5 7 9 7 9-7 9-7-3.5-7-9-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>';
+const ICON_TRASH='<svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>';
+const ICON_ARCHIVE='<svg viewBox="0 0 24 24"><path d="M20.54 5.23 19.15 3.55A1.5 1.5 0 0 0 18 3H6c-.47 0-.9.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5 6.5 12H10v-2h4v2h3.5L12 17.5zM5.12 5l.82-1h12l.93 1H5.12z"/></svg>';
+const ICON_RESTORE='<svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 0 0-9 9H1l4 4 4-4H6a7 7 0 1 1 7 7 6.96 6.96 0 0 1-4.95-2.05l-1.42 1.42A9 9 0 1 0 13 3zm-1 5v5l4.25 2.52.75-1.23-3.5-2.08V8z"/></svg>';
+
+let requestSelection=new Set();
+
+function requestDayName(value){
+  return new Intl.DateTimeFormat('ar-SA-u-ca-gregory',{weekday:'long',timeZone:'Asia/Riyadh'}).format(new Date(value||Date.now()));
+}
+function requestHijriDate(value){
+  return new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura',{day:'2-digit',month:'2-digit',year:'numeric',timeZone:'Asia/Riyadh'}).format(new Date(value||Date.now()));
+}
+function requestGregorianDate(value){
+  return new Intl.DateTimeFormat('ar-SA-u-ca-gregory',{day:'2-digit',month:'2-digit',year:'numeric',timeZone:'Asia/Riyadh'}).format(new Date(value||Date.now()));
+}
+function requestTimeLabel(value){
+  return new Intl.DateTimeFormat('ar-SA-u-ca-gregory',{hour:'numeric',minute:'2-digit',hour12:true,timeZone:'Asia/Riyadh'}).format(new Date(value||Date.now()));
+}
+
 function renderRequests(){
   const list=document.getElementById('requestsList');
   if(!list)return;
   const items=getFilteredRequests();
+  const visibleIds=new Set(items.map(r=>r.id));
+  requestSelection=new Set([...requestSelection].filter(id=>visibleIds.has(id)));
   if(!items.length){
     const msg=requestsRemoteStatus==='auth-required'?'سجل الدخول من الإعدادات حتى تظهر الطلبات هنا.':'لا توجد طلبات مطابقة حاليًا';
     list.innerHTML=`<div class="request-empty">${msg}</div>`;
     renderRequestNotifications();
     return;
   }
-  const labels=requestStatusLabels();
-  list.innerHTML=`<div class="request-table-wrap"><table class="request-table">
-    <thead><tr><th>التسلسل</th><th>الطلب</th><th>مقدم الطلب</th><th>التاريخ</th><th>الحالة</th><th>الإجراءات</th></tr></thead>
-    <tbody>${items.map((r,index)=>{
-      const created=formatSaudiDateTime(r.created_at);
-      const displayStatus=r.archived?'مؤرشف':(labels[r.status]||labels.new);
-      return `<tr>
-        <td><span class="request-seq">${String(index+1).padStart(2,'0')}</span></td>
-        <td><div class="request-primary">${esc(r.planTitle||'طلب إعلان')}</div><div class="request-secondary">${esc(r.requestNo||r.id||'')}</div></td>
-        <td><div class="request-primary">${esc(r.name||'بدون اسم')}</div><div class="request-secondary">${esc([r.company,r.phone].filter(Boolean).join(' • '))}</div></td>
-        <td><div class="request-secondary">${esc(created)}</div></td>
-        <td><span class="status-pill${r.archived?' archived':''}">${displayStatus}</span></td>
-        <td><div class="request-row-actions">
-          <select class="request-status-select" aria-label="حالة الطلب" onchange="updateRequestStatus('${r.id}',this.value)">
-            <option value="new" ${r.status==='new'?'selected':''}>جديد</option><option value="review" ${r.status==='review'?'selected':''}>قيد المراجعة</option><option value="contacted" ${r.status==='contacted'?'selected':''}>تم التواصل</option><option value="approved" ${r.status==='approved'?'selected':''}>تمت الموافقة</option><option value="rejected" ${r.status==='rejected'?'selected':''}>مرفوض</option>
-          </select>
-          <button class="btn-sm" onclick="openRequestDetails('${r.id}')">التفاصيل</button>
-          <button class="btn-sm" onclick="toggleRequestArchive('${r.id}',${r.archived?'false':'true'})">${r.archived?'استعادة':'أرشفة'}</button>
-          ${r.archived?`<button class="ico-btn" onclick="deleteRequest('${r.id}')" title="حذف نهائي من الأرشيف"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>`:''}
-        </div></td>
-      </tr>`;
-    }).join('')}</tbody></table></div>`;
+  const statusOpts=r=>['new','review','contacted','approved','rejected'].map(s=>`<option value="${s}" ${r.status===s?'selected':''}>${requestStatusLabels()[s]}</option>`).join('');
+  const rows=items.map((r,index)=>{
+    const checked=requestSelection.has(r.id)?'checked':'';
+    return `<tr class="${r.archived?'archived-row':''}">
+      <td><input type="checkbox" class="req-check" value="${esc(r.id)}" ${checked} onchange="onRequestCheck()"></td>
+      <td>${index+1}</td>
+      <td><span class="req-day">${esc(requestDayName(r.created_at))}</span></td>
+      <td><div class="req-date"><span class="req-date-h">${esc(requestHijriDate(r.created_at))} هـ</span><span class="req-date-g">${esc(requestGregorianDate(r.created_at))} م</span></div></td>
+      <td><span class="request-no-badge">${esc(r.requestNo||r.id||'')}</span>${r.archived?'<span class="req-archived-tag">مؤرشف</span>':''}</td>
+      <td>${esc(r.name||'بدون اسم')}</td>
+      <td><span class="req-phone">${esc(r.phone||'—')}</span></td>
+      <td>${esc(r.company||'—')}</td>
+      <td><select class="request-status-select" aria-label="حالة الطلب" onchange="updateRequestStatus('${r.id}',this.value)">${statusOpts(r)}</select></td>
+      <td><button class="ico-eye" title="عرض التفاصيل" onclick="openRequestDetails('${r.id}')">${ICON_EYE}</button></td>
+      <td><div class="row-actions-menu">
+        <button class="ico-dots" title="إجراءات" aria-haspopup="true" onclick="toggleRowMenu(event,'${r.id}')">⋯</button>
+        <div class="row-menu" id="rowMenu-${r.id}">
+          <button onclick="toggleRequestArchive('${r.id}',${r.archived?'false':'true'});closeRowMenus()">${r.archived?ICON_RESTORE:ICON_ARCHIVE}<span>${r.archived?'استعادة من الأرشيف':'أرشفة الطلب'}</span></button>
+          <div class="row-menu-sep"></div>
+          <button class="danger" onclick="closeRowMenus();deleteRequestNow('${r.id}')">${ICON_TRASH}<span>حذف نهائي</span></button>
+        </div>
+      </div></td>
+    </tr>`;
+  }).join('');
+  const allChecked=items.length&&items.every(r=>requestSelection.has(r.id));
+  list.innerHTML=`
+    <div class="request-bulkbar">
+      <span class="bulk-count">المحدد: <b id="bulkCount">${requestSelection.size}</b> من ${items.length}</span>
+      <button class="btn-bulk danger" id="bulkDeleteBtn" ${requestSelection.size?'':'disabled'} onclick="deleteSelectedRequests()">${ICON_TRASH}<span>حذف المحدد</span></button>
+      <button class="btn-bulk danger" onclick="deleteAllRequests()">${ICON_TRASH}<span>حذف كل الطلبات</span></button>
+    </div>
+    <div class="request-table-wrap"><table class="request-table">
+    <thead><tr>
+      <th><input type="checkbox" class="req-check" id="reqSelectAll" ${allChecked?'checked':''} onclick="toggleSelectAllRequests(this.checked)" title="تحديد الكل"></th>
+      <th>م</th><th>اليوم</th><th>التاريخ</th><th>الطلب</th><th>الاسم</th><th>رقم الجوال</th><th>الجهة / الشركة</th><th>الحالة</th><th>التفاصيل</th><th>الإجراءات</th>
+    </tr></thead>
+    <tbody>${rows}</tbody></table></div>`;
   renderRequestNotifications();
+}
+
+function onRequestCheck(){
+  requestSelection=new Set([...document.querySelectorAll('.req-check:not(#reqSelectAll):checked')].map(c=>c.value));
+  const count=document.getElementById('bulkCount');
+  if(count)count.textContent=String(requestSelection.size);
+  const btn=document.getElementById('bulkDeleteBtn');
+  if(btn)btn.disabled=requestSelection.size===0;
+  const all=document.getElementById('reqSelectAll');
+  const total=document.querySelectorAll('.req-check:not(#reqSelectAll)').length;
+  if(all)all.checked=total>0&&requestSelection.size===total;
+}
+function toggleSelectAllRequests(checked){
+  document.querySelectorAll('.req-check:not(#reqSelectAll)').forEach(c=>{c.checked=checked;});
+  onRequestCheck();
+}
+function toggleRowMenu(event,id){
+  event.stopPropagation();
+  const menu=document.getElementById('rowMenu-'+id);
+  const isOpen=menu?.classList.contains('open');
+  closeRowMenus();
+  if(menu&&!isOpen){
+    const btn=event.currentTarget.getBoundingClientRect();
+    menu.style.visibility='hidden';
+    menu.classList.add('open');
+    const mw=menu.offsetWidth||178,mh=menu.offsetHeight||120;
+    let left=btn.left;
+    if(left+mw>window.innerWidth-8)left=Math.max(8,btn.right-mw);
+    let top=btn.bottom+6;
+    if(top+mh>window.innerHeight-8)top=Math.max(8,btn.top-mh-6);
+    menu.style.left=left+'px';
+    menu.style.top=top+'px';
+    menu.style.visibility='';
+  }
+}
+function closeRowMenus(){
+  document.querySelectorAll('.row-menu.open').forEach(m=>m.classList.remove('open'));
+}
+
+async function removeRequestRecords(reqs){
+  const remoteIds=reqs.filter(r=>r.storage==='remote').map(r=>r.id);
+  if(remoteIds.length){try{await sb.from('collab_requests').delete().in('id',remoteIds);}catch(e){}}
+  const ids=new Set(reqs.map(r=>r.id));
+  D.collab.requests=(D.collab.requests||[]).filter(r=>!ids.has(r.id));
+  localStorage.setItem('collab_requests',JSON.stringify((D.collab.requests||[]).filter(r=>r.storage!=='remote')));
+}
+async function deleteRequestNow(id){
+  const req=(D.collab?.requests||[]).find(x=>x.id===id);
+  if(!req)return;
+  if(!(await platformConfirm('سيُحذف الطلب '+(req.requestNo||'')+' نهائيًا ولن يمكن استعادته. هل تريد المتابعة؟','تأكيد حذف الطلب')))return;
+  await removeRequestRecords([req]);
+  requestSelection.delete(id);
+  renderRequests();
+  toast('تم حذف الطلب');
+}
+async function deleteSelectedRequests(){
+  const reqs=(D.collab?.requests||[]).filter(r=>requestSelection.has(r.id));
+  if(!reqs.length){toast('لم يتم تحديد أي طلب');return;}
+  if(!(await platformConfirm(`سيتم حذف ${reqs.length} من الطلبات نهائيًا ولن يمكن استعادتها. هل تريد المتابعة؟`,'تأكيد حذف الطلبات المحددة')))return;
+  await removeRequestRecords(reqs);
+  requestSelection.clear();
+  renderRequests();
+  toast('تم حذف الطلبات المحددة');
+}
+async function deleteAllRequests(){
+  const reqs=[...(D.collab?.requests||[])];
+  if(!reqs.length){toast('لا توجد طلبات للحذف');return;}
+  if(!(await platformConfirm(`سيتم حذف جميع الطلبات (${reqs.length}) نهائيًا ولن يمكن استعادتها. هل أنت متأكد؟`,'تأكيد حذف كل الطلبات')))return;
+  await removeRequestRecords(reqs);
+  requestSelection.clear();
+  renderRequests();
+  toast('تم حذف جميع الطلبات');
 }
 function requestStatusLabels(){
   return {new:'جديد',review:'قيد المراجعة',contacted:'تم التواصل',approved:'تمت الموافقة',rejected:'مرفوض'};
@@ -2891,27 +3091,32 @@ function openRequestDetails(id){
   const title=document.getElementById('requestDetailTitle');
   const body=document.getElementById('requestDetailBody');
   const modal=document.getElementById('requestDetailModal');
-  if(title)title.textContent=`تفاصيل الطلب ${r.requestNo||''}`;
-  const rows=[
-    ['رقم الطلب',r.requestNo||r.id],
-    ['الحالة',`${labels[r.status]||labels.new}${r.archived?' - مؤرشف':''}`],
-    ['تاريخ الإرسال',r.created_at?new Date(r.created_at).toLocaleString('ar-SA'):''],
-    ['نوع الطلب',r.planTitle||'طلب إعلان'],
-    ['الاسم',r.name],
-    ['الجهة / الشركة',r.company],
-    ['الجوال',r.phone],
-    ['منتج الإعلان',r.product||r.goal],
-    ['المنصات المطلوبة',r.platforms],
-    ['مصدر الحفظ',r.storage==='local'?'محلي':'قاعدة البيانات'],
-    ['تفاصيل الطلب',r.notes,'full'],
-    ['ملاحظات داخلية',r.internalNotes,'full']
-  ];
+  if(title)title.textContent='تفاصيل طلب الإعلان';
+  const statusLabel=r.archived?'مؤرشف':(labels[r.status]||labels.new);
+  const dateLine=`${requestDayName(r.created_at)} · ${requestHijriDate(r.created_at)} هـ · ${requestGregorianDate(r.created_at)} م · ${requestTimeLabel(r.created_at)}`;
+  const field=(label,value,opts={})=>`
+    <div class="req-detail-field">
+      <label>${esc(label)}</label>
+      <div class="req-detail-value${opts.ltr?' ltr':''}">${esc(value&&String(value).trim()?value:'غير محدد')}</div>
+    </div>`;
   if(body){
-    body.innerHTML=`<div class="request-detail-grid">${rows.map(([label,value,wide])=>`
-      <div class="request-detail-cell ${wide?'full':''}">
-        <span>${esc(label)}</span>
-        <strong>${esc(value||'غير محدد')}</strong>
-      </div>`).join('')}</div>`;
+    body.innerHTML=`<div class="req-detail-form">
+      <div class="req-detail-head">
+        <span class="request-no-badge">${esc(r.requestNo||r.id||'')}</span>
+        <span class="req-detail-status">${esc(statusLabel)}</span>
+      </div>
+      ${field('نوع الطلب',r.planTitle||'طلب إعلان')}
+      ${field('تاريخ ووقت الإرسال',dateLine)}
+      <div class="req-detail-row">
+        ${field('الاسم',r.name)}
+        ${field('رقم الجوال',r.phone,{ltr:true})}
+      </div>
+      ${field('الجهة / الشركة',r.company)}
+      ${field('المنتج أو الخدمة',r.product||r.goal)}
+      ${field('المنصات المطلوبة',r.platforms)}
+      ${field('تفاصيل الإعلان',r.notes)}
+      ${r.internalNotes&&r.internalNotes.trim()?field('ملاحظات داخلية',r.internalNotes):''}
+    </div>`;
   }
   if(modal){modal.classList.add('open');modal.setAttribute('aria-hidden','false');}
 }
@@ -2986,11 +3191,20 @@ function renderRequestNotifications(autoOpen=false){
     if(autoOpen)closeNotificationsPanel();
     return;
   }
-  list.innerHTML=items.slice(0,5).map(item=>`
+  list.innerHTML=items.slice(0,6).map(item=>`
     <div class="notif-item">
-      <strong>${escHtml(item.planTitle||'طلب جديد')}</strong>
-      <p>${escHtml(item.name||'بدون اسم')}${item.company?` • ${escHtml(item.company)}`:''}${item.phone?` • ${escHtml(item.phone)}`:''}</p>
-      <time>${new Date(item.created_at||Date.now()).toLocaleString('ar-SA')}</time>
+      <span class="notif-new-tag">طلب جديد</span>
+      <div class="notif-line"><span class="nl-label">الاسم</span><span class="nl-value">${escHtml(item.name||'بدون اسم')}</span></div>
+      <div class="notif-line"><span class="nl-label">رقم الجوال</span><span class="nl-value ltr">${escHtml(item.phone||'—')}</span></div>
+      <div class="notif-datetime">
+        <div class="notif-dt-block">
+          <span class="ndt-h">${escHtml(requestHijriDate(item.created_at))} هـ</span>
+          <span class="ndt-g">${escHtml(requestGregorianDate(item.created_at))} م</span>
+        </div>
+        <div class="notif-dt-block">
+          <span class="ndt-time">${escHtml(requestTimeLabel(item.created_at))}</span>
+        </div>
+      </div>
     </div>`).join('');
   if(autoOpen)openNotificationsPanel();
 }
@@ -3224,9 +3438,9 @@ async function exportPDF(){
 .notif-item::before{content:'';position:absolute;right:0;top:14px;bottom:14px;width:3px;border-radius:3px;background:#111}
 .notif-actions{padding:12px 14px 14px;margin:0;border-top:1px solid var(--bd);background:#fafafa}.notif-actions button{display:inline-flex;align-items:center;gap:6px}
 .preview-top .btn-sm{padding:9px 13px;border-radius:13px}.preview-top .btn-sm svg{width:16px;height:16px}
-.request-table-wrap{overflow:auto;border:1px solid var(--bd);border-radius:18px;background:#fff}.request-table{width:100%;border-collapse:collapse;min-width:980px}
+.request-table-wrap{overflow-x:auto;border:1px solid var(--bd);border-radius:18px;background:#fff}.request-table{width:100%;border-collapse:collapse;min-width:1060px}
 .request-table th{padding:11px 12px;text-align:right;font-size:11px;color:var(--mt);background:#f7f7f8;border-bottom:1px solid var(--bd);white-space:nowrap}
-.request-table td{padding:13px 12px;border-bottom:1px solid var(--bd);font-size:12px;vertical-align:middle}.request-table tr:last-child td{border-bottom:0}.request-table tbody tr:hover{background:#fafafa}
+.request-table td{padding:12px;border-bottom:1px solid var(--bd);font-size:12px;vertical-align:middle;white-space:nowrap}.request-table tr:last-child td{border-bottom:0}.request-table tbody tr:hover{background:#fafafa}
 .request-seq{width:30px;height:30px;border-radius:10px;background:#111;color:#fff;display:grid;place-items:center;font-weight:700}.request-primary{font-weight:700;font-size:13px}.request-secondary{color:var(--mt);margin-top:3px}.request-status-select{padding:8px 9px;border:1px solid var(--bds);border-radius:11px;background:#fff;font-family:var(--fn);font-size:12px}
 .request-row-actions{display:flex;gap:6px;align-items:center}.request-row-actions .ico-btn{flex:0 0 auto}.request-table .btn-sm{white-space:nowrap;padding:7px 10px}
 .status-pill{display:inline-flex;padding:5px 9px;border-radius:999px;background:#f3f4f6;font-size:11px;font-weight:600}.status-pill.archived{background:#e5e7eb;color:#4b5563}

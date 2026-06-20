@@ -68,14 +68,17 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 
 /* PROFILE CARD */
 @keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.profile-card{position:relative;overflow:hidden;background:#fff;backdrop-filter:none;border-radius:30px;border:1px solid rgba(15,23,42,.08);padding:36px 24px 30px;text-align:center;margin-bottom:24px;box-shadow:0 4px 14px rgba(120,128,140,.05);animation:up .5s ease both}
-.av-wrap{position:relative;width:116px;height:116px;margin:0 auto 18px}
-.av-img{width:116px;height:116px;border-radius:50%;object-fit:cover;border:2px solid #d9dde3;box-shadow:0 0 0 1px rgba(15,23,42,.04),0 6px 16px rgba(120,128,140,.06)}
-.av-ph{width:116px;height:116px;border-radius:50%;background:var(--al);border:2px solid #d9dde3;box-shadow:0 0 0 1px rgba(15,23,42,.04),0 6px 16px rgba(120,128,140,.06);display:flex;align-items:center;justify-content:center}
-.av-ph svg{width:38px;height:38px;fill:var(--ac);opacity:.4}
-.vbadge{position:absolute;bottom:2px;left:2px;width:22px;height:22px;background:var(--ac);border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center}
-.vbadge svg{width:11px;height:11px;fill:#fff}
-.p-name{font-family:var(--fn);font-size:29px;font-weight:var(--fw-b);line-height:1.2;margin-bottom:6px}
+.profile-card{position:relative;overflow:hidden;background:#fff;backdrop-filter:none;border-radius:30px;border:1px solid rgba(15,23,42,.08);padding:34px 26px 30px;text-align:center;margin-bottom:24px;box-shadow:0 10px 30px rgba(120,128,140,.07);animation:up .5s ease both}
+.profile-card::before{content:'';position:absolute;top:0;left:0;right:0;height:108px;background:linear-gradient(135deg,#101014 0%,#23232a 55%,#34343c 100%);z-index:0}
+.profile-card::after{content:'';position:absolute;top:0;left:0;right:0;height:108px;background:radial-gradient(circle at 78% 18%,rgba(255,255,255,.10),transparent 45%);z-index:0}
+.profile-card>*{position:relative;z-index:1}
+.av-wrap{position:relative;width:124px;height:124px;margin:14px auto 18px}
+.av-img{width:124px;height:124px;border-radius:50%;object-fit:cover;border:4px solid #fff;box-shadow:0 0 0 1px rgba(15,23,42,.06),0 10px 24px rgba(15,23,42,.16)}
+.av-ph{width:124px;height:124px;border-radius:50%;background:#f1f1f3;border:4px solid #fff;box-shadow:0 0 0 1px rgba(15,23,42,.06),0 10px 24px rgba(15,23,42,.16);display:flex;align-items:center;justify-content:center}
+.av-ph svg{width:42px;height:42px;fill:var(--ac);opacity:.35}
+.vbadge{position:absolute;bottom:4px;left:6px;width:26px;height:26px;background:var(--ac);border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(15,23,42,.2)}
+.vbadge svg{width:12px;height:12px;fill:#fff}
+.p-name{font-family:var(--fn);font-size:28px;font-weight:var(--fw-b);line-height:1.25;margin-bottom:6px;letter-spacing:-.2px}
 .p-title{font-size:14px;color:var(--am);font-weight:var(--fw-m);letter-spacing:.3px;margin-bottom:10px}
 
 /* MOWTHOOQ BADGE */
@@ -88,7 +91,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
 .visitor-card{display:none;background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:24px;padding:16px 18px;box-shadow:0 4px 14px rgba(120,128,140,.05);margin-bottom:22px;text-align:center;animation:up .5s ease both}
 .visitor-card .vcounter{background:transparent;border:none;padding:0}
-.card-title-lite{font-family:var(--fn);font-size:12px;font-weight:var(--fw-sb);color:var(--tx);margin-bottom:14px;text-align:right}
+.card-title-lite{font-family:var(--fn);font-size:14px;font-weight:var(--fw-b);color:var(--tx);margin-bottom:15px;text-align:right;display:flex;align-items:center;gap:9px}
+.card-title-lite::before{content:'';flex:0 0 auto;width:4px;height:16px;border-radius:4px;background:var(--ac)}
 
 /* SECTION LABEL */
 .sec-lbl{font-size:11px;font-weight:var(--fw-b);letter-spacing:1.2px;text-transform:uppercase;color:var(--lt);margin:28px 0 12px 2px}
@@ -316,8 +320,14 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 .platform-check:has(input:checked) .platform-mark{background:#111;border-color:#111}
 .platform-check:has(input:checked) .platform-mark svg{opacity:1}
 .optional-tag{display:inline-flex;margin-inline-start:6px;padding:2px 7px;border-radius:999px;background:#f4f4f5;border:1px solid var(--bd);color:var(--mt);font-size:10px;font-weight:700}
-.offer-consent{display:flex;align-items:flex-start;gap:9px;margin:4px 0 14px;padding:12px 13px;border:1px solid var(--bd);border-radius:16px;background:#fafafb;color:var(--mt);font-size:12px;line-height:1.7;cursor:pointer}
-.offer-consent input{width:16px;height:16px;margin-top:3px;accent-color:#111;flex-shrink:0}
+.offer-consent{display:flex;align-items:flex-start;gap:10px;margin:4px 0 14px;padding:13px 14px;border:1px solid var(--bd);border-radius:16px;background:#fafafb;color:var(--mt);font-size:12.5px;line-height:1.75;cursor:pointer}
+.offer-consent-box{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
+.offer-consent-check{flex-shrink:0;width:22px;height:22px;margin-top:1px;border-radius:50%;border:2px solid #111;background:#fff;display:grid;place-items:center;transition:background .15s,transform .12s}
+.offer-consent-check svg{width:13px;height:13px;fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;opacity:0;transition:opacity .15s}
+.offer-consent-box:checked + .offer-consent-check{background:#111}
+.offer-consent-box:checked + .offer-consent-check svg{opacity:1}
+.offer-consent-box:focus-visible + .offer-consent-check{box-shadow:0 0 0 3px rgba(17,17,17,.18)}
+.offer-consent-text{flex:1}
 .offer-consent a{color:var(--tx);font-weight:700;text-underline-offset:3px}
 .offer-submit{width:100%;border:none;border-radius:16px;background:#111;color:#fff;padding:14px 16px;font-family:var(--fn);font-size:14px;font-weight:var(--fw-b);cursor:pointer}
 .offer-submit:disabled{opacity:.6;cursor:not-allowed}
@@ -1136,13 +1146,10 @@ function renderOfferRequestForm(offerId=''){
       <label>تفاصيل الطلب <span class="req-star">*</span></label>
       <textarea id="offerNotesInput" placeholder="اكتب تفاصيل الإعلان المطلوبة، الرسالة، المدة، وأي معلومات مهمة للمراجعة."></textarea>
     </div>
-    <label class="offer-consent">
-      <input id="offerPrivacyNoticeInput" type="checkbox">
-      <span>أقر بأنني اطلعت على <a href="privacy.html" target="_blank" rel="noopener">سياسة الخصوصية</a>، وأعلم أن البيانات الإلزامية لازمة لمراجعة الطلب والتواصل بشأنه.</span>
-    </label>
-    <label class="offer-consent">
-      <input id="offerLegalAcknowledgementInput" type="checkbox">
-      <span>أوافق على <a href="terms.html" target="_blank" rel="noopener">الشروط والأحكام</a>، وأقر بأنني ممثل مخول للجهة وبأن المنتج أو الخدمة والتراخيص والمعلومات المقدمة نظامية وصحيحة.</span>
+    <label class="offer-consent" for="offerConsentInput">
+      <input id="offerConsentInput" type="checkbox" class="offer-consent-box">
+      <span class="offer-consent-check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17l9-10"/></svg></span>
+      <span class="offer-consent-text">أوافق على <a href="privacy.html" target="_blank" rel="noopener">سياسة الخصوصية</a> و<a href="terms.html" target="_blank" rel="noopener">الشروط والأحكام</a>، وأقر بصحة المعلومات المقدمة.</span>
     </label>
     <div class="offer-error" id="offerSubmitError"></div>
     <button class="offer-submit" id="offerSubmitBtn" type="button" onclick="submitOfferRequest()">إرسال طلب الإعلان</button>
@@ -1229,9 +1236,10 @@ async function submitOfferRequest(){
   const notes=document.getElementById('offerNotesInput').value.trim();
   if(!name||!phone||!company||!product||!notes){showOfferError('يرجى إكمال جميع الحقول الإلزامية المشار إليها بالنجمة.');return;}
   if(!platforms.length){showOfferError('يرجى اختيار منصة واحدة على الأقل للإعلان.');return;}
-  if(!document.getElementById('offerPrivacyNoticeInput')?.checked){showOfferError('يرجى الإقرار بالاطلاع على سياسة الخصوصية قبل إرسال الطلب.');return;}
-  if(!document.getElementById('offerLegalAcknowledgementInput')?.checked){showOfferError('يرجى الموافقة على الشروط والأحكام والإقرار بصحة المعلومات قبل إرسال الطلب.');return;}
-  const requestNo='AD-'+new Date().getFullYear()+'-'+Date.now().toString(36).toUpperCase();
+  if(!document.getElementById('offerConsentInput')?.checked){showOfferError('يرجى الموافقة على سياسة الخصوصية والشروط والأحكام قبل إرسال الطلب.');return;}
+  // Placeholder only; the canonical AB-<n> number is assigned server-side.
+  const requestNo='AB-'+Date.now().toString(36).toUpperCase();
+  let assignedRequestNo=requestNo;
   const req={
     id:'req_'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),
     requestNo,
@@ -1270,7 +1278,7 @@ async function submitOfferRequest(){
       const {data,error}=await sb.functions.invoke('public-events',{
         body:{type:'collab_request',payload:dbReq}
       });
-      if(!error&&data?.ok)savedRemote=true;
+      if(!error&&data?.ok){savedRemote=true;if(data.requestNo)assignedRequestNo=data.requestNo;}
     }catch(e){}
   }
   if(submitBtn){submitBtn.disabled=false;submitBtn.textContent='إرسال طلب الإعلان';}
@@ -1279,7 +1287,7 @@ async function submitOfferRequest(){
   document.getElementById('offerSuccessStep').innerHTML=`<div class="offer-success">
     <h4>تم استلام طلبك</h4>
     <p>شكرًا لك. ${reviewMsg}</p>
-    <div class="offer-ref">${requestNo}</div>
+    <div class="offer-ref">${assignedRequestNo}</div>
   </div>`;
   showOfferStep('offerSuccessStep');
 }
