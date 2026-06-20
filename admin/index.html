@@ -407,9 +407,27 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 #trBtn{display:none}
 
 /* PERMISSIONS */
-.perm-summary{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
-.perm-pill{padding:7px 10px;border-radius:999px;background:var(--al);color:var(--ac);font-size:11px;font-weight:var(--fw-sb)}
-.perm-grid{display:grid;grid-template-columns:1fr;gap:9px}
+.perm-card-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.perm-card-head-main{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.perm-card-head .card-title{margin:0}
+.perm-card-head #permissionFormTrigger{margin:0}
+.perm-summary{display:flex;flex-wrap:wrap;gap:7px}
+.perm-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:999px;background:var(--al);color:var(--mt);font-size:11px;font-weight:var(--fw-sb)}
+.perm-pill b{color:var(--ac);font-size:13px;font-weight:800}
+.perm-empty{text-align:center;padding:26px 16px;color:var(--lt);font-size:13px;border:1px dashed var(--bd);border-radius:16px;background:#fafafb}
+.perm-item{display:flex;align-items:center;gap:13px;padding:13px 14px;border:1px solid var(--bd);border-radius:16px;background:#fff;transition:box-shadow .2s,border-color .2s}
+.perm-item:hover{border-color:var(--bds);box-shadow:0 6px 18px rgba(15,23,42,.05)}
+.perm-item+.perm-item{margin-top:10px}
+.perm-avatar{flex:0 0 auto;width:42px;height:42px;border-radius:13px;background:#111;color:#fff;display:grid;place-items:center;font-size:17px;font-weight:800}
+.perm-avatar.off{background:#d7d9dd;color:#fff}
+.perm-info{flex:1;min-width:0}
+.perm-name-line{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.perm-name{font-weight:800;font-size:14px;color:var(--tx)}
+.perm-role{font-size:10px;font-weight:700;color:#3a56a8;background:#eef2fb;border-radius:999px;padding:3px 9px}
+.perm-contact{font-size:11.5px;color:var(--mt);margin-top:3px;direction:ltr;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.perm-actions{display:flex;align-items:center;gap:7px;flex-shrink:0}
+.perm-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+@media(max-width:560px){.perm-grid{grid-template-columns:1fr}.perm-card-head{align-items:flex-start}.perm-card-head #permissionFormTrigger{width:100%;justify-content:center}}
 .field label.perm-check{display:flex;align-items:center;gap:12px;padding:13px 15px;margin:0;border:1px solid var(--bd);border-radius:14px;background:#fff;font-size:13px;font-weight:600;color:var(--tx);cursor:pointer;transition:border-color .2s,background .2s}
 .perm-check:hover{border-color:var(--bds);background:#fafafa}
 .field label.perm-check:has(input:checked){border-color:#111;background:#fafafb}
@@ -418,11 +436,10 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 .perm-check input::before{content:'';width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) scale(0);transform-origin:center;transition:transform .15s ease;margin-top:-2px}
 .perm-check input:checked{background:#111;border-color:#111}.perm-check input:checked::before{transform:rotate(45deg) scale(1)}
 .perm-check input:focus-visible{outline:3px solid rgba(17,17,17,.18);outline-offset:2px}
-.perm-list .item-sub{white-space:normal;overflow:visible;text-overflow:clip}
-.perm-list .item-row{align-items:flex-start}
-.perm-list .row-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.perm-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-.perm-badge{padding:4px 8px;border-radius:999px;background:#fff;border:1px solid var(--bd);font-size:10px;color:var(--mt)}
+.perm-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.perm-badge{padding:3px 9px;border-radius:999px;background:#f5f6f7;border:1px solid var(--bd);font-size:10px;font-weight:600;color:var(--mt)}
+.perm-badge.full{background:#111;border-color:#111;color:#fff}
+.perm-badge.more{background:#fff;color:var(--lt)}
 
 /* RESPONSIVE */
 @media(max-width:768px){
@@ -471,7 +488,7 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 .ad-link-cover{aspect-ratio:16/10;background:#f3f4f6;display:grid;place-items:center;overflow:hidden}.ad-link-cover img{width:100%;height:100%;object-fit:cover}.ad-link-cover svg{width:34px;height:34px;fill:#9ca3af}.ad-link-content{padding:14px}.ad-link-content h3{font-size:14px;margin-bottom:5px}.ad-link-meta{font-size:11px;color:var(--mt);line-height:1.7}.ad-link-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 14px;border-top:1px solid var(--bd);background:#fafafa}
 .analytics-extra-grid{display:grid;grid-template-columns:1fr 1.35fr;gap:14px}.recent-activity{width:100%;border-collapse:collapse}.recent-activity th,.recent-activity td{padding:10px;border-bottom:1px solid var(--bd);text-align:right;font-size:11px}.recent-date strong{display:block;font-size:12px}.recent-date span{display:block;color:var(--mt);margin-top:2px}
 .connection-state{display:flex;align-items:center;gap:12px}.connection-icon{width:44px;height:44px;border-radius:15px;background:#eef7ee;color:#276329;display:grid;place-items:center}.connection-icon svg{width:21px;height:21px;fill:currentColor}.connection-copy strong{font-size:14px}.connection-copy span{display:block;color:var(--mt);font-size:11px;margin-top:4px}.request-db-status{padding:14px;border:1px solid #dcebd9;border-radius:16px;background:#fbfdf9}
-#permissionsCard{background:linear-gradient(145deg,#fff,#fafafa)}#permissionsCard .perm-summary{padding:12px;border-radius:14px;background:#f7f7f8;margin-bottom:12px}.perm-row{background:#fff;border-radius:15px;padding:13px}
+#permissionsCard{background:#fff}
 .danger-analytics{display:flex;align-items:center;justify-content:space-between;gap:15px;border-color:#fee2e2;background:linear-gradient(135deg,#fff,#fff8f7)}.danger-analytics-copy strong{display:block;font-size:13px}.danger-analytics-copy span{display:block;font-size:11px;color:var(--mt);margin-top:4px}
 @media(max-width:800px){.analytics-extra-grid{grid-template-columns:1fr}.request-tools{grid-template-columns:1fr}.ad-links-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.ad-links-grid{grid-template-columns:1fr}.notif-actions{flex-direction:column}.notif-actions button{width:100%;justify-content:center}}
@@ -486,7 +503,11 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 .analytics-card{background:#fff;border:1px solid var(--bd);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 8px 26px rgba(24,32,20,.035)}.analytics-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:17px}.analytics-card-head h3{font-size:15px;margin:0 0 4px}.chart-legend{display:flex;flex-wrap:wrap;gap:13px;font-size:10px;color:var(--mt)}.chart-legend span{display:flex;align-items:center;gap:5px}.dot{width:8px;height:8px;border-radius:50%;display:inline-block}.dot.visits{background:#315d28}.dot.clicks{background:#c4973a}.dot.requests{background:#5577c5}.performance-chart{min-height:280px;overflow-x:auto}.performance-chart svg{width:100%;min-width:650px;height:280px;display:block}.chart-grid{stroke:#eceeea;stroke-width:1}.chart-line{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.chart-area{opacity:.07}.chart-label{font:10px Tajawal,sans-serif;fill:#8a8c86}.chart-empty{height:250px;display:grid;place-items:center;color:var(--mt);font-size:12px}
 .analytics-funnel{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:end}.funnel-step{position:relative;border:1px solid var(--bd);background:#fafbf9;border-radius:16px;padding:14px;min-height:102px}.funnel-step:not(:last-child)::after{content:'←';position:absolute;left:-10px;top:39px;z-index:2;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:#fff;border:1px solid var(--bd);color:var(--mt)}.funnel-step strong{display:block;font-size:22px;margin:7px 0 3px}.funnel-step span{font-size:10px;color:var(--mt)}.funnel-bar{height:5px;background:#e7ebe4;border-radius:5px;overflow:hidden}.funnel-bar i{height:100%;display:block;background:#315d28;border-radius:5px}
 .analytics-split{display:grid;grid-template-columns:1fr 1fr;gap:14px}.status-layout{display:grid;grid-template-columns:150px 1fr;align-items:center;gap:20px}.status-donut{width:140px;aspect-ratio:1;border-radius:50%;position:relative;box-shadow:0 6px 18px rgba(24,32,20,.06)}.status-donut::after{content:'';position:absolute;inset:26px;background:#fff;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(15,23,42,.04)}.status-total{position:absolute;inset:0;display:grid;place-content:center;text-align:center;z-index:1;font-weight:800;font-size:23px}.status-total small{display:block;font-size:9px;color:var(--mt);font-weight:600;margin-top:2px}.status-list{display:grid;gap:8px}.status-row{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;padding:9px 12px;border-radius:12px;background:#fafafb;border:1px solid var(--bd)}.status-row-main{display:flex;align-items:center;gap:9px}.status-row strong{font-size:13px;font-weight:800}.status-color{width:10px;height:10px;border-radius:50%;flex:0 0 auto}.social-list{display:grid;gap:10px}.analytics-social-row{display:flex;align-items:center;gap:11px;font-size:12px;padding:11px 13px;border-radius:13px;background:#fafafb;border:1px solid var(--bd)}.social-rank{width:26px;height:26px;flex:0 0 auto;border-radius:9px;background:#111;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:800}.social-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}.social-row-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.social-name{font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.social-track{height:7px;border-radius:7px;background:#eef0ec;overflow:hidden}.social-track i{display:block;height:100%;border-radius:7px;background:linear-gradient(90deg,#111,#4b4b52)}.social-count{font-size:11px;color:var(--mt);font-weight:700;white-space:nowrap}
-.analytics-table-wrap{overflow:auto;border:1px solid var(--bd);border-radius:16px;background:#fff}.analytics-table{width:100%;border-collapse:collapse;min-width:680px}.analytics-table th{padding:11px 13px;background:#f7f8f6;color:var(--mt);font-size:11px;font-weight:700;text-align:right;white-space:nowrap}.analytics-table td{padding:12px 13px;border-bottom:1px solid var(--bd);font-size:12px;vertical-align:middle}.analytics-table tr:last-child td{border-bottom:0}.analytics-table tbody tr:hover{background:#fafafa}.interaction-kind{display:inline-flex;padding:5px 11px;border-radius:999px;font-weight:700;font-size:11px}.interaction-kind.kind-req{background:#eef2fb;color:#3a56a8}.interaction-kind.kind-click{background:#eef5ec;color:#2a5c1f}.interaction-chip{display:inline-flex;padding:4px 10px;border-radius:999px;background:#f1f2f4;color:var(--tx);font-size:11px;font-weight:600}.interaction-status{color:var(--lt)}.rec-date{display:flex;flex-direction:column;gap:2px;line-height:1.5;white-space:nowrap}.rec-date .rec-date-h{font-size:12px;font-weight:800;color:var(--tx)}.rec-date .rec-date-g{font-size:13px;font-weight:600;color:var(--mt)}.rec-time{font-variant-numeric:tabular-nums;font-weight:700;color:var(--tx);white-space:nowrap}.analytics-maintenance{display:flex;align-items:center;justify-content:space-between;gap:18px;border:1px solid rgba(180,35,24,.12);border-radius:22px;background:linear-gradient(135deg,#fff 0%,#fff8f7 100%);padding:18px 20px;margin-top:8px;box-shadow:0 8px 24px rgba(180,35,24,.05)}.maintenance-copy{display:flex;align-items:center;gap:13px}.maintenance-icon{width:42px;height:42px;flex:0 0 42px;border-radius:14px;background:var(--dl);color:var(--dn);display:grid;place-items:center}.maintenance-icon svg{width:19px;height:19px;fill:currentColor}.analytics-maintenance h3{font-size:13px;margin:0 0 4px}.analytics-maintenance p{margin:0;color:var(--mt);font-size:11px;line-height:1.7}.analytics-maintenance .btn-sm{flex-shrink:0;padding:10px 15px}.analytics-loading{height:110px;background:linear-gradient(90deg,#f5f6f4 25%,#eceeea 50%,#f5f6f4 75%);background-size:200% 100%;animation:analyticsPulse 1.2s infinite;border-radius:16px}@keyframes analyticsPulse{to{background-position:-200% 0}}
+.analytics-table-wrap{overflow:auto;border:1px solid var(--bd);border-radius:16px;background:#fff}.analytics-table{width:100%;border-collapse:collapse;min-width:680px}.analytics-table th{padding:11px 13px;background:#f7f8f6;color:var(--mt);font-size:11px;font-weight:700;text-align:right;white-space:nowrap}.analytics-table td{padding:12px 13px;border-bottom:1px solid var(--bd);font-size:12px;vertical-align:middle}.analytics-table tr:last-child td{border-bottom:0}.analytics-table tbody tr:hover{background:#fafafa}.interaction-kind{display:inline-flex;padding:5px 11px;border-radius:999px;font-weight:700;font-size:11px}.interaction-kind.kind-req{background:#eef2fb;color:#3a56a8}.interaction-kind.kind-click{background:#eef5ec;color:#2a5c1f}.interaction-chip{display:inline-flex;padding:4px 10px;border-radius:999px;background:#f1f2f4;color:var(--tx);font-size:11px;font-weight:600}.interaction-status{color:var(--lt)}.rec-date{display:flex;flex-direction:column;gap:2px;line-height:1.5;white-space:nowrap}.rec-date .rec-date-h{font-size:12px;font-weight:800;color:var(--tx)}.rec-date .rec-date-g{font-size:13px;font-weight:600;color:var(--mt)}.rec-time{font-variant-numeric:tabular-nums;font-weight:700;color:var(--tx);white-space:nowrap}
+.analytics-table-wrap.recent-scroll{max-height:430px;overflow:auto}.analytics-table-wrap.recent-scroll thead th{position:sticky;top:0;z-index:2}
+.cum-summary{font-size:12px;color:var(--mt);margin-bottom:12px}.cum-summary b{color:var(--tx);font-weight:800}
+.cum-list{display:flex;flex-direction:column}.cum-row{display:flex;align-items:center;gap:11px;padding:11px 4px;border-bottom:1px solid #f0f1f3}.cum-row:last-child{border-bottom:0}.cum-rank{flex:0 0 auto;width:20px;text-align:center;font-size:11px;font-weight:700;color:var(--lt);font-variant-numeric:tabular-nums}.cum-name{flex:1;min-width:0;font-size:12.5px;font-weight:600;color:var(--tx);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.cum-cat{flex:0 0 auto;font-size:10px;font-weight:600;padding:2px 9px;border-radius:999px;background:#f4f5f6;color:var(--mt)}.cum-count{flex:0 0 auto;font-size:13px;font-weight:800;color:var(--tx);font-variant-numeric:tabular-nums;min-width:40px;text-align:left}
+.analytics-maintenance{display:flex;align-items:center;justify-content:space-between;gap:18px;border:1px solid rgba(180,35,24,.12);border-radius:22px;background:linear-gradient(135deg,#fff 0%,#fff8f7 100%);padding:18px 20px;margin-top:8px;box-shadow:0 8px 24px rgba(180,35,24,.05)}.maintenance-copy{display:flex;align-items:center;gap:13px}.maintenance-icon{width:42px;height:42px;flex:0 0 42px;border-radius:14px;background:var(--dl);color:var(--dn);display:grid;place-items:center}.maintenance-icon svg{width:19px;height:19px;fill:currentColor}.analytics-maintenance h3{font-size:13px;margin:0 0 4px}.analytics-maintenance p{margin:0;color:var(--mt);font-size:11px;line-height:1.7}.analytics-maintenance .btn-sm{flex-shrink:0;padding:10px 15px}.analytics-loading{height:110px;background:linear-gradient(90deg,#f5f6f4 25%,#eceeea 50%,#f5f6f4 75%);background-size:200% 100%;animation:analyticsPulse 1.2s infinite;border-radius:16px}@keyframes analyticsPulse{to{background-position:-200% 0}}
 @media(max-width:900px){.analytics-kpis{grid-template-columns:repeat(2,1fr)}.analytics-funnel{grid-template-columns:repeat(2,1fr)}.analytics-split{grid-template-columns:1fr}}@media(max-width:600px){.analytics-page-head{align-items:stretch;flex-direction:column}.stats-toolbar{width:100%}.stats-toolbar select{flex:1;min-width:0}.analytics-kpis{grid-template-columns:1fr 1fr;gap:8px}.analytics-kpi{padding:13px;min-height:125px}.analytics-kpi-value{font-size:24px}.analytics-funnel{grid-template-columns:1fr}.funnel-step:not(:last-child)::after{display:none}.status-layout{grid-template-columns:1fr;justify-items:center}.status-list{width:100%}.analytics-maintenance{align-items:stretch;flex-direction:column}.analytics-maintenance .btn-sm{justify-content:center}}/* Profile editor aligned with unified add forms */
 .profile-editor-card{padding-bottom:20px}.profile-form-layout{display:grid;grid-template-columns:180px minmax(0,1fr);gap:22px;align-items:start}.profile-image-field>label{display:block;font-size:12px;font-weight:var(--fw-sb);margin-bottom:7px}.profile-image-picker{display:flex;flex-direction:column;align-items:center;gap:12px;padding:16px;border:1px solid var(--bd);border-radius:18px;background:var(--s2);text-align:center}.profile-image-picker .av-circle{width:146px;height:146px;border-radius:24px;background:#fff}.profile-image-copy{display:flex;flex-direction:column;gap:3px}.profile-image-copy strong{font-size:12px}.profile-image-copy span{font-size:10px;color:var(--lt);line-height:1.5}.profile-upload-btn,.profile-upload-btn .file-btn-face{width:100%}.profile-upload-btn .file-btn-face{justify-content:center;border-radius:12px;background:#fff}.profile-form-fields{min-width:0;display:flex;flex-direction:column}.profile-form-fields textarea{min-height:104px}.profile-form-fields .form-btns{margin-top:4px}
 @media(max-width:700px){.profile-form-layout{grid-template-columns:1fr}.profile-image-picker{align-items:center}.profile-image-field{max-width:100%}.profile-image-picker .av-circle{width:140px;height:140px}.profile-form-fields .r2{grid-template-columns:1fr}}
@@ -670,8 +691,12 @@ window.adminQuickLogin=async function(){
           <section class="analytics-card"><div class="analytics-card-head"><div><h3>أفضل حسابات التواصل</h3><p>الأكثر نقرًا خلال الفترة</p></div></div><div id="topSocialVisual"></div></section>
         </div>
         <section class="analytics-card">
-          <div class="analytics-card-head"><div><h3>أحدث التفاعلات</h3><p>آخر النقرات والطلبات بالتاريخ الهجري والميلادي</p></div></div>
-          <div class="analytics-table-wrap"><table class="analytics-table"><thead><tr><th>النوع</th><th>التفاعل</th><th>الحالة</th><th>التاريخ</th><th>الوقت</th></tr></thead><tbody id="recentAnalytics"></tbody></table></div>
+          <div class="analytics-card-head"><div><h3>أحدث التفاعلات</h3><p>الأحدث في الأعلى — مرتبة تنازليًا بالتاريخ الهجري والميلادي</p></div></div>
+          <div class="analytics-table-wrap recent-scroll"><table class="analytics-table"><thead><tr><th>النوع</th><th>التفاعل</th><th>الحالة</th><th>التاريخ</th><th>الوقت</th></tr></thead><tbody id="recentAnalytics"></tbody></table></div>
+        </section>
+        <section class="analytics-card cum-card">
+          <div class="analytics-card-head"><div><h3>إجمالي النقرات التراكمية</h3><p>مجموع النقرات لكل رابط أو مؤلف أو وسيلة تواصل منذ الإطلاق</p></div></div>
+          <div id="cumulativeClicksVisual"></div>
         </section>
         <section class="analytics-maintenance" aria-labelledby="dataManagementTitle">
           <div class="maintenance-copy"><span class="maintenance-icon"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></span><div><h3 id="dataManagementTitle">إجراءات إدارة البيانات</h3><p>حذف سجلات الزيارات والنقرات المجمعة نهائيًا. لا يمكن التراجع عن هذا الإجراء.</p></div></div>
@@ -898,7 +923,7 @@ window.adminQuickLogin=async function(){
       <!-- PERMISSIONS -->
       <div class="panel" id="panel-permissions">
         <h2 class="panel-title">منح الصلاحيات</h2>
-        <p class="panel-sub">امنح المشرفين صلاحيات كاملة أو مخصصة حسب الأقسام، وأدِر حساباتهم من هنا.</p>
+        <p class="panel-sub">امنح المشرفين صلاحيات كاملة أو مخصصة، وأدِر حساباتهم من بطاقة واحدة.</p>
       </div>
 
     </div>
@@ -1734,14 +1759,13 @@ function enhanceAdminUi(){
       permissionsCard.className='card';
       permissionsCard.id='permissionsCard';
       permissionsCard.innerHTML=`
-        <div class="card-hd books-card-hd">
-          <div>
+        <div class="perm-card-head">
+          <div class="perm-card-head-main">
             <div class="card-title">الصلاحيات وإدارة الحساب</div>
-            <div class="card-sub">أضف مشرفًا بصلاحيات كاملة أو خصص له أقسامًا محددة؛ ويمكنه الإشراف والتعديل والحفظ داخلها</div>
+            <div class="perm-summary" id="permSummary"></div>
           </div>
-          <button class="btn-inline-add books-form-trigger" id="permissionFormTrigger" onclick="openForm('permForm')"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg><span>إضافة صلاحية</span></button>
+          <button class="btn-inline-add" id="permissionFormTrigger" onclick="openForm('permForm')"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg><span>إضافة صلاحية</span></button>
         </div>
-        <div class="perm-summary" id="permSummary"></div>
         <div class="perm-list list" id="permissionsList"></div>
         <div class="add-form" id="permForm">
           <div class="add-form-title">إضافة أو تعديل صلاحية</div>
@@ -1749,23 +1773,25 @@ function enhanceAdminUi(){
             <div class="field"><label>الاسم</label><input id="permName" placeholder="اسم الشخص"></div>
             <div class="field"><label>البريد الإلكتروني</label><input id="permContact" type="email" placeholder="name@example.com" dir="ltr" autocomplete="username"></div>
           </div>
-          <div class="field" id="permPasswordField">
-            <label>كلمة المرور</label>
-            <div class="pw-field">
-              <input id="permPassword" type="password" placeholder="كلمة مرور قوية — 12 حرفًا فأكثر" autocomplete="new-password">
-              <button type="button" class="pw-toggle" aria-label="إظهار كلمة المرور" onclick="togglePasswordVisibility('permPassword',this)">${PW_EYE_ICON}</button>
+          <div class="r2">
+            <div class="field" id="permPasswordField">
+              <label>كلمة المرور</label>
+              <div class="pw-field">
+                <input id="permPassword" type="password" placeholder="12 حرفًا فأكثر" autocomplete="new-password">
+                <button type="button" class="pw-toggle" aria-label="إظهار كلمة المرور" onclick="togglePasswordVisibility('permPassword',this)">${PW_EYE_ICON}</button>
+              </div>
+              <span class="fhint">اضغط على العين لعرض الكلمة.</span>
             </div>
-            <span class="fhint">اضغط على أيقونة العين لعرض كلمة المرور. سيتم إنشاء حساب المستخدم وتفعيل صلاحياته مباشرة.</span>
-          </div>
-          <div class="field"><label>نطاق الصلاحية</label>
-            <select id="permRole" onchange="syncPermissionMode()">
-              <option value="admin">صلاحيات كاملة — إدارة جميع الأقسام</option>
-              <option value="editor" selected>صلاحيات مخصصة — حسب الأقسام</option>
-            </select>
-            <span class="fhint">كلا الخيارين يسمحان بالإشراف والتحرير والتعديل والحفظ؛ الاختلاف فقط في نطاق الأقسام.</span>
+            <div class="field"><label>نطاق الصلاحية</label>
+              <select id="permRole" onchange="syncPermissionMode()">
+                <option value="admin">صلاحيات كاملة — كل الأقسام</option>
+                <option value="editor" selected>صلاحيات مخصصة — حسب الأقسام</option>
+              </select>
+              <span class="fhint">كلاهما يتيح الإشراف والتحرير والحفظ.</span>
+            </div>
           </div>
           <div class="field" id="permSectionsField">
-            <label>الأقسام المسموح إدارتها بالكامل</label>
+            <label>الأقسام المسموح إدارتها</label>
             <div class="perm-grid" id="permSections"></div>
           </div>
           <input type="hidden" id="permEditId">
@@ -2276,7 +2302,7 @@ function analyticsIcon(type){
 function renderAnalyticsFallback(){
   const grid=document.getElementById('statsGrid');if(!grid)return;
   grid.innerHTML=Array(3).fill('<div class="analytics-loading"></div>').join('');
-  ['requestStatusVisual','topSocialVisual'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='<div class="analytics-loading"></div>';});
+  ['cumulativeClicksVisual','requestStatusVisual','topSocialVisual'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='<div class="analytics-loading"></div>';});
   const recent=document.getElementById('recentAnalytics');if(recent)recent.innerHTML='<tr><td colspan="5"><div class="analytics-loading"></div></td></tr>';
 }
 function analyticsLinePath(values,width,height,pad,max){return values.map((v,i)=>`${i?'L':'M'} ${pad+i*((width-pad*2)/Math.max(values.length-1,1))} ${height-pad-(v/max)*(height-pad*2)}`).join(' ')}
@@ -2298,6 +2324,12 @@ function renderAnalyticsDashboard(model){
   const entries=Object.entries(model.statuses).filter(([,n])=>n>0),total=entries.reduce((a,[,n])=>a+n,0);let at=0;const stops=entries.map(([k,n])=>{const from=at;at+=n/Math.max(total,1)*100;return `${statusColors[k]||'#999'} ${from}% ${at}%`}).join(',');
   document.getElementById('requestStatusVisual').innerHTML=total?`<div class="status-layout"><div class="status-donut" style="background:conic-gradient(${stops})"><div class="status-total">${nf(total)}<small>طلب</small></div></div><div class="status-list">${entries.map(([k,n])=>`<div class="status-row"><span class="status-row-main"><i class="status-color" style="background:${statusColors[k]||'#999'}"></i><span>${statusLabels[k]||k}</span></span><strong>${nf(n)}</strong></div>`).join('')}</div></div>`:'<div class="chart-empty">لا توجد طلبات في هذه الفترة.</div>';
   const socialMax=Math.max(...model.topSocial.map(x=>x.count),1);document.getElementById('topSocialVisual').innerHTML=model.topSocial.length?`<div class="social-list">${model.topSocial.map((x,i)=>`<div class="analytics-social-row"><span class="social-rank">${nf(i+1)}</span><div class="social-main"><div class="social-row-top"><span class="social-name">${esc(x.name)}</span><span class="social-count">${nf(x.count)} نقرة</span></div><div class="social-track"><i style="width:${x.count/socialMax*100}%"></i></div></div></div>`).join('')}</div>`:'<div class="chart-empty">لا توجد نقرات على حسابات التواصل في هذه الفترة.</div>';
+  const cumEl=document.getElementById('cumulativeClicksVisual');
+  if(cumEl){
+    const catLabels={social:'وسيلة تواصل',book:'مؤلف',ad:'رابط إعلان/دعم',request:'باقة إعلان',other:'أخرى'};
+    const lt=model.linkTotals||[];
+    cumEl.innerHTML=lt.length?`<div class="cum-summary">الإجمالي التراكمي <b>${nf(model.cumulativeTotal)}</b> نقرة على ${nf(lt.length)} رابطًا</div><div class="cum-list">${lt.map((x,i)=>`<div class="cum-row"><span class="cum-rank">${nf(i+1)}</span><span class="cum-name">${esc(x.name)}</span><span class="cum-cat cat-${x.category}">${catLabels[x.category]||catLabels.other}</span><span class="cum-count">${nf(x.count)}</span></div>`).join('')}</div>`:'<div class="chart-empty">لا توجد نقرات مسجلة بعد على أي رابط.</div>';
+  }
   const recent=document.getElementById('recentAnalytics');recent.innerHTML=model.recent.length?model.recent.map(x=>`<tr>
       <td><span class="interaction-kind ${x.kind==='طلب'?'kind-req':'kind-click'}">${x.kind}</span></td>
       <td><strong>${esc(x.title)}</strong></td>
@@ -3396,7 +3428,8 @@ async function renderAnalytics(){
   const rv=document.getElementById('aRange');if(!rv)return;renderAnalyticsFallback();
   const selected=rv.value,days=selected==='all'?null:parseInt(selected,10),fetchDays=days?days*2:null,now=Date.now(),currentStart=days?now-days*86400000:0,previousStart=days?now-days*2*86400000:0;
   let clicks=[],dailyVisits=[],requests=[],visitorTotal=0;
-  try{clicks=await fetchAnalyticsClicks(fetchDays);}catch(e){clicks=JSON.parse(localStorage.getItem('click_analytics')||'[]');}
+  // Fetch all-time clicks so cumulative totals are accurate; period subsets are derived below.
+  try{clicks=await fetchAnalyticsClicks(null);}catch(e){clicks=JSON.parse(localStorage.getItem('click_analytics')||'[]');}
   try{let q=sb.from('daily_visits').select('visit_date,visits').order('visit_date',{ascending:true});if(fetchDays)q=q.gte('visit_date',analyticsDateKey(previousStart));const {data,error}=await q;if(error)throw error;dailyVisits=data||[];}catch(e){dailyVisits=[];}
   try{const {data,error}=await sb.from('collab_requests').select('id,status,archived,created_at,request_no,name,plan_title').order('created_at',{ascending:false});if(error)throw error;requests=data||[];}catch(e){requests=D.collab?.requests||[];}
   try{const {data}=await sb.from('visitors').select('count').eq('id','counter').single();visitorTotal=Number(data?.count||0);localStorage.setItem('visitor_count_last_known',String(visitorTotal));}catch(e){visitorTotal=parseInt(localStorage.getItem('visitor_count_last_known')||'0',10)||0;}
@@ -3415,55 +3448,92 @@ async function renderAnalytics(){
   const contacted=currentRequests.filter(r=>['contacted','approved'].includes(normalizedStatus(r))).length,approved=currentRequests.filter(r=>normalizedStatus(r)==='approved').length;
   const names=getNames(),socialIds=new Set((D.social||[]).map(x=>x.id)),counts={};currentClicks.forEach(c=>{const id=c.link_id||c.id;if(socialIds.has(id))counts[id]=(counts[id]||0)+1;});
   const topSocial=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([id,count])=>({name:names[id]||id,count}));
+  // Cumulative (all-time) clicks per tracked link / author / social account.
+  const linkCategoryOf=id=>(D.social||[]).some(s=>s.id===id)?'social':/_link_\d+$/.test(id)?'book':(D.adLinks||[]).some(p=>p.id===id)?'ad':/^advert_/.test(id)?'request':'other';
+  const cumCounts={};clicks.forEach(c=>{const id=c.link_id||c.id;if(id)cumCounts[id]=(cumCounts[id]||0)+1;});
+  const linkTotals=Object.entries(cumCounts).map(([id,count])=>({id,name:names[id]||'رابط محذوف',count,category:names[id]?linkCategoryOf(id):'other'})).sort((a,b)=>b.count-a.count);
+  const cumulativeTotal=linkTotals.reduce((a,x)=>a+x.count,0);
   const statusLabels={new:'جديد',review:'قيد المراجعة',contacted:'تم التواصل',approved:'تمت الموافقة',rejected:'مرفوض',archived:'مؤرشف'};
-  const recent=[...currentClicks.map(c=>({kind:'نقرة',title:names[c.link_id||c.id]||c.link_id||'رابط',status:c.device==='mobile'?'جوال':c.device==='desktop'?'حاسوب':'—',date:c.ts||c.created_at})),...currentRequests.map(r=>({kind:'طلب',title:r.plan_title||r.name||r.request_no||'طلب إعلان',status:statusLabels[normalizedStatus(r)],date:r.created_at||r.createdAt}))].filter(x=>x.date).sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,8);
-  renderAnalyticsDashboard({current:{visits:currentVisits,clicks:currentClicks.length,requests:currentRequests.length,conversion:currentConversion},previous:days?{visits:previousVisits,clicks:previousClicks.length,requests:previousRequests.length,conversion:previousConversion}:null,series,statuses,contacted,approved,topSocial,recent});
+  const recent=[...currentClicks.map(c=>({kind:'نقرة',title:names[c.link_id||c.id]||c.link_id||'رابط',status:c.device==='mobile'?'جوال':c.device==='desktop'?'حاسوب':'—',date:c.ts||c.created_at})),...currentRequests.map(r=>({kind:'طلب',title:r.plan_title||r.name||r.request_no||'طلب إعلان',status:statusLabels[normalizedStatus(r)],date:r.created_at||r.createdAt}))].filter(x=>x.date).sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,60);
+  renderAnalyticsDashboard({current:{visits:currentVisits,clicks:currentClicks.length,requests:currentRequests.length,conversion:currentConversion},previous:days?{visits:previousVisits,clicks:previousClicks.length,requests:previousRequests.length,conversion:previousConversion}:null,series,statuses,contacted,approved,topSocial,linkTotals,cumulativeTotal,recent});
 }
-// EXPORT PDF
+// EXPORT PDF — professional, company-ready performance report
 async function exportPDF(){
   const rv=document.getElementById('aRange').value;const days=rv==='all'?null:parseInt(rv);
-  let clicks=[];
-  try{clicks=await fetchAnalyticsClicks(days);}catch(e){}
-  let visitors=0;try{const{data:v}=await sb.from('visitors').select('count').eq('id','counter').single();visitors=v?.count||0;}catch(e){}
-  const names=getNames();const byLink={};clicks.forEach(c=>{const id=c.link_id||c.id;byLink[id]=(byLink[id]||0)+1;});
-  const sorted=Object.entries(byLink).sort((a,b)=>b[1]-a[1]);const total=clicks.length||1;
-  const byC={};clicks.forEach(c=>{if(c.country)byC[c.country]=(byC[c.country]||0)+1;});
-  const topC=Object.entries(byC).sort((a,b)=>b[1]-a[1]).slice(0,5);
-  const now=new Date().toLocaleDateString('ar-SA',{year:'numeric',month:'long',day:'numeric'});
-  const pName=D.nameAr||'المؤثر';
+  toast('جاري تجهيز التقرير...');
+  let allClicks=[];
+  try{allClicks=await fetchAnalyticsClicks(null);}catch(e){allClicks=[];}
+  let visitors=0;try{const{data:v}=await sb.from('visitors').select('count').eq('id','counter').single();visitors=Number(v?.count||0);}catch(e){}
+  let requestsTotal=0;try{const{count}=await sb.from('collab_requests').select('id',{count:'exact',head:true});requestsTotal=Number(count||0);}catch(e){requestsTotal=(D.collab?.requests||[]).length;}
+  const now=Date.now();
+  const periodStart=days?now-days*86400000:0;
+  const timeOf=c=>new Date(c.ts||c.created_at||0).getTime();
+  const periodClicks=days?allClicks.filter(c=>timeOf(c)>=periodStart):allClicks;
+  const names=getNames();
+  const catLabels={social:'وسيلة تواصل',book:'مؤلف',ad:'رابط إعلان/دعم',request:'باقة إعلان',other:'أخرى'};
+  const catOf=id=>(D.social||[]).some(s=>s.id===id)?'social':/_link_\d+$/.test(id)?'book':(D.adLinks||[]).some(p=>p.id===id)?'ad':/^advert_/.test(id)?'request':'other';
+  const cum={};allClicks.forEach(c=>{const id=c.link_id||c.id;if(id)cum[id]=(cum[id]||0)+1;});
+  const per={};periodClicks.forEach(c=>{const id=c.link_id||c.id;if(id)per[id]=(per[id]||0)+1;});
+  const rows=Object.entries(cum).map(([id,total])=>({id,name:names[id]||'رابط محذوف',cat:names[id]?catOf(id):'other',total,period:per[id]||0})).sort((a,b)=>b.total-a.total);
+  const cumTotal=rows.reduce((a,r)=>a+r.total,0)||0;
+  const fmt=n=>Number(n||0).toLocaleString('ar-SA');
+  const pct=n=>cumTotal?Math.round(n/cumTotal*100):0;
+  const pName=D.nameAr||'المؤثر';const pTitle=D.titleAr||'';
+  const genG=requestGregorianDate(now),genH=requestHijriDate(now),genT=requestTimeLabel(now);
+  const periodLabel=rv==='all'?'كل الوقت':rv==='7'?'آخر 7 أيام':rv==='30'?'آخر 30 يومًا':'آخر 3 أشهر';
+  const refNo='IH-RPT-'+new Date().toISOString().slice(0,10).replace(/-/g,'');
+  const e=v=>String(v??'').replace(/[&<>]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[ch]));
   const w=window.open('','_blank');
-  let h=`<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>تقرير</title><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Tajawal,sans-serif;background:#fff;color:#1a1a18;direction:rtl;padding:40px}.hdr{display:flex;justify-content:space-between;padding-bottom:18px;border-bottom:2px solid #2A5C1F;margin-bottom:22px}.hdr h1{font-size:20px;font-weight:700;color:#2A5C1F}.hdr p{font-size:12px;color:#6B6860;margin-top:3px}.meta{text-align:left;font-size:11px;color:#6B6860}.meta strong{display:block;font-size:13px;color:#1a1a18;margin-bottom:2px}.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:20px}.s{background:#F7F5F0;border-radius:9px;padding:13px;text-align:center}.sv{font-size:24px;font-weight:700;color:#2A5C1F}.sl{font-size:10px;color:#6B6860;margin-top:2px}h2{font-size:13px;font-weight:700;margin:18px 0 9px;border-right:3px solid #C4973A;padding-right:7px}table{width:100%;border-collapse:collapse;font-size:12px}th{text-align:right;padding:7px 9px;background:#F7F5F0;font-weight:600;font-size:10px;color:#6B6860}td{padding:7px 9px;border-bottom:1px solid #e8e6e0}.ft{margin-top:28px;padding-top:12px;border-top:1px solid #e8e6e0;text-align:center;font-size:10px;color:#A09C96}@media print{body{padding:20px}}/* 2026 dashboard refinement */
-.notif-panel{width:min(430px,calc(100vw - 28px));padding:0;overflow:hidden;border-radius:24px;box-shadow:0 28px 70px rgba(15,23,42,.18)}
-.notif-head{padding:18px 18px 14px;margin:0;background:linear-gradient(135deg,#fafafa,#f3f4f6)}
-.notif-close{width:32px;height:32px;border:1px solid #d1d5db;border-radius:50%;background:#fff;color:#4b5563;font-size:22px;line-height:1;display:grid;place-items:center;cursor:pointer}
-.notif-list{padding:12px 14px;max-height:360px}.notif-item{position:relative;padding:14px 16px 14px 14px;background:#fff;border-radius:16px;box-shadow:0 5px 18px rgba(15,23,42,.05)}
-.notif-item::before{content:'';position:absolute;right:0;top:14px;bottom:14px;width:3px;border-radius:3px;background:#111}
-.notif-actions{padding:12px 14px 14px;margin:0;border-top:1px solid var(--bd);background:#fafafa}.notif-actions button{display:inline-flex;align-items:center;gap:6px}
-.preview-top .btn-sm{padding:9px 13px;border-radius:13px}.preview-top .btn-sm svg{width:16px;height:16px}
-.request-table-wrap{overflow-x:auto;border:1px solid var(--bd);border-radius:18px;background:#fff}.request-table{width:100%;border-collapse:collapse;min-width:1060px}
-.request-table th{padding:11px 12px;text-align:right;font-size:11px;color:var(--mt);background:#f7f7f8;border-bottom:1px solid var(--bd);white-space:nowrap}
-.request-table td{padding:12px;border-bottom:1px solid var(--bd);font-size:12px;vertical-align:middle;white-space:nowrap}.request-table tr:last-child td{border-bottom:0}.request-table tbody tr:hover{background:#fafafa}
-.request-seq{width:30px;height:30px;border-radius:10px;background:#111;color:#fff;display:grid;place-items:center;font-weight:700}.request-primary{font-weight:700;font-size:13px}.request-secondary{color:var(--mt);margin-top:3px}.request-status-select{padding:8px 9px;border:1px solid var(--bds);border-radius:11px;background:#fff;font-family:var(--fn);font-size:12px}
-.request-row-actions{display:flex;gap:6px;align-items:center}.request-row-actions .ico-btn{flex:0 0 auto}.request-table .btn-sm{white-space:nowrap;padding:7px 10px}
-.status-pill{display:inline-flex;padding:5px 9px;border-radius:999px;background:#f3f4f6;font-size:11px;font-weight:600}.status-pill.archived{background:#e5e7eb;color:#4b5563}
-.ad-links-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}.ad-link-card{border:1px solid var(--bd);border-radius:18px;background:#fff;overflow:hidden;box-shadow:0 5px 18px rgba(15,23,42,.05)}
-.ad-link-cover{aspect-ratio:16/10;background:#f3f4f6;display:grid;place-items:center;overflow:hidden}.ad-link-cover img{width:100%;height:100%;object-fit:cover}.ad-link-cover svg{width:34px;height:34px;fill:#9ca3af}.ad-link-content{padding:14px}.ad-link-content h3{font-size:14px;margin-bottom:5px}.ad-link-meta{font-size:11px;color:var(--mt);line-height:1.7}.ad-link-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 14px;border-top:1px solid var(--bd);background:#fafafa}
-.analytics-extra-grid{display:grid;grid-template-columns:1fr 1.35fr;gap:14px}.recent-activity{width:100%;border-collapse:collapse}.recent-activity th,.recent-activity td{padding:10px;border-bottom:1px solid var(--bd);text-align:right;font-size:11px}.recent-date strong{display:block;font-size:12px}.recent-date span{display:block;color:var(--mt);margin-top:2px}
-.connection-state{display:flex;align-items:center;gap:12px}.connection-icon{width:44px;height:44px;border-radius:15px;background:#eef7ee;color:#276329;display:grid;place-items:center}.connection-icon svg{width:21px;height:21px;fill:currentColor}.connection-copy strong{font-size:14px}.connection-copy span{display:block;color:var(--mt);font-size:11px;margin-top:4px}.request-db-status{padding:14px;border:1px solid #dcebd9;border-radius:16px;background:#fbfdf9}
-#permissionsCard{background:linear-gradient(145deg,#fff,#fafafa)}#permissionsCard .perm-summary{padding:12px;border-radius:14px;background:#f7f7f8;margin-bottom:12px}.perm-row{background:#fff;border-radius:15px;padding:13px}
-.danger-analytics{display:flex;align-items:center;justify-content:space-between;gap:15px;border-color:#fee2e2;background:linear-gradient(135deg,#fff,#fff8f7)}.danger-analytics-copy strong{display:block;font-size:13px}.danger-analytics-copy span{display:block;font-size:11px;color:var(--mt);margin-top:4px}
-@media(max-width:800px){.analytics-extra-grid{grid-template-columns:1fr}.request-tools{grid-template-columns:1fr}.ad-links-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:520px){.ad-links-grid{grid-template-columns:1fr}.notif-actions{flex-direction:column}.notif-actions button{width:100%;justify-content:center}}
-</style></head><body>`;
-  h+=`<div class="hdr"><div><h1>${pName}</h1><p>${D.titleAr||''}</p></div><div class="meta"><strong>تقرير الأداء</strong>${rv==='all'?'كل الوقت':rv==='7'?'آخر 7 أيام':rv==='30'?'آخر 30 يوماً':'آخر 3 أشهر'} · ${now}</div></div>`;
-  h+=`<div class="sg"><div class="s"><div class="sv">${visitors.toLocaleString('ar-SA')}</div><div class="sl">الزيارات</div></div><div class="s"><div class="sv">${clicks.length}</div><div class="sl">النقرات</div></div><div class="s"><div class="sv">${Object.keys(byLink).length}</div><div class="sl">روابط</div></div><div class="s"><div class="sv" style="color:#C4973A">${sorted[0]?Math.round(sorted[0][1]/total*100)+'%':'—'}</div><div class="sl">أعلى تفاعل</div></div></div>`;
-  h+='<h2>ترتيب الروابط</h2><table><thead><tr><th>#</th><th>الرابط</th><th>النقرات</th><th>النسبة</th></tr></thead><tbody>';
-  sorted.forEach(([id,cnt],i)=>{h+=`<tr><td style="font-weight:700;color:${i===0?'#C4973A':'#2A5C1F'}">${i+1}</td><td>${names[id]||id}</td><td style="font-weight:700">${cnt}</td><td>${Math.round(cnt/total*100)}%</td></tr>`;});
-  if(!sorted.length)h+='<tr><td colspan="4" style="text-align:center;color:#A09C96;padding:14px">لا توجد بيانات</td></tr>';
+  let h=`<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>تقرير الأداء — ${e(pName)}</title><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet"><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Tajawal,sans-serif;color:#15161a;direction:rtl;background:#fff;line-height:1.6;font-size:12px}
+.page{max-width:820px;margin:0 auto;padding:38px 40px 60px}
+.cover{background:#fff;color:#15161a;border:1px solid #e7e7ea;border-top:3px solid #111;border-radius:18px;padding:26px 30px;display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+.cover .who h1{font-size:23px;font-weight:800;letter-spacing:-.3px}
+.cover .who p{font-size:13px;color:#73757d;margin-top:4px}
+.cover .doc{text-align:left;font-size:11px;color:#73757d}
+.cover .doc .rep{display:inline-block;background:#f4f5f7;border:1px solid #e7e7ea;border-radius:999px;padding:6px 13px;font-size:12px;font-weight:700;color:#15161a;margin-bottom:10px}
+.cover .doc .line{margin-top:3px}
+.cover .doc b{color:#15161a}
+.intro{margin:22px 0 6px;color:#54565e;font-size:12.5px;line-height:1.9;background:#fafafb;border:1px solid #ececef;border-radius:14px;padding:14px 16px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0 6px}
+.kpi{border:1px solid #e7e7ea;border-radius:16px;padding:16px 14px;text-align:center;background:#fff}
+.kpi .v{font-size:26px;font-weight:800;color:#111;line-height:1.1}
+.kpi .l{font-size:10.5px;color:#6b6d75;margin-top:6px;font-weight:600}
+h2{font-size:14px;font-weight:800;margin:30px 0 4px;display:flex;align-items:center;gap:9px}
+h2::before{content:'';width:5px;height:17px;border-radius:4px;background:#111}
+.sub{color:#73757d;font-size:11px;margin:0 0 12px;padding-inline-start:14px}
+table{width:100%;border-collapse:collapse;font-size:12px;border:1px solid #eaeaed;border-radius:12px;overflow:hidden}
+thead th{text-align:right;padding:10px 12px;background:#f5f5f7;font-weight:700;font-size:11px;color:#5c5e66;white-space:nowrap}
+tbody td{padding:10px 12px;border-top:1px solid #eef0f2;vertical-align:middle}
+tbody tr:nth-child(even){background:#fbfbfc}
+.rank{font-weight:800;color:#111;width:30px}
+.chip{display:inline-block;font-size:10px;font-weight:700;padding:3px 9px;border-radius:999px;background:#f1f2f4;color:#6b6d75}
+.num{font-weight:800;font-variant-numeric:tabular-nums}.muted{color:#8a8c93}
+.note{margin-top:26px;border:1px solid #e7e7ea;border-radius:14px;padding:14px 16px;font-size:11px;color:#6b6d75;line-height:1.9;background:#fafafb}
+.ft{margin-top:22px;padding-top:14px;border-top:1px solid #ececef;display:flex;justify-content:space-between;font-size:10.5px;color:#9a9ca3}
+@media print{body{font-size:11px}.page{padding:0}h2{break-after:avoid}table,tr,.kpi,.cover{break-inside:avoid}@page{margin:14mm}}
+</style></head><body><div class="page">
+  <div class="cover">
+    <div class="who"><h1>${e(pName)}</h1><p>${e(pTitle)}</p></div>
+    <div class="doc"><span class="rep">تقرير أداء وتفاعل</span><div class="line">الفترة: <b>${e(periodLabel)}</b></div><div class="line">${e(genH)}</div><div class="line">${e(genG)} — ${e(genT)}</div><div class="line">المرجع: <b>${e(refNo)}</b></div></div>
+  </div>
+  <div class="intro">يوضّح هذا التقرير حجم التفاعل والوصول عبر منصّات ${e(pName)} الرقمية، ويُعدّ مؤشرًا موثوقًا لقياس أثر الإعلان والوصول الفعلي للجمهور. الأرقام مستخرجة مباشرة من نظام التتبّع الرسمي للمنصة وبتوقيت المملكة العربية السعودية.</div>
+  <div class="kpis">
+    <div class="kpi"><div class="v">${fmt(visitors)}</div><div class="l">إجمالي الزيارات</div></div>
+    <div class="kpi"><div class="v">${fmt(cumTotal)}</div><div class="l">إجمالي النقرات التراكمية</div></div>
+    <div class="kpi"><div class="v">${fmt(rows.length)}</div><div class="l">روابط مُتتبَّعة</div></div>
+    <div class="kpi"><div class="v">${fmt(requestsTotal)}</div><div class="l">طلبات الإعلان</div></div>
+  </div>`;
+  h+=`<h2>إجمالي النقرات التراكمية لكل رابط</h2><div class="sub">مجموع النقرات منذ إطلاق المنصة، مرتبة من الأعلى تفاعلًا.</div>`;
+  h+=`<table><thead><tr><th>#</th><th>الرابط / الحساب</th><th>التصنيف</th><th>النقرات التراكمية</th><th>الحصة</th><th>خلال ${e(periodLabel)}</th></tr></thead><tbody>`;
+  if(rows.length)rows.forEach((r,i)=>{h+=`<tr><td class="rank">${fmt(i+1)}</td><td>${e(r.name)}</td><td><span class="chip">${catLabels[r.cat]||catLabels.other}</span></td><td class="num">${fmt(r.total)}</td><td class="muted">${pct(r.total)}%</td><td class="num">${fmt(r.period)}</td></tr>`;});
+  else h+='<tr><td colspan="6" style="text-align:center;color:#9a9ca3;padding:18px">لا توجد نقرات مسجّلة بعد.</td></tr>';
   h+='</tbody></table>';
-  if(topC.length){h+='<h2>توزيع البلدان</h2><table><thead><tr><th>#</th><th>البلد</th><th>النقرات</th><th>النسبة</th></tr></thead><tbody>';topC.forEach(([c,cnt],i)=>{h+=`<tr><td>${i+1}</td><td>${c}</td><td>${cnt}</td><td>${Math.round(cnt/total*100)}%</td></tr>`;});h+='</tbody></table>';}
-  h+=`<div class="ft">تقرير صادر من المنصة الشخصية لـ ${pName} · ${now}</div><scr`+`ipt>window.onload=()=>window.print()<\/scr`+`ipt></body></html>`;
-  w.document.write(h);w.document.close();toast('جاري فتح التقرير...');
+  h+=`<div class="note"><b>ملاحظة منهجية:</b> تُحتسب النقرة عند تفاعل زائر فعلي مع أحد روابط المنصة، وتُجمَّع الزيارات يوميًا بتوقيت السعودية. تُحدَّث هذه الأرقام لحظيًا ويمكن التحقق منها من لوحة التحكم الرسمية. هذا التقرير وثيقة قياس أداء معتمدة يمكن الاستناد إليها عند تقييم الفرص الإعلانية.</div>`;
+  h+=`<div class="ft"><span>تقرير صادر رسميًا عن منصة ${e(pName)}</span><span>${e(refNo)} · ${e(genG)}</span></div>`;
+  h+=`</div><scr`+`ipt>window.onload=()=>setTimeout(()=>window.print(),350)<\/scr`+`ipt></body></html>`;
+  w.document.write(h);w.document.close();toast('تم فتح التقرير للطباعة أو الحفظ كـ PDF');
 }
 
 // SETTINGS
@@ -3539,27 +3609,31 @@ function renderPermissions(){
   const summary=document.getElementById('permSummary');
   if(!list||!summary)return;
   const perms=Array.isArray(D.permissions)?D.permissions:[];
-  summary.innerHTML='';
-  summary.appendChild(Object.assign(document.createElement('div'),{className:'perm-pill',textContent:`${perms.filter(p=>p.active!==false).length} صلاحية مفعلة`}));
-  summary.appendChild(Object.assign(document.createElement('div'),{className:'perm-pill',textContent:`${perms.length} شخص مخول`}));
+  const active=perms.filter(p=>p.active!==false).length;
+  summary.innerHTML=`<span class="perm-pill"><b>${active}</b> مفعّلة</span><span class="perm-pill"><b>${perms.length}</b> مخوّل</span>`;
   list.innerHTML='';
   if(!perms.length){
-    list.innerHTML='<div style="text-align:center;padding:18px;color:var(--lt);font-size:13px">لم تُضف أي صلاحية بعد</div>';
+    list.innerHTML='<div class="perm-empty">لم تُضف أي صلاحية بعد. ابدأ بزر «إضافة صلاحية».</div>';
     return;
   }
   const roleLabels={admin:'صلاحيات كاملة',editor:'صلاحيات مخصصة',analyst:'صلاحيات مخصصة',support:'صلاحيات مخصصة'};
   perms.forEach(p=>{
     const row=document.createElement('div');
-    row.className='item-row perm-row';
-    const badges=(p.sections||[]).map(id=>id==='partners'?'adlinks':id).map(id=>PERMISSION_SECTIONS.find(s=>s.id===id)?.label).filter(Boolean).slice(0,4);
+    row.className='perm-item';
+    const isActive=p.active!==false;
+    const initial=(p.name||'؟').trim().charAt(0)||'؟';
+    const badges=(p.sections||[]).map(id=>id==='partners'?'adlinks':id).map(id=>PERMISSION_SECTIONS.find(s=>s.id===id)?.label).filter(Boolean);
+    const isFull=p.role==='admin';
+    const scope=isFull?'<span class="perm-badge full">كل الأقسام</span>':(badges.length?badges.slice(0,4).map(b=>`<span class="perm-badge">${b}</span>`).join('')+(badges.length>4?`<span class="perm-badge more">+${badges.length-4}</span>`:''):'<span class="perm-badge">بدون أقسام</span>');
     row.innerHTML=`
-      <div class="item-icon" style="background:var(--gl)"><svg viewBox="0 0 24 24" style="fill:var(--gd)"><path d="M12 2a5 5 0 00-5 5v2H6a2 2 0 00-2 2v9a2 2 0 002 2h12a2 2 0 002-2v-9a2 2 0 00-2-2h-1V7a5 5 0 00-5-5zm-3 7V7a3 3 0 016 0v2H9z"/></svg></div>
-      <div class="item-body">
-        <div class="item-name">${p.name||'بدون اسم'} <span style="font-size:11px;color:var(--mt)">• ${roleLabels[p.role]||roleLabels.editor}</span></div>
-        <div class="item-sub">${p.contact||'لا توجد وسيلة تواصل'}${badges.length?`<div class="perm-badges">${badges.map(b=>`<span class="perm-badge">${b}</span>`).join('')}</div>`:''}</div>
+      <div class="perm-avatar${isActive?'':' off'}">${escHtml(initial)}</div>
+      <div class="perm-info">
+        <div class="perm-name-line"><span class="perm-name">${escHtml(p.name||'بدون اسم')}</span><span class="perm-role">${roleLabels[p.role]||roleLabels.editor}</span></div>
+        <div class="perm-contact">${escHtml(p.contact||'لا توجد وسيلة تواصل')}</div>
+        <div class="perm-badges">${scope}</div>
       </div>
-      <div class="row-actions">
-        <label class="toggle"><input type="checkbox" ${p.active!==false?'checked':''} onchange="togglePermission('${p.id}',this.checked)"><div class="track"></div></label>
+      <div class="perm-actions">
+        <label class="toggle"><input type="checkbox" ${isActive?'checked':''} onchange="togglePermission('${p.id}',this.checked)"><div class="track"></div></label>
         <button class="ico-btn" onclick="editPermission('${p.id}')" title="تعديل"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm17.71-10.04a1.003 1.003 0 000-1.42l-2.5-2.5a1.003 1.003 0 00-1.42 0L14.96 5.12l3.75 3.75 1.99-1.66z"/></svg></button>
         <button class="ico-btn" onclick="deletePermission('${p.id}')" title="حذف"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
       </div>`;
