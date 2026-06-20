@@ -68,13 +68,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 
 /* PROFILE CARD */
 @keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.profile-card{position:relative;overflow:hidden;background:#fff;backdrop-filter:none;border-radius:30px;border:1px solid rgba(15,23,42,.08);padding:34px 26px 30px;text-align:center;margin-bottom:24px;box-shadow:0 10px 30px rgba(120,128,140,.07);animation:up .5s ease both}
-.profile-card::before{content:'';position:absolute;top:0;left:0;right:0;height:108px;background:linear-gradient(135deg,#101014 0%,#23232a 55%,#34343c 100%);z-index:0}
-.profile-card::after{content:'';position:absolute;top:0;left:0;right:0;height:108px;background:radial-gradient(circle at 78% 18%,rgba(255,255,255,.10),transparent 45%);z-index:0}
-.profile-card>*{position:relative;z-index:1}
-.av-wrap{position:relative;width:124px;height:124px;margin:14px auto 18px}
-.av-img{width:124px;height:124px;border-radius:50%;object-fit:cover;border:4px solid #fff;box-shadow:0 0 0 1px rgba(15,23,42,.06),0 10px 24px rgba(15,23,42,.16)}
-.av-ph{width:124px;height:124px;border-radius:50%;background:#f1f1f3;border:4px solid #fff;box-shadow:0 0 0 1px rgba(15,23,42,.06),0 10px 24px rgba(15,23,42,.16);display:flex;align-items:center;justify-content:center}
+.profile-card{position:relative;overflow:hidden;background:#fff;backdrop-filter:none;border-radius:30px;border:1px solid rgba(15,23,42,.08);padding:34px 26px 28px;text-align:center;margin-bottom:24px;box-shadow:0 10px 30px rgba(120,128,140,.07);animation:up .5s ease both}
+.av-wrap{position:relative;width:124px;height:124px;margin:0 auto 18px}
+.av-img{width:124px;height:124px;border-radius:50%;object-fit:cover;border:4px solid #fff;box-shadow:0 0 0 1px rgba(15,23,42,.06),0 10px 24px rgba(15,23,42,.12)}
+.av-ph{width:124px;height:124px;border-radius:50%;background:#f1f1f3;border:4px solid #fff;box-shadow:0 0 0 1px rgba(15,23,42,.06),0 10px 24px rgba(15,23,42,.12);display:flex;align-items:center;justify-content:center}
 .av-ph svg{width:42px;height:42px;fill:var(--ac);opacity:.35}
 .vbadge{position:absolute;bottom:4px;left:6px;width:26px;height:26px;background:var(--ac);border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(15,23,42,.2)}
 .vbadge svg{width:12px;height:12px;fill:#fff}
@@ -82,7 +79,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 .p-title{font-size:14px;color:var(--am);font-weight:var(--fw-m);letter-spacing:.3px;margin-bottom:10px}
 
 /* MOWTHOOQ BADGE */
-.mw-badge{display:inline-flex;align-items:center;gap:7px;background:#f4f4f5;border:1px solid rgba(17,17,17,.08);border-radius:22px;padding:6px 14px;font-size:13px;color:var(--tx);font-weight:var(--fw-sb);margin-bottom:14px}
+.mw-badge{display:inline-flex;align-items:center;gap:7px;background:#f4f4f5;border:1px solid rgba(17,17,17,.08);border-radius:22px;padding:6px 14px;font-size:13px;color:var(--tx);font-weight:var(--fw-sb);margin:6px auto 0}
 .mw-badge svg{width:15px;height:15px;fill:var(--tx)}
 
 .p-bio{font-size:15px;color:var(--mt);line-height:1.85;max-width:390px;margin:0 auto 18px;font-weight:var(--fw-r)}
@@ -478,12 +475,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
       </div>
       <h1 class="p-name" id="pName">إبراهيم بن عبدالله الحربي</h1>
       <div class="p-title" id="pTitle">كاتب · مؤثر إسلامي</div>
-      <!-- Mowthooq badge -->
+      <div class="p-bio" id="pBio"></div>
+      <!-- Mowthooq badge (bottom of card) -->
       <div id="mwBadge" style="display:none" class="mw-badge">
         <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
         <span id="mwText">موثوق</span>
       </div>
-      <div class="p-bio" id="pBio"></div>
     </div>
 
     <!-- Social -->
