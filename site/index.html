@@ -581,7 +581,8 @@ function normalizeAdLink(item){
     startDate:item.startDate||'',
     endDate:item.endDate||'',
     autoStop:!!item.autoStop,
-    active:item.active!==false
+    active:item.active!==false,
+    archived:!!item.archived
   };
 }
 
@@ -943,6 +944,7 @@ function renderPartners(){
   const sec=document.getElementById('partnersSec');
   if(D.sectionsOff?.adLinks){wrap.style.display='none';return;}
   const items=(D.adLinks||[]).filter(p=>{
+    if(p.archived)return false;
     if(p.active===false)return false;
     if(!safeHttpUrl(p.url))return false;
     return true;

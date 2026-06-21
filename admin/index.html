@@ -492,6 +492,16 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 .danger-analytics{display:flex;align-items:center;justify-content:space-between;gap:15px;border-color:#fee2e2;background:linear-gradient(135deg,#fff,#fff8f7)}.danger-analytics-copy strong{display:block;font-size:13px}.danger-analytics-copy span{display:block;font-size:11px;color:var(--mt);margin-top:4px}
 @media(max-width:800px){.analytics-extra-grid{grid-template-columns:1fr}.request-tools{grid-template-columns:1fr}.ad-links-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.ad-links-grid{grid-template-columns:1fr}.notif-actions{flex-direction:column}.notif-actions button{width:100%;justify-content:center}}
+.adlinks-tabs{display:inline-flex;gap:4px;padding:4px;background:#f3f4f6;border-radius:13px;margin-bottom:16px}
+.adlinks-tab{border:0;background:transparent;border-radius:10px;padding:9px 15px;font-family:var(--fn);font-size:12.5px;font-weight:700;color:var(--mt);cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:all .18s}
+.adlinks-tab.on{background:#fff;color:var(--tx);box-shadow:0 2px 6px rgba(15,23,42,.08)}
+.adlinks-tab-count{min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:#e5e7eb;color:var(--mt);font-size:11px;font-weight:800;display:inline-grid;place-items:center}
+.adlinks-tab.on .adlinks-tab-count{background:#111;color:#fff}
+.adlink-arch-tag{display:inline-flex;font-size:10px;font-weight:700;color:#6b7280;background:#eceef1;border-radius:6px;padding:2px 7px;vertical-align:middle}
+.book-card-admin.archived-card{opacity:.92}
+.adlink-stat{display:flex;align-items:baseline;gap:7px;margin:8px 0}
+.adlink-stat-v{font-size:22px;font-weight:800;color:var(--tx);line-height:1}
+.adlink-stat-l{font-size:11px;color:var(--mt);font-weight:600}
 .adlinks-header-actions{display:flex;align-items:center;gap:10px;margin-inline-start:auto;flex-wrap:wrap}
 .adlinks-header-actions .books-form-trigger{margin:0}
 @media(max-width:640px){.adlinks-header-actions{width:100%;flex-direction:column;align-items:stretch}.adlinks-header-actions .books-form-trigger{width:100%;justify-content:center}}
@@ -499,13 +509,15 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 #permissionFormTrigger{margin-inline-start:auto}
 /* Analytics dashboard 2026 */
 .analytics-page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:22px;margin-bottom:20px}.analytics-page-head .panel-title{margin:5px 0 4px}.analytics-page-head p,.analytics-card-head p{margin:0;color:var(--mt);font-size:12px}.analytics-eyebrow{display:inline-flex;padding:5px 10px;border-radius:999px;background:#eef5ec;color:#2a5c1f;font-size:10px;font-weight:700}.stats-toolbar{display:flex;gap:8px;align-items:center}.stats-toolbar select{min-width:145px;padding:10px 12px;border:1px solid var(--bd);border-radius:12px;background:#fff;font-family:var(--fn);color:var(--tx)}
-.analytics-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px}.analytics-kpi{position:relative;overflow:hidden;background:#fff;border:1px solid var(--bd);border-radius:18px;padding:17px;min-height:138px;box-shadow:0 8px 24px rgba(24,32,20,.04)}.analytics-kpi-top{display:flex;justify-content:space-between;align-items:center}.analytics-kpi-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:#f2f5f0;color:#315d28}.analytics-kpi-icon svg{width:19px;height:19px;fill:currentColor}.analytics-kpi-label{font-size:11px;color:var(--mt);font-weight:600}.analytics-kpi-value{font-size:30px;font-weight:800;line-height:1.15;margin:14px 0 7px}.analytics-delta{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:4px 7px;border-radius:999px}.analytics-delta.up{color:#197043;background:#e9f7ef}.analytics-delta.down{color:#b83d3d;background:#fff0f0}.analytics-delta.neutral{color:var(--mt);background:#f3f4f5}
+.analytics-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px}.analytics-kpi{position:relative;overflow:hidden;background:#fff;border:1px solid var(--bd);border-radius:18px;padding:18px;min-height:112px;box-shadow:0 8px 24px rgba(24,32,20,.04)}.analytics-kpi-top{display:flex;justify-content:space-between;align-items:center}.analytics-kpi-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:#f2f5f0;color:#315d28}.analytics-kpi-icon svg{width:19px;height:19px;fill:currentColor}.analytics-kpi-label{font-size:11px;color:var(--mt);font-weight:600}.analytics-kpi-value{font-size:30px;font-weight:800;line-height:1.15;margin:16px 0 0}.analytics-delta{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:4px 7px;border-radius:999px}.analytics-delta.up{color:#197043;background:#e9f7ef}.analytics-delta.down{color:#b83d3d;background:#fff0f0}.analytics-delta.neutral{color:var(--mt);background:#f3f4f5}
 .analytics-card{background:#fff;border:1px solid var(--bd);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 8px 26px rgba(24,32,20,.035)}.analytics-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:17px}.analytics-card-head h3{font-size:15px;margin:0 0 4px}.chart-legend{display:flex;flex-wrap:wrap;gap:13px;font-size:10px;color:var(--mt)}.chart-legend span{display:flex;align-items:center;gap:5px}.dot{width:8px;height:8px;border-radius:50%;display:inline-block}.dot.visits{background:#315d28}.dot.clicks{background:#c4973a}.dot.requests{background:#5577c5}.performance-chart{min-height:280px;overflow-x:auto}.performance-chart svg{width:100%;min-width:650px;height:280px;display:block}.chart-grid{stroke:#eceeea;stroke-width:1}.chart-line{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.chart-area{opacity:.07}.chart-label{font:10px Tajawal,sans-serif;fill:#8a8c86}.chart-empty{height:250px;display:grid;place-items:center;color:var(--mt);font-size:12px}
 .analytics-funnel{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:end}.funnel-step{position:relative;border:1px solid var(--bd);background:#fafbf9;border-radius:16px;padding:14px;min-height:102px}.funnel-step:not(:last-child)::after{content:'←';position:absolute;left:-10px;top:39px;z-index:2;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:#fff;border:1px solid var(--bd);color:var(--mt)}.funnel-step strong{display:block;font-size:22px;margin:7px 0 3px}.funnel-step span{font-size:10px;color:var(--mt)}.funnel-bar{height:5px;background:#e7ebe4;border-radius:5px;overflow:hidden}.funnel-bar i{height:100%;display:block;background:#315d28;border-radius:5px}
 .analytics-split{display:grid;grid-template-columns:1fr 1fr;gap:14px}.status-layout{display:grid;grid-template-columns:150px 1fr;align-items:center;gap:20px}.status-donut{width:140px;aspect-ratio:1;border-radius:50%;position:relative;box-shadow:0 6px 18px rgba(24,32,20,.06)}.status-donut::after{content:'';position:absolute;inset:26px;background:#fff;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(15,23,42,.04)}.status-total{position:absolute;inset:0;display:grid;place-content:center;text-align:center;z-index:1;font-weight:800;font-size:23px}.status-total small{display:block;font-size:9px;color:var(--mt);font-weight:600;margin-top:2px}.status-list{display:grid;gap:8px}.status-row{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;padding:9px 12px;border-radius:12px;background:#fafafb;border:1px solid var(--bd)}.status-row-main{display:flex;align-items:center;gap:9px}.status-row strong{font-size:13px;font-weight:800}.status-color{width:10px;height:10px;border-radius:50%;flex:0 0 auto}.social-list{display:grid;gap:10px}.analytics-social-row{display:flex;align-items:center;gap:11px;font-size:12px;padding:11px 13px;border-radius:13px;background:#fafafb;border:1px solid var(--bd)}.social-rank{width:26px;height:26px;flex:0 0 auto;border-radius:9px;background:#111;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:800}.social-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}.social-row-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.social-name{font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.social-track{height:7px;border-radius:7px;background:#eef0ec;overflow:hidden}.social-track i{display:block;height:100%;border-radius:7px;background:linear-gradient(90deg,#111,#4b4b52)}.social-count{font-size:11px;color:var(--mt);font-weight:700;white-space:nowrap}
 .analytics-table-wrap{overflow:auto;border:1px solid var(--bd);border-radius:16px;background:#fff}.analytics-table{width:100%;border-collapse:collapse;min-width:680px}.analytics-table th{padding:11px 13px;background:#f7f8f6;color:var(--mt);font-size:11px;font-weight:700;text-align:right;white-space:nowrap}.analytics-table td{padding:12px 13px;border-bottom:1px solid var(--bd);font-size:12px;vertical-align:middle}.analytics-table tr:last-child td{border-bottom:0}.analytics-table tbody tr:hover{background:#fafafa}.interaction-kind{display:inline-flex;padding:5px 11px;border-radius:999px;font-weight:700;font-size:11px}.interaction-kind.kind-req{background:#eef2fb;color:#3a56a8}.interaction-kind.kind-click{background:#eef5ec;color:#2a5c1f}.interaction-chip{display:inline-flex;padding:4px 10px;border-radius:999px;background:#f1f2f4;color:var(--tx);font-size:11px;font-weight:600}.interaction-status{color:var(--lt)}.rec-date{display:flex;flex-direction:column;gap:2px;line-height:1.5;white-space:nowrap}.rec-date .rec-date-h{font-size:12px;font-weight:800;color:var(--tx)}.rec-date .rec-date-g{font-size:13px;font-weight:600;color:var(--mt)}.rec-time{font-variant-numeric:tabular-nums;font-weight:700;color:var(--tx);white-space:nowrap}
 .analytics-table-wrap.recent-scroll{max-height:430px;overflow:auto}.analytics-table-wrap.recent-scroll thead th{position:sticky;top:0;z-index:2}
-.cum-summary{font-size:12px;color:var(--mt);margin-bottom:12px}.cum-summary b{color:var(--tx);font-weight:800}
+.cum-summary{display:inline-flex;align-items:center;gap:18px;width:max-content;max-width:100%;margin-bottom:16px;padding:14px 18px;border:1px solid var(--bd);border-radius:16px;background:linear-gradient(180deg,#fcfcfd,#f7f8f9)}
+.cum-stat{display:flex;flex-direction:column;gap:2px}.cum-stat-v{font-size:22px;font-weight:800;color:var(--tx);line-height:1.1}.cum-stat-l{font-size:11px;color:var(--mt);font-weight:600}
+.cum-stat-divider{width:1px;align-self:stretch;background:var(--bd)}
 .cum-list{display:flex;flex-direction:column}.cum-row{display:flex;align-items:center;gap:11px;padding:11px 4px;border-bottom:1px solid #f0f1f3}.cum-row:last-child{border-bottom:0}.cum-rank{flex:0 0 auto;width:20px;text-align:center;font-size:11px;font-weight:700;color:var(--lt);font-variant-numeric:tabular-nums}.cum-name{flex:1;min-width:0;font-size:12.5px;font-weight:600;color:var(--tx);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.cum-cat{flex:0 0 auto;font-size:10px;font-weight:600;padding:2px 9px;border-radius:999px;background:#f4f5f6;color:var(--mt)}.cum-count{flex:0 0 auto;font-size:13px;font-weight:800;color:var(--tx);font-variant-numeric:tabular-nums;min-width:40px;text-align:left}
 .analytics-maintenance{display:flex;align-items:center;justify-content:space-between;gap:18px;border:1px solid rgba(180,35,24,.12);border-radius:22px;background:linear-gradient(135deg,#fff 0%,#fff8f7 100%);padding:18px 20px;margin-top:8px;box-shadow:0 8px 24px rgba(180,35,24,.05)}.maintenance-copy{display:flex;align-items:center;gap:13px}.maintenance-icon{width:42px;height:42px;flex:0 0 42px;border-radius:14px;background:var(--dl);color:var(--dn);display:grid;place-items:center}.maintenance-icon svg{width:19px;height:19px;fill:currentColor}.analytics-maintenance h3{font-size:13px;margin:0 0 4px}.analytics-maintenance p{margin:0;color:var(--mt);font-size:11px;line-height:1.7}.analytics-maintenance .btn-sm{flex-shrink:0;padding:10px 15px}.analytics-loading{height:110px;background:linear-gradient(90deg,#f5f6f4 25%,#eceeea 50%,#f5f6f4 75%);background-size:200% 100%;animation:analyticsPulse 1.2s infinite;border-radius:16px}@keyframes analyticsPulse{to{background-position:-200% 0}}
 @media(max-width:900px){.analytics-kpis{grid-template-columns:repeat(2,1fr)}.analytics-funnel{grid-template-columns:repeat(2,1fr)}.analytics-split{grid-template-columns:1fr}}@media(max-width:600px){.analytics-page-head{align-items:stretch;flex-direction:column}.stats-toolbar{width:100%}.stats-toolbar select{flex:1;min-width:0}.analytics-kpis{grid-template-columns:1fr 1fr;gap:8px}.analytics-kpi{padding:13px;min-height:125px}.analytics-kpi-value{font-size:24px}.analytics-funnel{grid-template-columns:1fr}.funnel-step:not(:last-child)::after{display:none}.status-layout{grid-template-columns:1fr;justify-items:center}.status-list{width:100%}.analytics-maintenance{align-items:stretch;flex-direction:column}.analytics-maintenance .btn-sm{justify-content:center}}/* Profile editor aligned with unified add forms */
@@ -560,7 +572,18 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 .field .pw-field input:focus{border:0;outline:none}
 .pw-toggle{flex:0 0 auto;width:34px;height:34px;border:0;background:transparent;cursor:pointer;display:grid;place-items:center;color:var(--mt);border-radius:9px;padding:0}
 .pw-toggle:hover{color:var(--tx);background:#f1f2f4}
-.pw-toggle svg{width:20px;height:20px;fill:currentColor}</style>
+.pw-toggle svg{width:20px;height:20px;fill:currentColor}
+.export-label{font-size:12px;font-weight:700;color:var(--mt);margin-bottom:10px}
+.export-presets{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.export-preset{border:1px solid var(--bd);background:#fff;border-radius:12px;padding:11px 8px;font-family:var(--fn);font-size:12px;font-weight:600;color:var(--tx);cursor:pointer;transition:all .18s}
+.export-preset:hover{border-color:var(--bds)}
+.export-preset.on{background:#111;border-color:#111;color:#fff}
+.export-custom{margin-top:12px}
+.export-custom .r2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.export-custom input[type=date]{width:100%;border:1px solid var(--bds);border-radius:12px;padding:10px 12px;font-family:var(--fn);font-size:13px;background:#fff;color:var(--tx);outline:none}
+.export-custom input[type=date]:focus{border-color:var(--ac)}
+.export-hint{margin-top:14px;font-size:11px;color:var(--lt);line-height:1.7;background:#fafafb;border:1px solid var(--bd);border-radius:12px;padding:11px 13px}
+@media(max-width:520px){.export-presets{grid-template-columns:1fr 1fr}.export-custom .r2{grid-template-columns:1fr}}</style>
 </head>
 <body>
 
@@ -682,7 +705,7 @@ window.adminQuickLogin=async function(){
             <select id="aRange" onchange="renderAnalytics()" aria-label="الفترة الزمنية">
               <option value="7">آخر 7 أيام</option><option value="30" selected>آخر 30 يومًا</option><option value="90">آخر 3 أشهر</option><option value="all">كل الوقت</option>
             </select>
-            <button class="btn-sm" onclick="exportPDF()"><svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14h18V5a2 2 0 0 0-2-2zm-2 12H7v-2h10v2zm0-4H7V9h10v2z"/></svg><span>تصدير التقرير</span></button>
+            <button class="btn-sm" onclick="openExportDialog()"><svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14h18V5a2 2 0 0 0-2-2zm-2 12H7v-2h10v2zm0-4H7V9h10v2z"/></svg><span>تصدير التقرير</span></button>
           </div>
         </div>
         <div class="analytics-kpis" id="statsGrid"></div>
@@ -986,6 +1009,38 @@ window.adminQuickLogin=async function(){
     <div class="modal-card-body" id="requestDetailBody"></div>
     <div class="modal-card-actions">
       <button class="btn-ghost" onclick="closeRequestDetails()">إغلاق</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="exportModal" aria-hidden="true" onclick="if(event.target===this)closeExportDialog()">
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <div class="modal-card-hd">
+      <div class="modal-badge"><svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14h18V5a2 2 0 0 0-2-2zm-2 12H7v-2h10v2zm0-4H7V9h10v2z"/></svg></div>
+      <div class="modal-card-title">تصدير تقرير الأداء</div>
+    </div>
+    <div class="modal-card-body">
+      <div class="export-label">اختر المدة الزمنية للتقرير</div>
+      <div class="export-presets" id="exportPresets">
+        <button type="button" class="export-preset" data-v="7" onclick="selectExportPreset('7')">آخر 7 أيام</button>
+        <button type="button" class="export-preset on" data-v="30" onclick="selectExportPreset('30')">آخر 30 يومًا</button>
+        <button type="button" class="export-preset" data-v="90" onclick="selectExportPreset('90')">آخر 3 أشهر</button>
+        <button type="button" class="export-preset" data-v="365" onclick="selectExportPreset('365')">آخر سنة</button>
+        <button type="button" class="export-preset" data-v="all" onclick="selectExportPreset('all')">كل الوقت</button>
+        <button type="button" class="export-preset" data-v="custom" onclick="selectExportPreset('custom')">مدة مخصصة</button>
+      </div>
+      <div class="export-custom" id="exportCustom" style="display:none">
+        <div class="r2">
+          <div class="field"><label>من تاريخ</label><input type="date" id="exportFrom"></div>
+          <div class="field"><label>إلى تاريخ</label><input type="date" id="exportTo"></div>
+        </div>
+        <span class="fhint">يشمل التقرير النقرات والتفاعلات ضمن هذه المدة (شاملة الطرفين).</span>
+      </div>
+      <div class="export-hint" id="exportHint">سيشمل التقرير إجماليات النقرات التراكمية لكل القنوات مع أداء المدة المختارة.</div>
+    </div>
+    <div class="modal-card-actions">
+      <button class="btn-ghost" onclick="closeExportDialog()">إلغاء</button>
+      <button class="btn-save" onclick="runExport()"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>تصدير التقرير</button>
     </div>
   </div>
 </div>
@@ -1708,6 +1763,10 @@ function enhanceAdminUi(){
             </div>
           </div>
         </div>
+        <div class="adlinks-tabs" id="adLinksTabs">
+          <button class="adlinks-tab on" data-tab="active" onclick="switchAdLinksTab('active')">الروابط النشطة</button>
+          <button class="adlinks-tab" data-tab="archive" onclick="switchAdLinksTab('archive')">الأرشيف <span class="adlinks-tab-count" id="adLinksArchiveCount">0</span></button>
+        </div>
         <div id="adLinksList"></div>
         <div class="add-form" id="adLinksForm">
           <div class="add-form-title">إضافة رابط جديد</div>
@@ -1869,7 +1928,10 @@ function normalizeAdLink(item){
     startDate:'',
     endDate:'',
     autoStop:false,
-    active:item.active!==false
+    active:item.active!==false,
+    createdAt:item.createdAt||'',
+    archived:!!item.archived,
+    archivedAt:item.archivedAt||''
   };
 }
 function normalizeData(){
@@ -2319,7 +2381,7 @@ function renderPerformanceChart(series){
 function renderAnalyticsDashboard(model){
   const nf=n=>Number(n||0).toLocaleString('ar-SA');
   const cards=[['visits','إجمالي الزيارات',model.current.visits,model.previous?.visits],['clicks','إجمالي النقرات',model.current.clicks,model.previous?.clicks],['requests','إجمالي طلبات الإعلان',model.current.requests,model.previous?.requests]];
-  document.getElementById('statsGrid').innerHTML=cards.map(([type,label,value,prev])=>{const d=analyticsDelta(value,prev);return `<article class="analytics-kpi"><div class="analytics-kpi-top"><span class="analytics-kpi-label">${label}</span><span class="analytics-kpi-icon">${analyticsIcon(type)}</span></div><div class="analytics-kpi-value">${nf(value)}</div><span class="analytics-delta ${d.cls}">${d.text}</span></article>`}).join('');
+  document.getElementById('statsGrid').innerHTML=cards.map(([type,label,value])=>`<article class="analytics-kpi"><div class="analytics-kpi-top"><span class="analytics-kpi-label">${label}</span><span class="analytics-kpi-icon">${analyticsIcon(type)}</span></div><div class="analytics-kpi-value">${nf(value)}</div></article>`).join('');
   const statusColors={new:'#5577c5',review:'#7b6fc2',contacted:'#c4973a',approved:'#43825a',rejected:'#bc5656',archived:'#8b8f97'},statusLabels={new:'جديد',review:'قيد المراجعة',contacted:'تم التواصل',approved:'تمت الموافقة',rejected:'مرفوض',archived:'مؤرشف'};
   const entries=Object.entries(model.statuses).filter(([,n])=>n>0),total=entries.reduce((a,[,n])=>a+n,0);let at=0;const stops=entries.map(([k,n])=>{const from=at;at+=n/Math.max(total,1)*100;return `${statusColors[k]||'#999'} ${from}% ${at}%`}).join(',');
   document.getElementById('requestStatusVisual').innerHTML=total?`<div class="status-layout"><div class="status-donut" style="background:conic-gradient(${stops})"><div class="status-total">${nf(total)}<small>طلب</small></div></div><div class="status-list">${entries.map(([k,n])=>`<div class="status-row"><span class="status-row-main"><i class="status-color" style="background:${statusColors[k]||'#999'}"></i><span>${statusLabels[k]||k}</span></span><strong>${nf(n)}</strong></div>`).join('')}</div></div>`:'<div class="chart-empty">لا توجد طلبات في هذه الفترة.</div>';
@@ -2328,7 +2390,7 @@ function renderAnalyticsDashboard(model){
   if(cumEl){
     const catLabels={social:'وسيلة تواصل',book:'مؤلف',ad:'رابط إعلان/دعم',request:'باقة إعلان',other:'أخرى'};
     const lt=model.linkTotals||[];
-    cumEl.innerHTML=lt.length?`<div class="cum-summary">الإجمالي التراكمي <b>${nf(model.cumulativeTotal)}</b> نقرة على ${nf(lt.length)} رابطًا</div><div class="cum-list">${lt.map((x,i)=>`<div class="cum-row"><span class="cum-rank">${nf(i+1)}</span><span class="cum-name">${esc(x.name)}</span><span class="cum-cat cat-${x.category}">${catLabels[x.category]||catLabels.other}</span><span class="cum-count">${nf(x.count)}</span></div>`).join('')}</div>`:'<div class="chart-empty">لا توجد نقرات مسجلة بعد على أي رابط.</div>';
+    cumEl.innerHTML=lt.length?`<div class="cum-summary"><div class="cum-stat"><span class="cum-stat-v">${nf(model.cumulativeTotal)}</span><span class="cum-stat-l">إجمالي النقرات</span></div><div class="cum-stat-divider"></div><div class="cum-stat"><span class="cum-stat-v">${nf(lt.length)}</span><span class="cum-stat-l">روابط مُتتبَّعة</span></div></div><div class="cum-list">${lt.map((x,i)=>`<div class="cum-row"><span class="cum-rank">${nf(i+1)}</span><span class="cum-name">${esc(x.name)}</span><span class="cum-cat cat-${x.category}">${catLabels[x.category]||catLabels.other}</span><span class="cum-count">${nf(x.count)}</span></div>`).join('')}</div>`:'<div class="chart-empty">لا توجد نقرات مسجلة بعد على أي رابط.</div>';
   }
   const recent=document.getElementById('recentAnalytics');recent.innerHTML=model.recent.length?model.recent.map(x=>`<tr>
       <td><span class="interaction-kind ${x.kind==='طلب'?'kind-req':'kind-click'}">${x.kind}</span></td>
@@ -2582,6 +2644,9 @@ async function saveAdLink(){
   if(idx>-1){
     D.adLinks[idx]={...D.adLinks[idx],...payload};
   }else{
+    payload.createdAt=new Date().toISOString();
+    payload.archived=false;
+    payload.archivedAt='';
     D.adLinks.push(payload);
   }
   const saved=await save();
@@ -2616,18 +2681,77 @@ function adLinkStatus(item){
   return item.active===false?'متوقف':'نشط';
 }
 
+let adLinksTab='active';
+let adLinkClickCounts=null;
+function adLinkClickTotal(id){return (adLinkClickCounts&&adLinkClickCounts[id])||0;}
+async function loadAdLinkClickCounts(force=false){
+  if(adLinkClickCounts&&!force)return adLinkClickCounts;
+  try{
+    const clicks=await fetchAnalyticsClicks(null);
+    const map={};clicks.forEach(c=>{const id=c.link_id||c.id;if(id)map[id]=(map[id]||0)+1;});
+    adLinkClickCounts=map;
+  }catch(e){adLinkClickCounts=adLinkClickCounts||{};}
+  if(adLinksTab==='archive')renderAdLinks();
+  return adLinkClickCounts;
+}
+function switchAdLinksTab(tab){
+  adLinksTab=tab;
+  document.querySelectorAll('#adLinksTabs .adlinks-tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
+  const form=document.getElementById('adLinksForm');if(form&&tab==='archive')form.classList.remove('open');
+  const trigger=document.getElementById('adLinksFormTrigger');if(trigger)trigger.style.display=tab==='archive'?'none':'';
+  if(tab==='archive'&&!adLinkClickCounts)loadAdLinkClickCounts();
+  renderAdLinks();
+}
+function adLinkPeriodText(item){
+  const start=item.createdAt?requestGregorianDate(item.createdAt):'غير محدد';
+  const end=item.archivedAt?requestGregorianDate(item.archivedAt):'—';
+  let days='';
+  if(item.createdAt&&item.archivedAt){
+    const d=Math.max(1,Math.round((new Date(item.archivedAt)-new Date(item.createdAt))/86400000));
+    days=` · ${d.toLocaleString('ar-SA')} يومًا`;
+  }
+  return `${start} ← ${end}${days}`;
+}
 function renderAdLinks(){
   const list=document.getElementById('adLinksList');
   if(!list)return;
   const items=D.adLinks||[];
+  const active=items.filter(i=>!i.archived);
+  const archive=items.filter(i=>i.archived);
+  const countEl=document.getElementById('adLinksArchiveCount');
+  if(countEl)countEl.textContent=archive.length.toLocaleString('ar-SA');
   list.innerHTML='';
-  if(!items.length){
+  if(adLinksTab==='archive'){
+    if(!archive.length){list.innerHTML='<div class="books-empty-admin" style="display:block">لا توجد روابط مؤرشفة. تُنقل الروابط إلى الأرشيف بدل حذفها لتبقى إحصائياتها محفوظة.</div>';return;}
+    const loading=adLinkClickCounts==null;
+    const grid=document.createElement('div');grid.className='book-grid-admin';
+    archive.forEach(item=>{
+      const card=document.createElement('article');card.className='book-card-admin archived-card';
+      const cover=item.image?`<div class="book-cover-frame-admin"><img src="${escHtml(item.image)}" alt="${escHtml(item.titleAr||'صورة الإعلان')}"></div>`:`<div class="book-cover-frame-admin"><div class="book-ph"><svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 11.5l2.5 3.01L14.5 10l4.5 6H5l3.5-4.5z"/></svg></div></div>`;
+      card.innerHTML=`${cover}
+        <div class="book-info">
+          <div class="book-name">${escHtml(item.titleAr||'بدون مسمى')} <span class="adlink-arch-tag">مؤرشف</span></div>
+          <div class="adlink-stat"><span class="adlink-stat-v">${loading?'…':adLinkClickTotal(item.id).toLocaleString('ar-SA')}</span><span class="adlink-stat-l">إجمالي النقرات</span></div>
+          <div class="book-meta-row"><div class="book-meta-label">مدة النشاط</div><div class="book-meta-value">${escHtml(adLinkPeriodText(item))}</div></div>
+        </div>
+        <div class="book-actions">
+          <div class="book-action-buttons">
+            <button class="ico-btn edit" onclick="restoreAdLink('${item.id}')" title="استعادة الرابط"><svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 0 0-9 9H1l4 4 4-4H6a7 7 0 1 1 7 7 6.96 6.96 0 0 1-4.95-2.05l-1.42 1.42A9 9 0 1 0 13 3z"/></svg></button>
+            <button class="ico-btn" onclick="deleteAdLinkPermanent('${item.id}')" title="حذف نهائي من الأرشيف"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+    list.appendChild(grid);
+    return;
+  }
+  if(!active.length){
     list.innerHTML='<div class="books-empty-admin" style="display:block">أضف أول رابط إعلان أو دعم ليظهر هذا القسم هنا.</div>';
     return;
   }
   const grid=document.createElement('div');
   grid.className='book-grid-admin';
-  items.forEach(item=>{
+  active.forEach(item=>{
     const card=document.createElement('article');
     card.className='book-card-admin';
     const cover=item.image
@@ -2646,12 +2770,47 @@ function renderAdLinks(){
         <div class="book-action-buttons">
           <label class="toggle" style="margin:0"><input type="checkbox" ${item.active!==false?'checked':''} onchange="toggleItem('adLinks','${item.id}',this.checked)"><div class="track"></div></label>
           <button class="ico-btn edit" onclick="editAdLink('${item.id}')" title="تعديل الرابط"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm17.71-10.04a1.003 1.003 0 0 0 0-1.42l-2.5-2.5a1.003 1.003 0 0 0-1.42 0L14.96 5.12l3.75 3.75 1.99-1.66z"/></svg></button>
-          <button class="ico-btn" onclick="delItem('adLinks','${item.id}')" title="حذف الرابط"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+          <button class="ico-btn" onclick="archiveAdLink('${item.id}')" title="أرشفة الرابط"><svg viewBox="0 0 24 24"><path d="M20.54 5.23 19.15 3.55A1.5 1.5 0 0 0 18 3H6c-.47 0-.9.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5 6.5 12H10v-2h4v2h3.5L12 17.5zM5.12 5l.82-1h12l.93 1H5.12z"/></svg></button>
+          <button class="ico-btn delete" onclick="deleteAdLinkPermanent('${item.id}')" title="حذف الرابط"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
         </div>
       </div>`;
     grid.appendChild(card);
   });
   list.appendChild(grid);
+}
+async function archiveAdLink(id){
+  const item=(D.adLinks||[]).find(l=>l.id===id);
+  if(!item)return;
+  if(!(await platformConfirm('سيُنقل الرابط إلى الأرشيف ويُخفى من الواجهة، مع الاحتفاظ بإحصائياته. يمكنك استعادته لاحقًا. هل تريد المتابعة؟','أرشفة الرابط')))return;
+  item.archived=true;
+  item.archivedAt=new Date().toISOString();
+  if(!item.createdAt)item.createdAt=item.archivedAt;
+  const saved=await save();
+  if(!saved)return;
+  if(!adLinkClickCounts)loadAdLinkClickCounts();
+  renderAdLinks();
+  toast('تمت أرشفة الرابط');
+}
+async function restoreAdLink(id){
+  const item=(D.adLinks||[]).find(l=>l.id===id);
+  if(!item)return;
+  item.archived=false;
+  item.archivedAt='';
+  const saved=await save();
+  if(!saved)return;
+  renderAdLinks();
+  toast('تمت استعادة الرابط');
+}
+async function deleteAdLinkPermanent(id){
+  const item=(D.adLinks||[]).find(l=>l.id===id);
+  if(!item)return;
+  const location=item.archived?' من الأرشيف':'';
+  if(!(await platformConfirm(`سيُحذف الرابط نهائيًا${location}. لا يمكن التراجع عن هذا الإجراء. هل تريد المتابعة؟`,'حذف الرابط نهائيًا')))return;
+  D.adLinks=(D.adLinks||[]).filter(l=>l.id!==id);
+  const saved=await save();
+  if(!saved)return;
+  renderAdLinks();
+  toast('تم الحذف النهائي');
 }
 // COLLAB
 async function saveCollab(){
@@ -3450,37 +3609,83 @@ async function renderAnalytics(){
   const topSocial=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([id,count])=>({name:names[id]||id,count}));
   // Cumulative (all-time) clicks per tracked link / author / social account.
   const linkCategoryOf=id=>(D.social||[]).some(s=>s.id===id)?'social':/_link_\d+$/.test(id)?'book':(D.adLinks||[]).some(p=>p.id===id)?'ad':/^advert_/.test(id)?'request':'other';
+  const archivedLinkIds=new Set((D.adLinks||[]).filter(l=>l.archived).map(l=>l.id));
   const cumCounts={};clicks.forEach(c=>{const id=c.link_id||c.id;if(id)cumCounts[id]=(cumCounts[id]||0)+1;});
-  const linkTotals=Object.entries(cumCounts).map(([id,count])=>({id,name:names[id]||'رابط محذوف',count,category:names[id]?linkCategoryOf(id):'other'})).sort((a,b)=>b.count-a.count);
+  // Dashboard cumulative shows only currently-active tracked links; archived/deleted links are excluded (viewable in the links archive).
+  const linkTotals=Object.entries(cumCounts).filter(([id])=>names[id]&&!archivedLinkIds.has(id)).map(([id,count])=>({id,name:names[id],count,category:linkCategoryOf(id)})).sort((a,b)=>b.count-a.count);
   const cumulativeTotal=linkTotals.reduce((a,x)=>a+x.count,0);
   const statusLabels={new:'جديد',review:'قيد المراجعة',contacted:'تم التواصل',approved:'تمت الموافقة',rejected:'مرفوض',archived:'مؤرشف'};
   const recent=[...currentClicks.map(c=>({kind:'نقرة',title:names[c.link_id||c.id]||c.link_id||'رابط',status:c.device==='mobile'?'جوال':c.device==='desktop'?'حاسوب':'—',date:c.ts||c.created_at})),...currentRequests.map(r=>({kind:'طلب',title:r.plan_title||r.name||r.request_no||'طلب إعلان',status:statusLabels[normalizedStatus(r)],date:r.created_at||r.createdAt}))].filter(x=>x.date).sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,60);
   renderAnalyticsDashboard({current:{visits:currentVisits,clicks:currentClicks.length,requests:currentRequests.length,conversion:currentConversion},previous:days?{visits:previousVisits,clicks:previousClicks.length,requests:previousRequests.length,conversion:previousConversion}:null,series,statuses,contacted,approved,topSocial,linkTotals,cumulativeTotal,recent});
 }
-// EXPORT PDF — professional, company-ready performance report
-async function exportPDF(){
-  const rv=document.getElementById('aRange').value;const days=rv==='all'?null:parseInt(rv);
+// EXPORT — flexible date-range dialog
+let exportSel='30';
+function openExportDialog(){
+  exportSel=document.getElementById('aRange')?.value||'30';
+  document.querySelectorAll('#exportPresets .export-preset').forEach(b=>b.classList.toggle('on',b.dataset.v===exportSel));
+  const custom=document.getElementById('exportCustom');if(custom)custom.style.display='none';
+  const today=new Date().toISOString().slice(0,10);
+  const from=document.getElementById('exportFrom'),to=document.getElementById('exportTo');
+  if(to&&!to.value)to.value=today;
+  if(from&&!from.value)from.value=new Date(Date.now()-30*86400000).toISOString().slice(0,10);
+  const modal=document.getElementById('exportModal');if(modal){modal.classList.add('open');modal.setAttribute('aria-hidden','false');}
+}
+function closeExportDialog(){const modal=document.getElementById('exportModal');if(modal){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');}}
+function selectExportPreset(v){
+  exportSel=v;
+  document.querySelectorAll('#exportPresets .export-preset').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  const custom=document.getElementById('exportCustom');if(custom)custom.style.display=v==='custom'?'block':'none';
+}
+async function runExport(){
+  let range;
+  if(exportSel==='custom'){
+    const from=document.getElementById('exportFrom')?.value;
+    const to=document.getElementById('exportTo')?.value;
+    if(!from||!to){toast('حدد تاريخ البداية والنهاية');return;}
+    if(new Date(from)>new Date(to)){toast('تاريخ البداية يجب أن يسبق تاريخ النهاية');return;}
+    range={kind:'custom',from,to};
+  }else{
+    range={kind:'preset',v:exportSel};
+  }
+  closeExportDialog();
+  await exportPDF(range);
+}
+async function exportPDF(range){
+  range=range||{kind:'preset',v:(document.getElementById('aRange')?.value||'30')};
   toast('جاري تجهيز التقرير...');
   let allClicks=[];
   try{allClicks=await fetchAnalyticsClicks(null);}catch(e){allClicks=[];}
   let visitors=0;try{const{data:v}=await sb.from('visitors').select('count').eq('id','counter').single();visitors=Number(v?.count||0);}catch(e){}
   let requestsTotal=0;try{const{count}=await sb.from('collab_requests').select('id',{count:'exact',head:true});requestsTotal=Number(count||0);}catch(e){requestsTotal=(D.collab?.requests||[]).length;}
   const now=Date.now();
-  const periodStart=days?now-days*86400000:0;
+  // Resolve the reporting window (flexible: preset or custom from–to) and its label.
+  let periodStart=0,periodEnd=now,periodLabel='كل الوقت';
+  if(range.kind==='custom'){
+    periodStart=range.from?new Date(range.from+'T00:00:00+03:00').getTime():0;
+    periodEnd=range.to?new Date(range.to+'T23:59:59+03:00').getTime():now;
+    periodLabel=`${requestGregorianDate(periodStart)} ← ${requestGregorianDate(periodEnd)}`;
+  }else if(range.v==='all'){
+    periodStart=0;periodEnd=now;periodLabel='كل الوقت';
+  }else{
+    const d=parseInt(range.v,10)||30;periodStart=now-d*86400000;periodEnd=now;
+    periodLabel={'7':'آخر 7 أيام','30':'آخر 30 يومًا','90':'آخر 3 أشهر','365':'آخر سنة'}[String(range.v)]||`آخر ${d.toLocaleString('ar-SA')} يومًا`;
+  }
   const timeOf=c=>new Date(c.ts||c.created_at||0).getTime();
-  const periodClicks=days?allClicks.filter(c=>timeOf(c)>=periodStart):allClicks;
+  const periodClicks=allClicks.filter(c=>{const t=timeOf(c);return t>=periodStart&&t<=periodEnd;});
   const names=getNames();
   const catLabels={social:'وسيلة تواصل',book:'مؤلف',ad:'رابط إعلان/دعم',request:'باقة إعلان',other:'أخرى'};
   const catOf=id=>(D.social||[]).some(s=>s.id===id)?'social':/_link_\d+$/.test(id)?'book':(D.adLinks||[]).some(p=>p.id===id)?'ad':/^advert_/.test(id)?'request':'other';
+  const archivedSet=new Set((D.adLinks||[]).filter(l=>l.archived).map(l=>l.id));
+  const archivedById={};(D.adLinks||[]).filter(l=>l.archived).forEach(l=>{archivedById[l.id]=l;});
   const cum={};allClicks.forEach(c=>{const id=c.link_id||c.id;if(id)cum[id]=(cum[id]||0)+1;});
   const per={};periodClicks.forEach(c=>{const id=c.link_id||c.id;if(id)per[id]=(per[id]||0)+1;});
-  const rows=Object.entries(cum).map(([id,total])=>({id,name:names[id]||'رابط محذوف',cat:names[id]?catOf(id):'other',total,period:per[id]||0})).sort((a,b)=>b.total-a.total);
+  const rows=Object.entries(cum).filter(([id])=>names[id]&&!archivedSet.has(id)).map(([id,total])=>({id,name:names[id],cat:catOf(id),total,period:per[id]||0})).sort((a,b)=>b.total-a.total);
+  const archivedRows=Object.keys(archivedById).map(id=>{const l=archivedById[id];return {id,name:l.titleAr||'رابط مؤرشف',total:cum[id]||0,from:l.createdAt,to:l.archivedAt};}).sort((a,b)=>b.total-a.total);
   const cumTotal=rows.reduce((a,r)=>a+r.total,0)||0;
   const fmt=n=>Number(n||0).toLocaleString('ar-SA');
   const pct=n=>cumTotal?Math.round(n/cumTotal*100):0;
   const pName=D.nameAr||'المؤثر';const pTitle=D.titleAr||'';
   const genG=requestGregorianDate(now),genH=requestHijriDate(now),genT=requestTimeLabel(now);
-  const periodLabel=rv==='all'?'كل الوقت':rv==='7'?'آخر 7 أيام':rv==='30'?'آخر 30 يومًا':'آخر 3 أشهر';
   const refNo='IH-RPT-'+new Date().toISOString().slice(0,10).replace(/-/g,'');
   const e=v=>String(v??'').replace(/[&<>]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[ch]));
   const w=window.open('','_blank');
@@ -3530,6 +3735,12 @@ tbody tr:nth-child(even){background:#fbfbfc}
   if(rows.length)rows.forEach((r,i)=>{h+=`<tr><td class="rank">${fmt(i+1)}</td><td>${e(r.name)}</td><td><span class="chip">${catLabels[r.cat]||catLabels.other}</span></td><td class="num">${fmt(r.total)}</td><td class="muted">${pct(r.total)}%</td><td class="num">${fmt(r.period)}</td></tr>`;});
   else h+='<tr><td colspan="6" style="text-align:center;color:#9a9ca3;padding:18px">لا توجد نقرات مسجّلة بعد.</td></tr>';
   h+='</tbody></table>';
+  if(archivedRows.length){
+    h+=`<h2>روابط مؤرشفة</h2><div class="sub">روابط أُوقفت سابقًا، مع إجمالي نقراتها ومدّة نشاطها قبل الأرشفة.</div>`;
+    h+=`<table><thead><tr><th>الرابط</th><th>النقرات التراكمية</th><th>مدة النشاط</th></tr></thead><tbody>`;
+    archivedRows.forEach(r=>{const period=(r.from?requestGregorianDate(r.from):'غير محدد')+' ← '+(r.to?requestGregorianDate(r.to):'—');h+=`<tr><td>${e(r.name)}</td><td class="num">${fmt(r.total)}</td><td class="muted">${e(period)}</td></tr>`;});
+    h+='</tbody></table>';
+  }
   h+=`<div class="note"><b>ملاحظة منهجية:</b> تُحتسب النقرة عند تفاعل زائر فعلي مع أحد روابط المنصة، وتُجمَّع الزيارات يوميًا بتوقيت السعودية. تُحدَّث هذه الأرقام لحظيًا ويمكن التحقق منها من لوحة التحكم الرسمية. هذا التقرير وثيقة قياس أداء معتمدة يمكن الاستناد إليها عند تقييم الفرص الإعلانية.</div>`;
   h+=`<div class="ft"><span>تقرير صادر رسميًا عن منصة ${e(pName)}</span><span>${e(refNo)} · ${e(genG)}</span></div>`;
   h+=`</div><scr`+`ipt>window.onload=()=>setTimeout(()=>window.print(),350)<\/scr`+`ipt></body></html>`;
