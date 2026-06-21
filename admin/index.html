@@ -517,7 +517,7 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 .analytics-table-wrap.recent-scroll{max-height:430px;overflow:auto}.analytics-table-wrap.recent-scroll thead th{position:sticky;top:0;z-index:2}
 .cum-summary{display:inline-flex;align-items:center;gap:18px;width:max-content;max-width:100%;margin-bottom:16px;padding:14px 18px;border:1px solid var(--bd);border-radius:16px;background:linear-gradient(180deg,#fcfcfd,#f7f8f9)}
 .cum-stat{display:flex;flex-direction:column;gap:2px}.cum-stat-v{font-size:22px;font-weight:800;color:var(--tx);line-height:1.1}.cum-stat-l{font-size:11px;color:var(--mt);font-weight:600}
-.cum-stat-divider{width:1px;align-self:stretch;background:var(--bd)}
+.cum-stat-divider{width:1px;align-self:stretch;background:var(--bd)}.cum-card .analytics-card-head{align-items:center;flex-wrap:wrap}.cum-card #cumulativeClicksSummary{margin-inline-start:auto}.cum-card .cum-summary{margin-bottom:0}
 .cum-list{display:flex;flex-direction:column}.cum-row{display:flex;align-items:center;gap:11px;padding:11px 4px;border-bottom:1px solid #f0f1f3}.cum-row:last-child{border-bottom:0}.cum-rank{flex:0 0 auto;width:20px;text-align:center;font-size:11px;font-weight:700;color:var(--lt);font-variant-numeric:tabular-nums}.cum-name{flex:1;min-width:0;font-size:12.5px;font-weight:600;color:var(--tx);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.cum-cat{flex:0 0 auto;font-size:10px;font-weight:600;padding:2px 9px;border-radius:999px;background:#f4f5f6;color:var(--mt)}.cum-count{flex:0 0 auto;font-size:13px;font-weight:800;color:var(--tx);font-variant-numeric:tabular-nums;min-width:40px;text-align:left}
 .analytics-maintenance{display:flex;align-items:center;justify-content:space-between;gap:18px;border:1px solid rgba(180,35,24,.12);border-radius:22px;background:linear-gradient(135deg,#fff 0%,#fff8f7 100%);padding:18px 20px;margin-top:8px;box-shadow:0 8px 24px rgba(180,35,24,.05)}.maintenance-copy{display:flex;align-items:center;gap:13px}.maintenance-icon{width:42px;height:42px;flex:0 0 42px;border-radius:14px;background:var(--dl);color:var(--dn);display:grid;place-items:center}.maintenance-icon svg{width:19px;height:19px;fill:currentColor}.analytics-maintenance h3{font-size:13px;margin:0 0 4px}.analytics-maintenance p{margin:0;color:var(--mt);font-size:11px;line-height:1.7}.analytics-maintenance .btn-sm{flex-shrink:0;padding:10px 15px}.analytics-loading{height:110px;background:linear-gradient(90deg,#f5f6f4 25%,#eceeea 50%,#f5f6f4 75%);background-size:200% 100%;animation:analyticsPulse 1.2s infinite;border-radius:16px}@keyframes analyticsPulse{to{background-position:-200% 0}}
 @media(max-width:900px){.analytics-kpis{grid-template-columns:repeat(2,1fr)}.analytics-funnel{grid-template-columns:repeat(2,1fr)}.analytics-split{grid-template-columns:1fr}}@media(max-width:600px){.analytics-page-head{align-items:stretch;flex-direction:column}.stats-toolbar{width:100%}.stats-toolbar select{flex:1;min-width:0}.analytics-kpis{grid-template-columns:1fr 1fr;gap:8px}.analytics-kpi{padding:13px;min-height:125px}.analytics-kpi-value{font-size:24px}.analytics-funnel{grid-template-columns:1fr}.funnel-step:not(:last-child)::after{display:none}.status-layout{grid-template-columns:1fr;justify-items:center}.status-list{width:100%}.analytics-maintenance{align-items:stretch;flex-direction:column}.analytics-maintenance .btn-sm{justify-content:center}}/* Profile editor aligned with unified add forms */
@@ -610,7 +610,7 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
     <a class="return-btn" href="https://ibrahimalharbi.vercel.app/"><span aria-hidden="true">→</span> عودة</a>
     <div class="recovery-box" id="passwordRecoveryBox">
       <div class="login-logo"><svg viewBox="0 0 24 24"><path d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6-9h-1V6A5 5 0 0 0 7 6v2H6a2 2 0 0 0-2 2v10h16V10a2 2 0 0 0-2-2zm-3 0H9V6a3 3 0 0 1 6 0v2z"/></svg></div>
-      <h2>تعيين كلمة مرور جديدة</h2><p>اختر كلمة مرور قوية من 10 أحرف على الأقل.</p>
+      <h2>تعيين كلمة مرور جديدة</h2><p>استخدم 6 أحرف و4 أرقام على الأقل.</p>
       <input type="password" id="recoveryPassword" placeholder="كلمة المرور الجديدة" autocomplete="new-password">
       <input type="password" id="recoveryPasswordConfirm" placeholder="تأكيد كلمة المرور" autocomplete="new-password">
       <div class="err-msg" id="recoveryErr"></div>
@@ -718,7 +718,7 @@ window.adminQuickLogin=async function(){
           <div class="analytics-table-wrap recent-scroll"><table class="analytics-table"><thead><tr><th>النوع</th><th>التفاعل</th><th>الحالة</th><th>التاريخ</th><th>الوقت</th></tr></thead><tbody id="recentAnalytics"></tbody></table></div>
         </section>
         <section class="analytics-card cum-card">
-          <div class="analytics-card-head"><div><h3>إجمالي النقرات التراكمية</h3><p>مجموع النقرات لكل رابط أو مؤلف أو وسيلة تواصل منذ الإطلاق</p></div></div>
+          <div class="analytics-card-head"><div><h3>إجمالي النقرات التراكمية</h3><p>مجموع النقرات لكل رابط أو مؤلف أو وسيلة تواصل منذ الإطلاق</p></div><div id="cumulativeClicksSummary"></div></div>
           <div id="cumulativeClicksVisual"></div>
         </section>
         <section class="analytics-maintenance" aria-labelledby="dataManagementTitle">
@@ -937,7 +937,7 @@ window.adminQuickLogin=async function(){
         <div class="card danger-box">
           <h3>تغيير كلمة المرور</h3>
           <div class="field"><label>كلمة المرور الحالية</label><input type="password" id="curPw" placeholder="••••••••"></div>
-          <div class="field"><label>كلمة المرور الجديدة (6 أحرف فأكثر)</label><input type="password" id="newPw" placeholder="••••••••"></div>
+          <div class="field"><label>كلمة المرور الجديدة (6 أحرف و4 أرقام على الأقل)</label><input type="password" id="newPw" placeholder="6 أحرف و4 أرقام على الأقل"></div>
           <div class="field"><label>تأكيد كلمة المرور</label><input type="password" id="confPw" placeholder="••••••••"></div>
           <button class="btn-save" style="background:var(--dn)" onclick="changePw()">تغيير كلمة المرور</button>
         </div>
@@ -1403,7 +1403,7 @@ async function completePasswordRecovery(){
   const password=document.getElementById('recoveryPassword')?.value||'';
   const confirm=document.getElementById('recoveryPasswordConfirm')?.value||'';
   const status=document.getElementById('recoveryErr');
-  if(password.length<10){status.textContent='استخدم 10 أحرف على الأقل';return;}
+  if(!isValidAdminPassword(password)){status.textContent=ADMIN_PASSWORD_RULE;return;}
   if(password!==confirm){status.textContent='كلمتا المرور غير متطابقتين';return;}
   status.textContent='جارٍ حفظ كلمة المرور...';
   const {error}=await sb.auth.updateUser({password});
@@ -1836,7 +1836,7 @@ function enhanceAdminUi(){
             <div class="field" id="permPasswordField">
               <label>كلمة المرور</label>
               <div class="pw-field">
-                <input id="permPassword" type="password" placeholder="12 حرفًا فأكثر" autocomplete="new-password">
+                <input id="permPassword" type="password" placeholder="6 أحرف و4 أرقام على الأقل" autocomplete="new-password">
                 <button type="button" class="pw-toggle" aria-label="إظهار كلمة المرور" onclick="togglePasswordVisibility('permPassword',this)">${PW_EYE_ICON}</button>
               </div>
               <span class="fhint">اضغط على العين لعرض الكلمة.</span>
@@ -2365,6 +2365,7 @@ function renderAnalyticsFallback(){
   const grid=document.getElementById('statsGrid');if(!grid)return;
   grid.innerHTML=Array(3).fill('<div class="analytics-loading"></div>').join('');
   ['cumulativeClicksVisual','requestStatusVisual','topSocialVisual'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='<div class="analytics-loading"></div>';});
+  const cumSummary=document.getElementById('cumulativeClicksSummary');if(cumSummary)cumSummary.innerHTML='';
   const recent=document.getElementById('recentAnalytics');if(recent)recent.innerHTML='<tr><td colspan="5"><div class="analytics-loading"></div></td></tr>';
 }
 function analyticsLinePath(values,width,height,pad,max){return values.map((v,i)=>`${i?'L':'M'} ${pad+i*((width-pad*2)/Math.max(values.length-1,1))} ${height-pad-(v/max)*(height-pad*2)}`).join(' ')}
@@ -2387,10 +2388,12 @@ function renderAnalyticsDashboard(model){
   document.getElementById('requestStatusVisual').innerHTML=total?`<div class="status-layout"><div class="status-donut" style="background:conic-gradient(${stops})"><div class="status-total">${nf(total)}<small>طلب</small></div></div><div class="status-list">${entries.map(([k,n])=>`<div class="status-row"><span class="status-row-main"><i class="status-color" style="background:${statusColors[k]||'#999'}"></i><span>${statusLabels[k]||k}</span></span><strong>${nf(n)}</strong></div>`).join('')}</div></div>`:'<div class="chart-empty">لا توجد طلبات في هذه الفترة.</div>';
   const socialMax=Math.max(...model.topSocial.map(x=>x.count),1);document.getElementById('topSocialVisual').innerHTML=model.topSocial.length?`<div class="social-list">${model.topSocial.map((x,i)=>`<div class="analytics-social-row"><span class="social-rank">${nf(i+1)}</span><div class="social-main"><div class="social-row-top"><span class="social-name">${esc(x.name)}</span><span class="social-count">${nf(x.count)} نقرة</span></div><div class="social-track"><i style="width:${x.count/socialMax*100}%"></i></div></div></div>`).join('')}</div>`:'<div class="chart-empty">لا توجد نقرات على حسابات التواصل في هذه الفترة.</div>';
   const cumEl=document.getElementById('cumulativeClicksVisual');
+  const cumSummary=document.getElementById('cumulativeClicksSummary');
   if(cumEl){
     const catLabels={social:'وسيلة تواصل',book:'مؤلف',ad:'رابط إعلان/دعم',request:'باقة إعلان',other:'أخرى'};
     const lt=model.linkTotals||[];
-    cumEl.innerHTML=lt.length?`<div class="cum-summary"><div class="cum-stat"><span class="cum-stat-v">${nf(model.cumulativeTotal)}</span><span class="cum-stat-l">إجمالي النقرات</span></div><div class="cum-stat-divider"></div><div class="cum-stat"><span class="cum-stat-v">${nf(lt.length)}</span><span class="cum-stat-l">روابط مُتتبَّعة</span></div></div><div class="cum-list">${lt.map((x,i)=>`<div class="cum-row"><span class="cum-rank">${nf(i+1)}</span><span class="cum-name">${esc(x.name)}</span><span class="cum-cat cat-${x.category}">${catLabels[x.category]||catLabels.other}</span><span class="cum-count">${nf(x.count)}</span></div>`).join('')}</div>`:'<div class="chart-empty">لا توجد نقرات مسجلة بعد على أي رابط.</div>';
+    if(cumSummary)cumSummary.innerHTML=lt.length?`<div class="cum-summary"><div class="cum-stat"><span class="cum-stat-v">${nf(model.cumulativeTotal)}</span><span class="cum-stat-l">إجمالي النقرات</span></div><div class="cum-stat-divider"></div><div class="cum-stat"><span class="cum-stat-v">${nf(lt.length)}</span><span class="cum-stat-l">روابط مُتتبَّعة</span></div></div>`:'';
+    cumEl.innerHTML=lt.length?`<div class="cum-list">${lt.map((x,i)=>`<div class="cum-row"><span class="cum-rank">${nf(i+1)}</span><span class="cum-name">${esc(x.name)}</span><span class="cum-cat cat-${x.category}">${catLabels[x.category]||catLabels.other}</span><span class="cum-count">${nf(x.count)}</span></div>`).join('')}</div>`:'<div class="chart-empty">لا توجد نقرات مسجلة بعد على أي رابط.</div>';
   }
   const recent=document.getElementById('recentAnalytics');recent.innerHTML=model.recent.length?model.recent.map(x=>`<tr>
       <td><span class="interaction-kind ${x.kind==='طلب'?'kind-req':'kind-click'}">${x.kind}</span></td>
@@ -3748,10 +3751,15 @@ tbody tr:nth-child(even){background:#fbfbfc}
 }
 
 // SETTINGS
+const ADMIN_PASSWORD_RULE='يجب أن تتضمن كلمة المرور 6 أحرف و4 أرقام على الأقل';
+function isValidAdminPassword(password){
+  const value=String(password||'');
+  return (value.match(/\p{L}/gu)||[]).length>=6&&(value.match(/\p{N}/gu)||[]).length>=4;
+}
 async function changePw(){
   const nw=document.getElementById('newPw').value,cn=document.getElementById('confPw').value;
   if(!hasAdminAuth()){toast('انتهت الجلسة. سجل الدخول مجددًا');showLogin();return;}
-  if(nw.length<10){toast('يجب أن تكون 10 أحرف على الأقل');return;}
+  if(!isValidAdminPassword(nw)){toast(ADMIN_PASSWORD_RULE);return;}
   if(nw!==cn){toast('كلمتا المرور غير متطابقتين');return;}
   const {error}=await sb.auth.updateUser({password:nw});
   if(error){toast('تعذر تغيير كلمة المرور الآن');return;}
@@ -3788,6 +3796,7 @@ function resetPermissionForm(){
   ['permName','permContact','permRole','permEditId','permPassword'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   const role=document.getElementById('permRole');if(role)role.value='editor';
   const passwordField=document.getElementById('permPasswordField');if(passwordField)passwordField.style.display='block';
+  const passwordInput=document.getElementById('permPassword');if(passwordInput)passwordInput.placeholder='6 أحرف و4 أرقام على الأقل';
   renderPermissionSectionOptions(PERMISSION_SECTIONS.map(section=>section.id));
   syncPermissionMode();
   const saveBtn=document.querySelector('#permForm .btn-save');
@@ -3860,7 +3869,7 @@ async function savePermission(){
   const editId=document.getElementById('permEditId').value;
   if(!name){toast('أدخل الاسم');return;}
   if(!contact||!contact.includes('@')){toast('أدخل بريدًا إلكترونيًا صحيحًا');return;}
-  if(!editId&&password.length<12){toast('كلمة المرور يجب أن تكون 12 حرفًا على الأقل');return;}
+  if((!editId||password)&&!isValidAdminPassword(password)){toast(ADMIN_PASSWORD_RULE);return;}
   let sections=[...document.querySelectorAll('#permSections input[type="checkbox"]:checked')].map(i=>i.value);
   if(role==='admin')sections=PERMISSION_SECTIONS.map(section=>section.id);
   if(role==='editor'&&!sections.length){toast('اختر قسمًا واحدًا على الأقل للصلاحية المخصصة');return;}
@@ -3882,7 +3891,7 @@ async function savePermission(){
   }
   if(editId&&payload.dbUserId){
     try{
-      await manageDatabaseAdminUser('update',payload.dbUserId,{name,role,sections,active:payload.active});
+      await manageDatabaseAdminUser('update',payload.dbUserId,{name,role,sections,active:payload.active,password});
     }catch(e){
       toast('تعذر تحديث صلاحيات الحساب في قاعدة البيانات');
       return;
@@ -3908,7 +3917,8 @@ function editPermission(id){
   document.getElementById('permContact').value=p.contact||'';
   document.getElementById('permRole').value=p.role==='admin'?'admin':'editor';
   document.getElementById('permEditId').value=p.id;
-  const passwordField=document.getElementById('permPasswordField');if(passwordField)passwordField.style.display='none';
+  const passwordField=document.getElementById('permPasswordField');if(passwordField)passwordField.style.display='block';
+  const passwordInput=document.getElementById('permPassword');if(passwordInput){passwordInput.value='';passwordInput.placeholder='اتركها فارغة للإبقاء على كلمة المرور الحالية';}
   renderPermissionSectionOptions(legacyPermissionSections(p));
   syncPermissionMode();
   const saveBtn=document.querySelector('#permForm .btn-save');

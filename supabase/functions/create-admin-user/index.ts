@@ -14,6 +14,10 @@ function json(body: Record<string, unknown>, status = 200) {
   });
 }
 
+function isValidAdminPassword(password: string) {
+  return (password.match(/\p{L}/gu) || []).length >= 6 && (password.match(/\p{N}/gu) || []).length >= 4;
+}
+
 function sessionIdFromAuthorization(authHeader: string) {
   try {
     const token = authHeader.replace(/^Bearer\s+/i, "");
@@ -59,7 +63,7 @@ serve(async (req) => {
   const sections = Array.isArray(body.sections) ? body.sections : [];
 
   if (!email || !email.includes("@")) return json({ error: "invalid_email" }, 400);
-  if (password.length < 12) return json({ error: "weak_password" }, 400);
+  if (!isValidAdminPassword(password)) return json({ error: "weak_password" }, 400);
   if (!["admin", "editor", "analyst", "support"].includes(role)) {
     return json({ error: "invalid_role" }, 400);
   }

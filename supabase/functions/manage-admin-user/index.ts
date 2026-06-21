@@ -11,6 +11,10 @@ function json(body: Record<string, unknown>, status = 200) {
   return Response.json(body, { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 }
 
+function isValidAdminPassword(password: string) {
+  return (password.match(/\p{L}/gu) || []).length >= 6 && (password.match(/\p{N}/gu) || []).length >= 4;
+}
+
 function sessionIdFromAuthorization(authHeader: string) {
   try {
     const token = authHeader.replace(/^Bearer\s+/i, "");
@@ -56,10 +60,13 @@ serve(async (req) => {
   if (!["admin", "editor", "analyst", "support"].includes(role)) return json({ error: "invalid_role" }, 400);
   const sections = Array.isArray(body.sections) ? body.sections.map(String).slice(0, 20) : [];
   const active = body.active !== false;
+  const password = String(body.password || "");
+  if (password && !isValidAdminPassword(password)) return json({ error: "weak_password" }, 400);
   const { error } = await adminClient.auth.admin.updateUserById(userId, {
     ban_duration: active ? "none" : "876000h",
     user_metadata: { name: String(body.name || "").slice(0, 120), role, sections },
     app_metadata: { role: role === "admin" ? "admin" : "staff", platform_role: role, sections },
+    ...(password ? { password } : {}),
   });
   return error ? json({ error: error.message }, 400) : json({ ok: true });
 });
