@@ -105,11 +105,11 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 
 .page-head{position:sticky;top:0;z-index:80;background:transparent;padding:12px 0 14px;margin-bottom:16px}
 .page-chrome{display:grid;grid-template-columns:1fr;gap:12px;align-items:stretch}
-.welcome-bar{background:#fff;border:1px solid var(--bd);border-radius:20px;padding:14px 16px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px}
-.welcome-main{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;justify-self:flex-start}
+.welcome-bar{background:#fff;border:1px solid var(--bd);border-radius:20px;padding:14px 16px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:16px}
+.welcome-main{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:4px 12px;justify-self:flex-start}
 .welcome-title{font-size:15px;font-weight:var(--fw-b);color:var(--tx)}
-.welcome-meta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center;background:transparent;border-radius:0;padding:0;color:var(--tx);justify-self:center}
-.meta-chip{padding:0;background:transparent;color:var(--tx);font-size:11px;font-weight:var(--fw-sb);white-space:nowrap}
+.welcome-meta{grid-column:2;display:flex;flex-wrap:wrap;gap:9px;align-items:center;background:transparent;border-radius:0;padding:0;color:var(--mt)}
+.meta-chip{padding:0;background:transparent;color:var(--mt);font-size:11px;font-weight:var(--fw-sb);white-space:nowrap}
 .meta-chip + .meta-chip{position:relative;padding-inline-start:12px}
 .meta-chip + .meta-chip::before{content:'•';position:absolute;inset-inline-start:0;color:rgba(17,17,17,.38)}
 .logout-btn{padding:10px 14px;border-radius:16px;border:1px solid rgba(180,35,24,.16);background:linear-gradient(135deg,#fff 0%,#fff6f5 100%);color:var(--dn);font-family:var(--fn);font-size:13px;font-weight:var(--fw-b);cursor:pointer;display:flex;align-items:center;gap:7px;transition:all .2s;box-shadow:0 6px 18px rgba(180,35,24,.08)}
@@ -450,7 +450,7 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
   .page-chrome{grid-template-columns:1fr}
   .welcome-bar{grid-template-columns:1fr;padding:13px;gap:10px}
   .welcome-main{width:100%;justify-content:flex-start}
-  .welcome-meta{width:100%;justify-content:center}
+  .welcome-meta{width:100%;justify-content:flex-start}
   .page-actions{width:100%;margin-inline-start:0;justify-content:flex-start}
   .action-bar{margin-top:10px}
   .r2{grid-template-columns:1fr}
@@ -502,6 +502,12 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 .adlink-stat{display:flex;align-items:baseline;gap:7px;margin:8px 0}
 .adlink-stat-v{font-size:22px;font-weight:800;color:var(--tx);line-height:1}
 .adlink-stat-l{font-size:11px;color:var(--mt);font-weight:600}
+.adlink-period{display:flex;flex-direction:column;gap:5px;margin-top:4px}
+.adlink-period-line{display:flex;align-items:center;gap:7px;line-height:1.5;white-space:nowrap}
+.adlink-period-h{font-size:12px;font-weight:800;color:var(--tx)}
+.adlink-period-g{font-size:11px;font-weight:600;color:var(--mt)}
+.adlink-period-arrow{color:var(--lt);font-size:12px}
+.adlink-period-days{font-size:10.5px;color:var(--mt);font-weight:700;margin-top:1px}
 .adlinks-header-actions{display:flex;align-items:center;gap:10px;margin-inline-start:auto;flex-wrap:wrap}
 .adlinks-header-actions .books-form-trigger{margin:0}
 @media(max-width:640px){.adlinks-header-actions{width:100%;flex-direction:column;align-items:stretch}.adlinks-header-actions .books-form-trigger{width:100%;justify-content:center}}
@@ -659,11 +665,11 @@ window.adminQuickLogin=async function(){
               <button class="hbg" id="hbgBtn" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
               <div class="live-dot"></div>
               <div class="welcome-title" id="welcomeTitle">مرحبًا</div>
-            </div>
-            <div class="welcome-meta">
-              <span class="meta-chip" id="todayChip">اليوم</span>
-              <span class="meta-chip" id="dateChip">التاريخ</span>
-              <span class="meta-chip" id="timeChip">الوقت</span>
+              <div class="welcome-meta">
+                <span class="meta-chip" id="todayChip"></span>
+                <span class="meta-chip" id="dateChip"></span>
+                <span class="meta-chip" id="timeChip"></span>
+              </div>
             </div>
             <div class="page-actions">
               <button class="btn-sm" onclick="openPreview()"><svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg><span>معاينة الواجهة</span></button>
@@ -1153,11 +1159,11 @@ function updateLiveHeader(){
   const welcome=document.getElementById('welcomeTitle');
   if(welcome)welcome.textContent=`مرحبًا ${name}`;
   const todayChip=document.getElementById('todayChip');
-  if(todayChip)todayChip.textContent=`اليوم · ${day}`;
+  if(todayChip)todayChip.textContent=day;
   const dateChip=document.getElementById('dateChip');
-  if(dateChip)dateChip.textContent=`${hijri}${greg?` · ${greg}`:''}`;
+  if(dateChip)dateChip.textContent=hijri||greg;
   const timeChip=document.getElementById('timeChip');
-  if(timeChip)timeChip.textContent=`الوقت · ${time}`;
+  if(timeChip)timeChip.textContent=time;
 }
 
 function startLiveClock(){
@@ -2386,7 +2392,8 @@ function renderAnalyticsDashboard(model){
   const statusColors={new:'#5577c5',review:'#7b6fc2',contacted:'#c4973a',approved:'#43825a',rejected:'#bc5656',archived:'#8b8f97'},statusLabels={new:'جديد',review:'قيد المراجعة',contacted:'تم التواصل',approved:'تمت الموافقة',rejected:'مرفوض',archived:'مؤرشف'};
   const entries=Object.entries(model.statuses).filter(([,n])=>n>0),total=entries.reduce((a,[,n])=>a+n,0);let at=0;const stops=entries.map(([k,n])=>{const from=at;at+=n/Math.max(total,1)*100;return `${statusColors[k]||'#999'} ${from}% ${at}%`}).join(',');
   document.getElementById('requestStatusVisual').innerHTML=total?`<div class="status-layout"><div class="status-donut" style="background:conic-gradient(${stops})"><div class="status-total">${nf(total)}<small>طلب</small></div></div><div class="status-list">${entries.map(([k,n])=>`<div class="status-row"><span class="status-row-main"><i class="status-color" style="background:${statusColors[k]||'#999'}"></i><span>${statusLabels[k]||k}</span></span><strong>${nf(n)}</strong></div>`).join('')}</div></div>`:'<div class="chart-empty">لا توجد طلبات في هذه الفترة.</div>';
-  const socialMax=Math.max(...model.topSocial.map(x=>x.count),1);document.getElementById('topSocialVisual').innerHTML=model.topSocial.length?`<div class="social-list">${model.topSocial.map((x,i)=>`<div class="analytics-social-row"><span class="social-rank">${nf(i+1)}</span><div class="social-main"><div class="social-row-top"><span class="social-name">${esc(x.name)}</span><span class="social-count">${nf(x.count)} نقرة</span></div><div class="social-track"><i style="width:${x.count/socialMax*100}%"></i></div></div></div>`).join('')}</div>`:'<div class="chart-empty">لا توجد نقرات على حسابات التواصل في هذه الفترة.</div>';
+  const socialRows=model.topSocial.length?model.topSocial.map((x,i)=>`<tr><td><span class="cumulative-rank">${nf(i+1)}</span></td><td><span class="cumulative-link-name" title="${esc(x.name)}">${esc(x.name)}</span></td><td><span class="cumulative-count">${nf(x.count)}</span></td></tr>`).join(''):'<tr><td colspan="3" style="text-align:center;color:var(--mt);padding:24px">لا توجد نقرات على حسابات التواصل في هذه الفترة.</td></tr>';
+  document.getElementById('topSocialVisual').innerHTML=`<div class="analytics-table-wrap cumulative-table-wrap"><table class="analytics-table cumulative-table"><thead><tr><th>الترتيب</th><th>الحساب</th><th>إجمالي النقرات</th></tr></thead><tbody>${socialRows}</tbody></table></div>`;
   const cumEl=document.getElementById('cumulativeClicksVisual');
   const cumSummary=document.getElementById('cumulativeClicksSummary');
   if(cumEl){
@@ -2706,15 +2713,21 @@ function switchAdLinksTab(tab){
   if(tab==='archive'&&!adLinkClickCounts)loadAdLinkClickCounts();
   renderAdLinks();
 }
-function adLinkPeriodText(item){
-  const start=item.createdAt?requestGregorianDate(item.createdAt):'غير محدد';
-  const end=item.archivedAt?requestGregorianDate(item.archivedAt):'—';
+function adLinkPeriodHtml(item){
+  const startH=item.createdAt?requestHijriDate(item.createdAt):'غير محدد';
+  const endH=item.archivedAt?requestHijriDate(item.archivedAt):'—';
+  const startG=item.createdAt?requestGregorianDate(item.createdAt):'غير محدد';
+  const endG=item.archivedAt?requestGregorianDate(item.archivedAt):'—';
   let days='';
   if(item.createdAt&&item.archivedAt){
     const d=Math.max(1,Math.round((new Date(item.archivedAt)-new Date(item.createdAt))/86400000));
-    days=` · ${d.toLocaleString('ar-SA')} يومًا`;
+    days=`<div class="adlink-period-days">${d.toLocaleString('ar-SA')} يومًا</div>`;
   }
-  return `${start} ← ${end}${days}`;
+  return `<div class="adlink-period">
+    <div class="adlink-period-line adlink-period-h"><span>${escHtml(startH)}</span><span class="adlink-period-arrow">←</span><span>${escHtml(endH)}</span></div>
+    <div class="adlink-period-line adlink-period-g"><span>${escHtml(startG)}</span><span class="adlink-period-arrow">←</span><span>${escHtml(endG)}</span></div>
+    ${days}
+  </div>`;
 }
 function renderAdLinks(){
   const list=document.getElementById('adLinksList');
@@ -2736,7 +2749,7 @@ function renderAdLinks(){
         <div class="book-info">
           <div class="book-name">${escHtml(item.titleAr||'بدون مسمى')} <span class="adlink-arch-tag">مؤرشف</span></div>
           <div class="adlink-stat"><span class="adlink-stat-v">${loading?'…':adLinkClickTotal(item.id).toLocaleString('ar-SA')}</span><span class="adlink-stat-l">إجمالي النقرات</span></div>
-          <div class="book-meta-row"><div class="book-meta-label">مدة النشاط</div><div class="book-meta-value">${escHtml(adLinkPeriodText(item))}</div></div>
+          <div class="book-meta-row"><div class="book-meta-label">مدة النشاط</div><div class="book-meta-value">${adLinkPeriodHtml(item)}</div></div>
         </div>
         <div class="book-actions">
           <div class="book-action-buttons">
@@ -2798,6 +2811,7 @@ async function archiveAdLink(id){
 async function restoreAdLink(id){
   const item=(D.adLinks||[]).find(l=>l.id===id);
   if(!item)return;
+  if(!(await platformConfirm('سيُعاد الرابط إلى قائمة الروابط النشطة ويظهر في الواجهة حسب حالته. هل تريد المتابعة؟','استعادة الرابط')))return;
   item.archived=false;
   item.archivedAt='';
   const saved=await save();
@@ -3842,12 +3856,10 @@ function renderPermissions(){
     const row=document.createElement('div');
     row.className='perm-item';
     const isActive=p.active!==false;
-    const initial=(p.name||'؟').trim().charAt(0)||'؟';
     const badges=(p.sections||[]).map(id=>id==='partners'?'adlinks':id).map(id=>PERMISSION_SECTIONS.find(s=>s.id===id)?.label).filter(Boolean);
     const isFull=p.role==='admin';
     const scope=isFull?'<span class="perm-badge full">كل الأقسام</span>':(badges.length?badges.slice(0,4).map(b=>`<span class="perm-badge">${b}</span>`).join('')+(badges.length>4?`<span class="perm-badge more">+${badges.length-4}</span>`:''):'<span class="perm-badge">بدون أقسام</span>');
     row.innerHTML=`
-      <div class="perm-avatar${isActive?'':' off'}">${escHtml(initial)}</div>
       <div class="perm-info">
         <div class="perm-name-line"><span class="perm-name">${escHtml(p.name||'بدون اسم')}</span><span class="perm-role">${roleLabels[p.role]||roleLabels.editor}</span></div>
         <div class="perm-contact">${escHtml(p.contact||'لا توجد وسيلة تواصل')}</div>
@@ -3930,6 +3942,8 @@ function editPermission(id){
 async function togglePermission(id,val){
   const p=(D.permissions||[]).find(x=>x.id===id);
   if(!p)return;
+  const action=val?'تفعيل':'تعطيل';
+  if(!(await platformConfirm(`هل تريد ${action} صلاحية ${p.name||'هذا المستخدم'}؟`,`${action} الصلاحية`))){renderPermissions();return;}
   if(p.dbUserId){
     try{await manageDatabaseAdminUser('update',p.dbUserId,{name:p.name,role:p.role,sections:p.sections,active:val});}
     catch(e){renderPermissions();toast('تعذر تغيير حالة الحساب');return;}
