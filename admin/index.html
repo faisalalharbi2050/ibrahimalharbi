@@ -264,17 +264,23 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 .request-detail-modal .modal-card{width:min(760px,100%);max-height:calc(100vh - 36px);display:flex;flex-direction:column}
 .request-detail-modal .modal-card-body{overflow:auto}
 .whatsapp-modal .modal-card{width:min(560px,100%)}
-.whatsapp-request-summary{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.whatsapp-request-summary{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:14px}
 .whatsapp-request-summary div{border:1px solid var(--bd);border-radius:13px;background:#fafafb;padding:10px 12px}
 .whatsapp-request-summary span{display:block;font-size:10px;color:var(--lt);margin-bottom:3px}
-.whatsapp-request-summary strong{display:block;font-size:12.5px;color:var(--tx)}
+.whatsapp-request-summary strong{display:block;font-size:12.5px;color:var(--tx);text-align:right}
+.whatsapp-request-summary strong[dir="ltr"]{direction:ltr;text-align:right}
 .whatsapp-amount-field label{display:block;font-size:12px;font-weight:700;color:var(--tx);margin-bottom:7px}
 .whatsapp-amount-field input{width:100%;border:1px solid var(--bds);border-radius:13px;padding:12px 14px;font-family:var(--fn);font-size:15px;background:#fff;color:var(--tx);outline:none;direction:ltr;text-align:right}
 .whatsapp-amount-field input:focus{border-color:#1f9d55;box-shadow:0 0 0 3px rgba(31,157,85,.1)}
-.whatsapp-message-preview{width:100%;min-height:150px;margin-top:13px;border:1px solid var(--bd);border-radius:14px;padding:12px 14px;background:#fafafb;color:var(--mt);font-family:var(--fn);font-size:12px;line-height:1.9;resize:none}
+.whatsapp-note-toggle{margin-top:11px;border:0;background:transparent;color:#168347;font-family:var(--fn);font-size:12px;font-weight:700;cursor:pointer;padding:5px 0}
+.whatsapp-notes-field{margin-top:8px}.whatsapp-notes-field label{display:block;font-size:11px;font-weight:700;color:var(--tx);margin-bottom:6px}
+.whatsapp-notes-field textarea{width:100%;min-height:76px;border:1px solid var(--bds);border-radius:13px;padding:10px 12px;font-family:var(--fn);font-size:13px;line-height:1.7;resize:vertical;outline:none}
+.whatsapp-notes-field textarea:focus{border-color:#1f9d55;box-shadow:0 0 0 3px rgba(31,157,85,.1)}
+.whatsapp-message-preview{width:100%;min-height:170px;margin-top:13px;border:1px solid var(--bd);border-radius:14px;padding:12px 14px;background:#fafafb;color:var(--mt);font-family:var(--fn);font-size:12px;line-height:1.9;resize:none}
 .btn-whatsapp{background:#1f9d55;color:#fff;border-color:#1f9d55;display:inline-flex;align-items:center;gap:7px}
 .btn-whatsapp:hover{background:#178347}.btn-whatsapp svg{width:16px;height:16px;fill:currentColor}
-.row-menu button.whatsapp-action{color:#168347}.row-menu button.whatsapp-action:hover{background:#edf9f2}
+.ico-whatsapp{width:34px;height:34px;border-radius:11px;border:1px solid rgba(31,157,85,.25);background:#edf9f2;color:#168347;cursor:pointer;display:inline-grid;place-items:center;transition:all .18s}
+.ico-whatsapp svg{width:19px;height:19px;fill:currentColor}.ico-whatsapp:hover{background:#168347;color:#fff;border-color:#168347;transform:translateY(-1px)}
 @media(max-width:520px){.whatsapp-request-summary{grid-template-columns:1fr}.whatsapp-modal .modal-card-actions{flex-direction:column-reverse}.whatsapp-modal .modal-card-actions button{width:100%;justify-content:center}}
 .item-row.social-row{align-items:flex-start}
 .item-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--al)}
@@ -495,7 +501,7 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 .request-table th{padding:11px 12px;text-align:right;font-size:11px;color:var(--mt);background:#f7f7f8;border-bottom:1px solid var(--bd);white-space:nowrap}
 .request-table td{padding:12px;border-bottom:1px solid var(--bd);font-size:12px;vertical-align:middle;white-space:nowrap}.request-table tr:last-child td{border-bottom:0}.request-table tbody tr:hover{background:#fafafa}
 .request-seq{width:30px;height:30px;border-radius:10px;background:#111;color:#fff;display:grid;place-items:center;font-weight:700}.request-primary{font-weight:700;font-size:13px}.request-secondary{color:var(--mt);margin-top:3px}.request-status-select{padding:8px 9px;border:1px solid var(--bds);border-radius:11px;background:#fff;font-family:var(--fn);font-size:12px}
-.request-row-actions{display:flex;gap:6px;align-items:center}.request-row-actions .ico-btn{flex:0 0 auto}.request-table .btn-sm{white-space:nowrap;padding:7px 10px}
+.request-row-actions{display:flex;gap:6px;align-items:center;justify-content:center}.request-row-actions .ico-btn{flex:0 0 auto}.request-table .btn-sm{white-space:nowrap;padding:7px 10px}
 .status-pill{display:inline-flex;padding:5px 9px;border-radius:999px;background:#f3f4f6;font-size:11px;font-weight:600}.status-pill.archived{background:#e5e7eb;color:#4b5563}
 .ad-links-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}.ad-link-card{border:1px solid var(--bd);border-radius:18px;background:#fff;overflow:hidden;box-shadow:0 5px 18px rgba(15,23,42,.05)}
 .ad-link-cover{aspect-ratio:16/10;background:#f3f4f6;display:grid;place-items:center;overflow:hidden}.ad-link-cover img{width:100%;height:100%;object-fit:cover}.ad-link-cover svg{width:34px;height:34px;fill:#9ca3af}.ad-link-content{padding:14px}.ad-link-content h3{font-size:14px;margin-bottom:5px}.ad-link-meta{font-size:11px;color:var(--mt);line-height:1.7}.ad-link-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 14px;border-top:1px solid var(--bd);background:#fafafa}
@@ -1035,18 +1041,20 @@ window.adminQuickLogin=async function(){
 <div class="modal-backdrop whatsapp-modal" id="whatsappModal" aria-hidden="true" onclick="if(event.target===this)closeWhatsAppDialog()">
   <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="whatsappModalTitle">
     <div class="modal-card-hd">
-      <div class="modal-badge"><svg viewBox="0 0 24 24"><path d="M20.52 3.48A11.82 11.82 0 0 0 12.05 0C5.49 0 .14 5.34.14 11.9c0 2.07.54 4.06 1.57 5.83L0 24l6.47-1.69a11.84 11.84 0 0 0 5.58 1.42h.01c6.56 0 11.91-5.34 11.91-11.9 0-3.18-1.24-6.16-3.45-8.35zM12.05 21.73h-.01a9.72 9.72 0 0 1-4.95-1.35l-.35-.21-3.7.97.99-3.61-.23-.37a9.74 9.74 0 0 1-1.48-5.2c0-5.37 4.38-9.74 9.76-9.74 2.6 0 5.04 1.01 6.87 2.84a9.68 9.68 0 0 1 2.84 6.9c0 5.37-4.39 9.74-9.77 9.74z"/></svg></div>
+      <div class="modal-badge"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm.056 2.16a9.84 9.84 0 0 1 8.36 15.04l-.23.37.99 3.61-3.7-.97-.35.21A9.82 9.82 0 0 1 2.16 12 9.85 9.85 0 0 1 12 2.16zm-3.09 4.7c-.19 0-.5.07-.76.36-.27.29-1.02 1-1.02 2.44s1.04 2.83 1.18 3.02c.14.19 2.06 3.14 4.99 4.39.7.3 1.26.48 1.68.61.71.22 1.34.19 1.85.11.57-.08 1.74-.71 1.99-1.38.25-.67.25-1.27.17-1.38-.08-.11-.29-.2-.58-.34-.29-.14-1.72-.85-2-.95-.27-.1-.46-.14-.66.14-.19.29-.74.95-.91 1.15-.17.2-.34.23-.63.08-.29-.14-1.21-.45-2.31-1.44-.85-.76-1.42-1.7-1.6-2-.17-.29-.02-.45.12-.59.12-.12.29-.34.43-.5.14-.16.19-.29.29-.49.1-.2.05-.37-.03-.51-.08-.14-.66-1.58-.9-2.16-.24-.57-.49-.49-.67-.5h-.57z"/></svg></div>
       <div class="modal-card-title" id="whatsappModalTitle">إرسال عرض الإعلان عبر واتساب</div>
     </div>
     <div class="modal-card-body">
       <input type="hidden" id="whatsappRequestId">
       <div class="whatsapp-request-summary"><div><span>صاحب الطلب</span><strong id="whatsappRequestName">—</strong></div><div><span>رقم الجوال</span><strong id="whatsappRequestPhone" dir="ltr">—</strong></div></div>
       <div class="whatsapp-amount-field"><label for="whatsappAdAmount">قيمة الإعلان (ريال)</label><input id="whatsappAdAmount" type="text" inputmode="decimal" autocomplete="off" placeholder="أدخل قيمة الإعلان" oninput="updateWhatsAppPreview()"></div>
+      <button class="whatsapp-note-toggle" id="whatsappNoteToggle" type="button" onclick="toggleWhatsAppNotes()">+ إضافة ملاحظات</button>
+      <div class="whatsapp-notes-field" id="whatsappNotesField" hidden><label for="whatsappNotes">الملاحظات الإضافية</label><textarea id="whatsappNotes" placeholder="اكتب الملاحظات التي ستظهر بعد القالب الجاهز" oninput="updateWhatsAppPreview()"></textarea></div>
       <textarea class="whatsapp-message-preview" id="whatsappMessagePreview" readonly aria-label="معاينة رسالة واتساب"></textarea>
     </div>
     <div class="modal-card-actions">
       <button class="btn-ghost" type="button" onclick="closeWhatsAppDialog()">إلغاء</button>
-      <button class="btn-save btn-whatsapp" type="button" onclick="sendRequestWhatsApp()"><svg viewBox="0 0 24 24"><path d="M20.52 3.48A11.82 11.82 0 0 0 12.05 0C5.49 0 .14 5.34.14 11.9c0 2.07.54 4.06 1.57 5.83L0 24l6.47-1.69a11.84 11.84 0 0 0 5.58 1.42h.01c6.56 0 11.91-5.34 11.91-11.9 0-3.18-1.24-6.16-3.45-8.35z"/></svg>فتح واتساب وإرسال الرسالة</button>
+      <button class="btn-save btn-whatsapp" type="button" onclick="sendRequestWhatsApp()"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm.056 2.16a9.84 9.84 0 0 1 8.36 15.04l-.23.37.99 3.61-3.7-.97-.35.21A9.82 9.82 0 0 1 2.16 12 9.85 9.85 0 0 1 12 2.16zm-3.09 4.7c-.19 0-.5.07-.76.36-.27.29-1.02 1-1.02 2.44s1.04 2.83 1.18 3.02c.14.19 2.06 3.14 4.99 4.39.7.3 1.26.48 1.68.61.71.22 1.34.19 1.85.11.57-.08 1.74-.71 1.99-1.38.25-.67.25-1.27.17-1.38-.08-.11-.29-.2-.58-.34-.29-.14-1.72-.85-2-.95-.27-.1-.46-.14-.66.14-.19.29-.74.95-.91 1.15-.17.2-.34.23-.63.08-.29-.14-1.21-.45-2.31-1.44-.85-.76-1.42-1.7-1.6-2-.17-.29-.02-.45.12-.59.12-.12.29-.34.43-.5.14-.16.19-.29.29-.49.1-.2.05-.37-.03-.51-.08-.14-.66-1.58-.9-2.16-.24-.57-.49-.49-.67-.5h-.57z"/></svg>إرسال</button>
     </div>
   </div>
 </div>
@@ -3156,7 +3164,7 @@ const ICON_EYE='<svg viewBox="0 0 24 24"><path d="M12 5c-5.5 0-9 7-9 7s3.5 7 9 7
 const ICON_TRASH='<svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>';
 const ICON_ARCHIVE='<svg viewBox="0 0 24 24"><path d="M20.54 5.23 19.15 3.55A1.5 1.5 0 0 0 18 3H6c-.47 0-.9.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5 6.5 12H10v-2h4v2h3.5L12 17.5zM5.12 5l.82-1h12l.93 1H5.12z"/></svg>';
 const ICON_RESTORE='<svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 0 0-9 9H1l4 4 4-4H6a7 7 0 1 1 7 7 6.96 6.96 0 0 1-4.95-2.05l-1.42 1.42A9 9 0 1 0 13 3zm-1 5v5l4.25 2.52.75-1.23-3.5-2.08V8z"/></svg>';
-const ICON_WHATSAPP='<svg viewBox="0 0 24 24"><path d="M20.52 3.48A11.82 11.82 0 0 0 12.05 0C5.49 0 .14 5.34.14 11.9c0 2.07.54 4.06 1.57 5.83L0 24l6.47-1.69a11.84 11.84 0 0 0 5.58 1.42h.01c6.56 0 11.91-5.34 11.91-11.9 0-3.18-1.24-6.16-3.45-8.35z"/></svg>';
+const ICON_WHATSAPP='<svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm.056 2.16a9.84 9.84 0 0 1 8.36 15.04l-.23.37.99 3.61-3.7-.97-.35.21A9.82 9.82 0 0 1 2.16 12 9.85 9.85 0 0 1 12 2.16zm-3.09 4.7c-.19 0-.5.07-.76.36-.27.29-1.02 1-1.02 2.44s1.04 2.83 1.18 3.02c.14.19 2.06 3.14 4.99 4.39.7.3 1.26.48 1.68.61.71.22 1.34.19 1.85.11.57-.08 1.74-.71 1.99-1.38.25-.67.25-1.27.17-1.38-.08-.11-.29-.2-.58-.34-.29-.14-1.72-.85-2-.95-.27-.1-.46-.14-.66.14-.19.29-.74.95-.91 1.15-.17.2-.34.23-.63.08-.29-.14-1.21-.45-2.31-1.44-.85-.76-1.42-1.7-1.6-2-.17-.29-.02-.45.12-.59.12-.12.29-.34.43-.5.14-.16.19-.29.29-.49.1-.2.05-.37-.03-.51-.08-.14-.66-1.58-.9-2.16-.24-.57-.49-.49-.67-.5h-.57z"/></svg>';
 
 let requestSelection=new Set();
 
@@ -3202,14 +3210,15 @@ function renderRequests(){
       <td>${esc(r.company||'—')}</td>
       <td><select class="request-status-select" aria-label="حالة الطلب" onchange="updateRequestStatus('${r.id}',this.value)">${statusOpts(r)}</select></td>
       <td><button class="ico-eye" title="عرض التفاصيل" onclick="openRequestDetails('${r.id}')">${ICON_EYE}</button></td>
-      <td><div class="row-actions-menu">
-        <button class="ico-dots" title="إجراءات" aria-haspopup="true" onclick="toggleRowMenu(event,'${r.id}')">⋯</button>
-        <div class="row-menu" id="rowMenu-${r.id}">
-          <button class="whatsapp-action" onclick="closeRowMenus();openRequestWhatsApp('${r.id}')">${ICON_WHATSAPP}<span>إرسال عبر واتساب</span></button>
-          <div class="row-menu-sep"></div>
+      <td><div class="request-row-actions">
+        <button class="ico-whatsapp" title="إرسال عبر واتساب" aria-label="إرسال عبر واتساب" onclick="openRequestWhatsApp('${r.id}')">${ICON_WHATSAPP}</button>
+        <div class="row-actions-menu">
+          <button class="ico-dots" title="إجراءات" aria-haspopup="true" onclick="toggleRowMenu(event,'${r.id}')">⋯</button>
+          <div class="row-menu" id="rowMenu-${r.id}">
           <button onclick="toggleRequestArchive('${r.id}',${r.archived?'false':'true'});closeRowMenus()">${r.archived?ICON_RESTORE:ICON_ARCHIVE}<span>${r.archived?'استعادة من الأرشيف':'أرشفة الطلب'}</span></button>
           <div class="row-menu-sep"></div>
           <button class="danger" onclick="closeRowMenus();deleteRequestNow('${r.id}')">${ICON_TRASH}<span>حذف نهائي</span></button>
+          </div>
         </div>
       </div></td>
     </tr>`;
@@ -3383,9 +3392,10 @@ function normalizeAdAmount(value){
   const ar='٠١٢٣٤٥٦٧٨٩',fa='۰۱۲۳۴۵۶۷۸۹';
   return String(value||'').replace(/[٠-٩]/g,d=>ar.indexOf(d)).replace(/[۰-۹]/g,d=>fa.indexOf(d)).replace(/[٬,\s]/g,'').replace('٫','.');
 }
-function buildWhatsAppMessage(r,amount){
+function buildWhatsAppMessage(r,amount,notes=''){
   const date=`${requestHijriDate(r.created_at)} الموافق ${requestGregorianDate(r.created_at)}`;
-  return `السلام عليكم ورحمة الله وبركاته\nالمكرم (${r.name||'صاحب الطلب'})\nنسعد ونتشرف بتواصلكم معنا\nبخصوص طلب الإعلان رقم (${r.requestNo||r.id||''}) وتاريخ (${date}) نفيدكم بأن قيمة الإعلان (${amount||'—'}) ريال`;
+  const base=`السلام عليكم ورحمة الله وبركاته\nالمكرم (${r.name||'صاحب الطلب'})\nنسعد ونتشرف بتواصلكم معنا\nبخصوص طلب الإعلان رقم (${r.requestNo||r.id||''}) وتاريخ (${date}) نفيدكم بأن قيمة الإعلان (${amount||'—'}) ريال`;
+  return notes.trim()?`${base}\n\n${notes.trim()}`:base;
 }
 function openRequestWhatsApp(id){
   const r=(D.collab?.requests||[]).find(x=>x.id===id);
@@ -3396,17 +3406,30 @@ function openRequestWhatsApp(id){
   document.getElementById('whatsappRequestName').textContent=r.name||'بدون اسم';
   document.getElementById('whatsappRequestPhone').textContent=r.phone||'—';
   document.getElementById('whatsappAdAmount').value='';
+  document.getElementById('whatsappNotes').value='';
+  document.getElementById('whatsappNotesField').hidden=true;
+  document.getElementById('whatsappNoteToggle').textContent='+ إضافة ملاحظات';
   updateWhatsAppPreview();
   const modal=document.getElementById('whatsappModal');
   modal.classList.add('open');modal.setAttribute('aria-hidden','false');
   setTimeout(()=>document.getElementById('whatsappAdAmount')?.focus(),50);
+}
+function toggleWhatsAppNotes(){
+  const field=document.getElementById('whatsappNotesField');
+  const button=document.getElementById('whatsappNoteToggle');
+  if(!field||!button)return;
+  field.hidden=!field.hidden;
+  button.textContent=field.hidden?'+ إضافة ملاحظات':'− إخفاء الملاحظات';
+  if(!field.hidden)document.getElementById('whatsappNotes')?.focus();
+  updateWhatsAppPreview();
 }
 function updateWhatsAppPreview(){
   const id=document.getElementById('whatsappRequestId')?.value;
   const r=(D.collab?.requests||[]).find(x=>x.id===id);
   if(!r)return;
   const amount=document.getElementById('whatsappAdAmount')?.value.trim()||'—';
-  document.getElementById('whatsappMessagePreview').value=buildWhatsAppMessage(r,amount);
+  const notes=document.getElementById('whatsappNotes')?.value||'';
+  document.getElementById('whatsappMessagePreview').value=buildWhatsAppMessage(r,amount,notes);
 }
 function closeWhatsAppDialog(){
   const modal=document.getElementById('whatsappModal');
@@ -3421,7 +3444,8 @@ function sendRequestWhatsApp(){
   const phone=normalizeWhatsAppPhone(r.phone);
   if(!/^\d{8,15}$/.test(phone)){toast('رقم جوال صاحب الطلب غير صالح');return;}
   const amount=Number(raw).toLocaleString('ar-SA',{minimumFractionDigits:0,maximumFractionDigits:2});
-  const url=`https://wa.me/${phone}?text=${encodeURIComponent(buildWhatsAppMessage(r,amount))}`;
+  const notes=document.getElementById('whatsappNotes')?.value||'';
+  const url=`https://wa.me/${phone}?text=${encodeURIComponent(buildWhatsAppMessage(r,amount,notes))}`;
   window.open(url,'_blank','noopener,noreferrer');
   closeWhatsAppDialog();
 }
