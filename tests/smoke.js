@@ -50,7 +50,33 @@ async function waitForServer() {
     if (notificationLayout.left < 0 || notificationLayout.right > notificationLayout.viewport) {
       throw new Error(`نافذة الإشعارات خارج الشاشة: ${JSON.stringify(notificationLayout)}`);
     }
-    console.log('✓ نجح اختبار الواجهة العامة ودخول الإدارة');
+    const whatsappState = await page.evaluate(() => {
+      D.collab = { ...(D.collab || {}), requests: [{
+        id: 'wa-test', requestNo: 'AB-123', name: 'محمد', phone: '0501234567',
+        created_at: '2026-06-22T09:00:00.000Z', status: 'new', archived: false
+      }] };
+      renderRequests();
+      openRequestWhatsApp('wa-test');
+      document.querySelector('#whatsappAdAmount').value = '1500';
+      updateWhatsAppPreview();
+      const message = document.querySelector('#whatsappMessagePreview').value;
+      let opened = '';
+      const nativeOpen = window.open;
+      window.open = (url) => { opened = String(url); };
+      sendRequestWhatsApp();
+      window.open = nativeOpen;
+      return {
+        hasAction: !!document.querySelector('.whatsapp-action'),
+        message,
+        opened: decodeURIComponent(opened)
+      };
+    });
+    if (!whatsappState.hasAction || !whatsappState.opened.includes('wa.me/966501234567') ||
+        !whatsappState.message.includes('AB-123') || !whatsappState.message.includes('محمد') ||
+        !whatsappState.message.includes('1500')) {
+      throw new Error(`فشل مسار إرسال واتساب: ${JSON.stringify(whatsappState)}`);
+    }
+    console.log('✓ نجح اختبار الواجهة العامة ودخول الإدارة وإرسال واتساب');
   } finally {
     if (browser) await browser.close();
     server.kill();

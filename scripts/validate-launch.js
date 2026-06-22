@@ -15,6 +15,8 @@ const checks = [
   ['عنوان الصفحة مضبوط على صفحتي', /<title[^>]*>صفحتي<\/title>/.test(index)],
   ['إخفاء روابط الدعم لا يُلغى تلقائيًا', !index.includes('D.adLinks.some(p=>p.active!==false))D.sectionsOff.adLinks=false') && !admin.includes('D.adLinks.some(p=>p.active!==false))D.sectionsOff.adLinks=false')],
   ['روابط المعاينة تُفتح خارج الإطار', admin.includes('frame.onload=wirePreviewLinks') && admin.includes("window.open(href,'_blank'" )],
+  ['إرسال طلب الإعلان عبر واتساب متاح', admin.includes('openRequestWhatsApp') && admin.includes('https://wa.me/') && admin.includes('whatsappAdAmount')],
+  ['رسالة واتساب تتضمن بيانات الطلب وقيمة الإعلان', admin.includes('buildWhatsAppMessage') && admin.includes('بخصوص طلب الإعلان رقم') && admin.includes('قيمة الإعلان')],
   ['صورة رابط الدعم تستخدم واجهة رفع الأغلفة', admin.includes('cover-btn-face ad-cover-btn-face') && admin.includes('onAdLinkImageFile(this)')],
   ['نموذج رابط الدعم يستخدم تخطيط الصورة والحقول الموحد', admin.includes('book-form-layout ad-link-form-layout') && admin.includes('book-form-fields')],
   ['زر رابط الدعم يظهر أسفل النصوص', index.includes('class="p-content"') && index.includes('<span class="p-cta">${cta}</span></div>')],
