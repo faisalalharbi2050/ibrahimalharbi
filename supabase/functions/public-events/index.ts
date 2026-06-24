@@ -25,6 +25,27 @@ function clean(value: unknown, max: number) {
   return String(value || "").trim().slice(0, max);
 }
 
+function normalizePhone(value: unknown) {
+  const raw = clean(value, 30);
+  const hasPlus = raw.startsWith("+");
+  const digits = raw.replace(/\D/g, "");
+  return (hasPlus ? "+" : "") + digits;
+}
+
+function collectTrackableIds(data: Record<string, unknown>) {
+  const ids = new Set(["collab_wa"]);
+  for (const item of Array.isArray(data.social) ? data.social : []) if (item?.id) ids.add(String(item.id));
+  for (const book of Array.isArray(data.books) ? data.books : []) {
+    const links = Array.isArray(book?.links) ? book.links : [];
+    links.forEach((_link: unknown, index: number) => ids.add(String(book.id) + "_link_" + index));
+  }
+  for (const item of Array.isArray(data.adLinks) ? data.adLinks : []) if (item?.id) ids.add(String(item.id));
+  const collab = data.collab as Record<string, unknown> | undefined;
+  const plans = Array.isArray(collab?.plans) ? collab.plans as Array<Record<string, unknown>> : [];
+  for (const plan of plans) if (plan?.id) ids.add("advert_" + String(plan.id));
+  return ids;
+}
+
 async function sha256(value: string) {
   const bytes = new TextEncoder().encode(value);
   const digest = await crypto.subtle.digest("SHA-256", bytes);
@@ -36,7 +57,10 @@ serve(async (req) => {
   if (req.method !== "POST") return json(req, { error: "method_not_allowed" }, 405);
   const origin = req.headers.get("origin") || "";
   const localOrigin = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
-  if (origin && !localOrigin && !allowedOrigins.includes(origin)) return json(req, { error: "origin_not_allowed" }, 403);
+  if (!origin || (!localOrigin && !allowedOrigins.includes(origin))) return json(req, { error: "origin_not_allowed" }, 403);
+
+  const contentLength = Number(req.headers.get("content-length") || 0);
+  if (contentLength > 32_768) return json(req, { error: "payload_too_large" }, 413);
 
   const url = Deno.env.get("SUPABASE_URL");
   const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
@@ -44,24 +68,27 @@ serve(async (req) => {
   if (!url || !serviceKey || !rateSalt) return json(req, { error: "server_not_configured" }, 500);
 
   const body = await req.json().catch(() => null);
+  if (body && JSON.stringify(body).length > 32_768) return json(req, { error: "payload_too_large" }, 413);
   const type = clean(body?.type, 32);
   if (!body || !["visit", "click", "collab_request"].includes(type)) return json(req, { error: "invalid_event" }, 400);
 
-  const forwarded = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const forwarded = req.headers.get("cf-connecting-ip") || req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   const ipHash = await sha256(`${rateSalt}:${forwarded}`);
-  const windowMs = type === "visit" ? 30 * 60_000 : type === "collab_request" ? 10 * 60_000 : 60_000;
-  const bucket = new Date(Math.floor(Date.now() / windowMs) * windowMs).toISOString();
-  const clickKey = type === "click" ? clean(body.payload?.link_id, 120) : type;
-  const rateKey = `${type}:${clickKey}:${ipHash}`;
   const supabase = createClient(url, serviceKey, { auth: { persistSession: false } });
 
-  const { error: rateError } = await supabase.from("event_rate_limits").insert({ rate_key: rateKey, bucket });
-  if (rateError?.code === "23505") return json(req, { error: "rate_limited" }, 429);
-  if (rateError) return json(req, { error: "rate_limit_unavailable" }, 503);
-
-  if (Math.random() < 0.01) await supabase.rpc("purge_expired_public_data");
+  async function consumeRateLimit(key: string, windowSeconds: number) {
+    const { data, error } = await supabase.rpc("consume_public_rate_limit", {
+      p_key: key,
+      p_window_seconds: windowSeconds,
+    });
+    if (error) throw error;
+    return data === true;
+  }
 
   if (type === "visit") {
+    try {
+      if (!(await consumeRateLimit("visit:ip:" + ipHash, 30 * 60))) return json(req, { error: "rate_limited" }, 429);
+    } catch { return json(req, { error: "rate_limit_unavailable" }, 503); }
     const visitDate = new Intl.DateTimeFormat("en-CA", {
       timeZone: "Asia/Riyadh",
       year: "numeric",
@@ -78,6 +105,17 @@ serve(async (req) => {
     const linkId = clean(body.payload?.link_id, 120);
     const device = clean(body.payload?.device, 20);
     if (!linkId) return json(req, { error: "invalid_click" }, 400);
+    const { data: content, error: contentError } = await supabase
+      .from("site_data").select("data").eq("id", "main").single();
+    if (contentError || !collectTrackableIds(content?.data || {}).has(linkId)) {
+      return json(req, { error: "invalid_click" }, 400);
+    }
+    try {
+      const clickHash = await sha256(linkId);
+      if (!(await consumeRateLimit("click:ip:" + ipHash + ":link:" + clickHash, 60))) {
+        return json(req, { error: "rate_limited" }, 429);
+      }
+    } catch { return json(req, { error: "rate_limit_unavailable" }, 503); }
     const { error } = await supabase.from("clicks").insert({
       link_id: linkId,
       device: ["mobile", "desktop"].includes(device) ? device : "unknown",
@@ -88,13 +126,14 @@ serve(async (req) => {
   }
 
   const payload = body.payload || {};
+  const normalizedPhone = normalizePhone(payload.phone);
   const request = {
-    id: clean(payload.id, 80),
-    request_no: clean(payload.request_no, 80),
+    id: crypto.randomUUID(),
+    request_no: "pending",
     plan_id: clean(payload.plan_id, 80) || null,
     plan_title: clean(payload.plan_title, 160) || "طلب إعلان",
     name: clean(payload.name, 120),
-    phone: clean(payload.phone, 30),
+    phone: normalizedPhone,
     company: clean(payload.company, 160),
     product: clean(payload.product, 500),
     platforms: clean(payload.platforms, 300),
@@ -107,10 +146,23 @@ serve(async (req) => {
     legal_acknowledgement: true,
   };
 
-  if (!request.id || !request.request_no || !request.name || !request.phone || !request.company || !request.product || !request.platforms || !request.notes) {
+  if (!request.name || !request.phone || !request.company || !request.product || !request.platforms || !request.notes) {
     return json(req, { error: "missing_required_fields" }, 400);
   }
-  if (!/^\+?[0-9\s-]{8,20}$/.test(request.phone)) return json(req, { error: "invalid_phone" }, 400);
+  if (!/^\+?[0-9]{8,15}$/.test(request.phone)) return json(req, { error: "invalid_phone" }, 400);
+
+  const phoneHash = await sha256(rateSalt + ":phone:" + request.phone);
+  const ipRateKey = "collab:ip:" + ipHash;
+  const phoneRateKey = "collab:phone:" + phoneHash;
+  try {
+    const ipAllowed = await consumeRateLimit(ipRateKey, 30 * 60);
+    if (!ipAllowed) return json(req, { error: "request_recently_received" }, 429);
+    const phoneAllowed = await consumeRateLimit(phoneRateKey, 12 * 60 * 60);
+    if (!phoneAllowed) {
+      await supabase.from("public_rate_limits").delete().eq("rate_key", ipRateKey);
+      return json(req, { error: "request_recently_received" }, 429);
+    }
+  } catch { return json(req, { error: "rate_limit_unavailable" }, 503); }
 
   // request_no is assigned server-side by a DB trigger (AB-<seq>); the value
   // sent by the client is ignored. Return the canonical number to the caller.
@@ -119,7 +171,9 @@ serve(async (req) => {
     .insert(request)
     .select("request_no")
     .single();
-  return error
-    ? json(req, { error: "request_not_saved" }, 503)
-    : json(req, { ok: true, requestNo: inserted?.request_no || request.request_no });
+  if (error) {
+    await supabase.from("public_rate_limits").delete().in("rate_key", [ipRateKey, phoneRateKey]);
+    return json(req, { error: "request_not_saved" }, 503);
+  }
+  return json(req, { ok: true, requestNo: inserted?.request_no || request.request_no });
 });

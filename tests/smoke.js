@@ -37,8 +37,30 @@ async function waitForServer() {
       throw new Error(`فشل فحص الواجهة العامة: ${JSON.stringify(publicState)}`);
     }
 
+    const deletionMergeState = await page.evaluate(() => {
+      const merged = mergeRemoteData(
+        { books: [{ id: 'cached-book' }], adLinks: [{ id: 'cached-link' }], partners: [{ id: 'legacy-link' }] },
+        { books: [], adLinks: [] }
+      );
+      return { books: merged.books, adLinks: merged.adLinks, hasPartners: Object.prototype.hasOwnProperty.call(merged, 'partners') };
+    });
+    if (deletionMergeState.books.length || deletionMergeState.adLinks.length || deletionMergeState.hasPartners) {
+      throw new Error(`Deleted content was restored from cache: ${JSON.stringify(deletionMergeState)}`);
+    }
+
     await page.goto(`${base}/admin/index.html`, { waitUntil: 'domcontentloaded' });
     await page.locator('#loginScreen').waitFor({ state: 'visible', timeout: 5000 });
+    const adminDeletionMergeState = await page.evaluate(() => {
+      const merged = mergeRemoteData(
+        { books: [{ id: 'cached-book' }], adLinks: [{ id: 'cached-link' }], partners: [{ id: 'legacy-link' }] },
+        { books: [], adLinks: [] }
+      );
+      return { books: merged.books, adLinks: merged.adLinks, hasPartners: Object.prototype.hasOwnProperty.call(merged, 'partners') };
+    });
+    if (adminDeletionMergeState.books.length || adminDeletionMergeState.adLinks.length || adminDeletionMergeState.hasPartners) {
+      throw new Error(`Admin restored deleted content from cache: ${JSON.stringify(adminDeletionMergeState)}`);
+    }
+
     if (!(await page.locator('#loginScreen').isVisible())) throw new Error('شاشة دخول الإدارة غير ظاهرة');
     if (await page.locator('#dashboard').isVisible()) throw new Error('لوحة الإدارة ظهرت دون جلسة موثقة');
     const notificationLayout = await page.evaluate(() => {

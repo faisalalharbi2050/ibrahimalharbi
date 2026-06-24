@@ -35,7 +35,7 @@ serve(async (req) => {
     {
       headers: {
         ...headers,
-        "Cache-Control": "public, max-age=10, s-maxage=30, stale-while-revalidate=120",
+        "Cache-Control": "no-store, max-age=0",
         "Content-Type": "application/json; charset=utf-8",
       },
     },

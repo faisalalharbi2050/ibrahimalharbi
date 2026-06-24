@@ -272,11 +272,13 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 .whatsapp-amount-field label{display:block;font-size:12px;font-weight:700;color:var(--tx);margin-bottom:7px}
 .whatsapp-amount-field input{width:100%;border:1px solid var(--bds);border-radius:13px;padding:12px 14px;font-family:var(--fn);font-size:15px;background:#fff;color:var(--tx);outline:none;direction:ltr;text-align:right}
 .whatsapp-amount-field input:focus{border-color:#1f9d55;box-shadow:0 0 0 3px rgba(31,157,85,.1)}
-.whatsapp-note-toggle{margin-top:11px;border:0;background:transparent;color:#168347;font-family:var(--fn);font-size:12px;font-weight:700;cursor:pointer;padding:5px 0}
+.whatsapp-note-toggle{margin-top:11px;border:1px solid rgba(31,157,85,.28);background:#edf9f2;color:#168347;border-radius:11px;font-family:var(--fn);font-size:12px;font-weight:700;cursor:pointer;padding:9px 13px;display:inline-flex;align-items:center;justify-content:center;min-height:38px}
+.whatsapp-note-toggle:hover{background:#dcf4e8;border-color:rgba(31,157,85,.45)}
 .whatsapp-notes-field{margin-top:8px}.whatsapp-notes-field label{display:block;font-size:11px;font-weight:700;color:var(--tx);margin-bottom:6px}
 .whatsapp-notes-field textarea{width:100%;min-height:76px;border:1px solid var(--bds);border-radius:13px;padding:10px 12px;font-family:var(--fn);font-size:13px;line-height:1.7;resize:vertical;outline:none}
 .whatsapp-notes-field textarea:focus{border-color:#1f9d55;box-shadow:0 0 0 3px rgba(31,157,85,.1)}
-.whatsapp-message-preview{width:100%;min-height:170px;margin-top:13px;border:1px solid var(--bd);border-radius:14px;padding:12px 14px;background:#fafafb;color:var(--mt);font-family:var(--fn);font-size:12px;line-height:1.9;resize:none}
+.whatsapp-message-preview{width:100%;min-height:190px;margin-top:13px;border:1px solid var(--bd);border-radius:14px;padding:12px 14px;background:#fff;color:var(--tx);font-family:var(--fn);font-size:12px;line-height:1.9;resize:vertical;outline:none}
+.whatsapp-message-preview:focus{border-color:#1f9d55;box-shadow:0 0 0 3px rgba(31,157,85,.1)}
 .btn-whatsapp{background:#1f9d55;color:#fff;border-color:#1f9d55;display:inline-flex;align-items:center;gap:7px}
 .btn-whatsapp:hover{background:#178347}.btn-whatsapp svg{width:16px;height:16px;fill:currentColor}
 .ico-whatsapp{width:34px;height:34px;border-radius:11px;border:1px solid rgba(31,157,85,.25);background:#edf9f2;color:#168347;cursor:pointer;display:inline-grid;place-items:center;transition:all .18s}
@@ -1048,9 +1050,9 @@ window.adminQuickLogin=async function(){
       <input type="hidden" id="whatsappRequestId">
       <div class="whatsapp-request-summary"><div><span>صاحب الطلب</span><strong id="whatsappRequestName">—</strong></div><div><span>رقم الجوال</span><strong id="whatsappRequestPhone" dir="ltr">—</strong></div></div>
       <div class="whatsapp-amount-field"><label for="whatsappAdAmount">قيمة الإعلان (ريال)</label><input id="whatsappAdAmount" type="text" inputmode="decimal" autocomplete="off" placeholder="أدخل قيمة الإعلان" oninput="updateWhatsAppPreview()"></div>
-      <button class="whatsapp-note-toggle" id="whatsappNoteToggle" type="button" onclick="toggleWhatsAppNotes()">+ إضافة ملاحظات</button>
+      <button class="whatsapp-note-toggle" id="whatsappNoteToggle" type="button" onclick="toggleWhatsAppNotes()">إضافة ملاحظات</button>
       <div class="whatsapp-notes-field" id="whatsappNotesField" hidden><label for="whatsappNotes">الملاحظات الإضافية</label><textarea id="whatsappNotes" placeholder="اكتب الملاحظات التي ستظهر بعد القالب الجاهز" oninput="updateWhatsAppPreview()"></textarea></div>
-      <textarea class="whatsapp-message-preview" id="whatsappMessagePreview" readonly aria-label="معاينة رسالة واتساب"></textarea>
+      <textarea class="whatsapp-message-preview" id="whatsappMessagePreview" aria-label="رسالة واتساب القابلة للتعديل"></textarea>
     </div>
     <div class="modal-card-actions">
       <button class="btn-ghost" type="button" onclick="closeWhatsAppDialog()">إلغاء</button>
@@ -1105,7 +1107,7 @@ window.adminQuickLogin=async function(){
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
 const SB_URL='https://lqqxdwzyeagtrcmdonso.supabase.co';
 const SB_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxxcXhkd3p5ZWFndHJjbWRvbnNvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1NDEwMTUsImV4cCI6MjA5NzExNzAxNX0.NuMcvZv2TZSZDktpOZvrUsOPBWHl8tp4-Rw9KjwS4F8';
@@ -2000,19 +2002,32 @@ function normalizeData(){
   delete D.sectionsOff.partners;
   D.sectionsOff.collab=false;
 }
+function hasSuspiciousReplacementChars(value){
+  return /[?]{3,}/.test(JSON.stringify(value||{}));
+}
 function mergeRemoteData(localData,remoteData){
   const local=localData&&typeof localData==='object'?localData:{};
   const remote=remoteData&&typeof remoteData==='object'?remoteData:{};
-  const merged={...local,...remote};
+  // Once the database responds, it is the authoritative source. Do not merge stale
+  // browser cache back into nested content, because an old cache can contain the
+  // previous Arabic replacement text and make the database reject saves.
+  const merged={...remote};
   if(local.avatar&&!remote.avatar)merged.avatar=local.avatar;
-  ['books','adLinks'].forEach(key=>{
-    if(Array.isArray(local[key])&&local[key].length&&(!Array.isArray(remote[key])||!remote[key].length)){
-      merged[key]=local[key];
-    }
-  });
-  if(local.sectionsOff||remote.sectionsOff)merged.sectionsOff={...(local.sectionsOff||{}),...(remote.sectionsOff||{})};
-  if(local.collab||remote.collab)merged.collab={...(local.collab||{}),...(remote.collab||{})};
+  if(Object.prototype.hasOwnProperty.call(remote,'adLinks'))delete merged.partners;
   return merged;
+}
+async function uploadPublicMedia(value,key){
+  if(!/^data:image\/(png|jpeg|webp);base64,/i.test(String(value||'')))return value||'';
+  if(!sb?.functions)throw new Error('media-upload-unavailable');
+  const {data,error}=await sb.functions.invoke('admin-media',{body:{image:value,key}});
+  if(error||!data?.ok||!data?.url)throw new Error(data?.detail||data?.error||error?.message||'media-upload-failed');
+  return data.url;
+}
+
+async function migrateEmbeddedImages(){
+  D.avatar=await uploadPublicMedia(D.avatar,'avatar');
+  for(const book of (D.books||[]))book.cover=await uploadPublicMedia(book.cover,"book_"+book.id);
+  for(const item of (D.adLinks||[]))item.image=await uploadPublicMedia(item.image,"ad_"+item.id);
 }
 async function save(){
   if(!hasAdminAuth()||!['owner','admin','editor'].includes(getSessionRole(verifiedAdminSession))){
@@ -2021,6 +2036,7 @@ async function save(){
   }
   try{
     if(!sb?.from)throw new Error('database-unavailable');
+    await migrateEmbeddedImages();
     const {error}=await sb.from('site_data').upsert({id:'main',data:D,updated_at:new Date().toISOString()},{onConflict:'id'});
     if(error)throw error;
     localStorage.setItem('influencer_data',JSON.stringify(D));
@@ -2028,7 +2044,9 @@ async function save(){
     return true;
   }catch(e){
     console.warn('Content save failed',e);
-    toast('تعذر الحفظ. لم تُعتمد التغييرات');
+    const detail=String(e?.message||e?.error_description||e?.hint||e?.code||'').trim();
+    const shortDetail=detail?(' — '+detail.slice(0,90)):'';
+    toast('تعذر الحفظ. لم تُعتمد التغييرات'+shortDetail);
     return false;
   }
 }
@@ -2060,6 +2078,10 @@ async function loadAll(){
   enhanceAdminUi();
   const cached=localStorage.getItem('influencer_data');
   D=cached?JSON.parse(cached):{};
+  if(hasSuspiciousReplacementChars(D)){
+    localStorage.removeItem('influencer_data');
+    D={};
+  }
   applyLocal({allowDefaultSave:false});
 
   try{
@@ -2311,14 +2333,16 @@ async function saveProfile(){
   }
   toast('تم حفظ البيانات ✓');
 }
+async function secureTranslate(input,maxTokens=300){
+  if(!sb?.functions)throw new Error('translation-unavailable');
+  const {data,error}=await sb.functions.invoke('admin-translate',{body:{input,max_tokens:maxTokens}});
+  if(error||!data?.ok||!data.translation)throw new Error(data?.error||'translation-unavailable');
+  return data.translation;
+}
 async function autoTranslate(){
   const btn=document.getElementById('trBtn');btn.textContent='جاري الترجمة...';btn.disabled=true;
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,
-        messages:[{role:'user',content:'ترجم للإنجليزية، JSON فقط بنفس المفاتيح:\n'+JSON.stringify({name:D.nameAr||'',title:D.titleAr||'',bio:D.bioAr||''})}]})});
-    const data=await res.json();
-    const en=JSON.parse((data.content?.[0]?.text||'{}').replace(/```json|```/g,'').trim());
+    const en=await secureTranslate({name:D.nameAr||'',title:D.titleAr||'',bio:D.bioAr||''},600);
     D.nameEn=en.name||D.nameAr||'';D.titleEn=en.title||D.titleAr||'';D.bioEn=en.bio||D.bioAr||'';
     await save();toast('تمت الترجمة وحُفظت ✓');
   }catch(e){toast('تعذّرت الترجمة');}
@@ -2384,6 +2408,10 @@ function escHtml(v){
     .replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;')
     .replace(/'/g,'&#39;');
+}
+
+function jsString(value){
+  return escHtml(JSON.stringify(String(value??"")).replace(/</g,"\\u003c"));
 }
 
 function formatSaudiDateTime(value){
@@ -2569,13 +2597,10 @@ async function addBook(){
   const isEdit=!!bookEditId;
   let titleEn=title,pubEn=pub;
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:200,
-        messages:[{role:'user',content:'ترجم للإنجليزية JSON فقط:\n'+JSON.stringify({title,pub})}]})});
-    const data=await res.json();
-    const en=JSON.parse((data.content?.[0]?.text||'{}').replace(/```json|```/g,'').trim());
+    const en=await secureTranslate({title,pub},200);
     titleEn=en.title||title;pubEn=en.pub||pub;
   }catch(e){}
+  const beforeSave=JSON.stringify(D);
   let addedItem=null;
   if(isEdit){
     const item=(D.books||[]).find(b=>b.id===bookEditId);
@@ -2592,7 +2617,14 @@ async function addBook(){
     addedItem={id:uid(),titleAr:title,titleEn,publisherAr:pub,publisherEn:pubEn,links,cover:bookCover||null,active:true};
     D.books.push(addedItem);
   }
-  await save();
+  const saved=await save();
+  if(!saved){
+    D=JSON.parse(beforeSave);
+    normalizeData();
+    renderBooksAdmin();
+    toast('تعذر حفظ الكتاب. بقيت الاستمارة مفتوحة للمحاولة مرة أخرى');
+    return;
+  }
   renderBooksAdmin();
   closeBookForm();
   toast(isEdit?'تم تحديث الكتاب ✓':'تمت إضافة الكتاب ✓');
@@ -2614,14 +2646,14 @@ function renderBooksAdmin(){
   const grid=document.createElement('div');grid.className='book-grid-admin';
   D.books.forEach(b=>{
     const card=document.createElement('div');card.className='book-card-admin';
-    const cover=b.cover?`<div class="book-cover-frame-admin"><img src="${b.cover}" alt="${b.titleAr}"></div>`:`<div class="book-cover-frame-admin"><div class="book-ph"><svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div></div>`;
+    const cover=b.cover?`<div class="book-cover-frame-admin"><img src="${escHtml(b.cover)}" alt="${escHtml(b.titleAr)}"></div>`:`<div class="book-cover-frame-admin"><div class="book-ph"><svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div></div>`;
     const bookLinks=bookLinksFor(b);
     const linksHtml=bookLinks.map(link=>`<a class="book-link-chip" href="${escHtml(link.url)}" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24"><path d="M14 3v2h3.59L7 15.59 8.41 17 19 6.41V10h2V3z"/><path d="M5 5h6v2H7v10h10v-4h2v6H5z"/></svg>${escHtml(link.label)}</a>`).join('');
     const linksInfo=bookLinks.length
       ?`<div class="book-meta-row"><div class="book-meta-label">روابط الشراء</div><div class="book-meta-value"></div></div>`
       :`<div class="book-meta-row"><div class="book-meta-label">روابط الشراء</div><div class="book-meta-value">لا توجد روابط متاحة</div></div>`;
-    card.innerHTML=`${cover}<div class="book-info"><div class="book-name">${b.titleAr}</div>
-      <div class="book-meta-row"><div class="book-meta-label">دار النشر</div><div class="book-meta-value">${b.publisherAr||'غير مذكورة'}</div></div>
+    card.innerHTML=`${cover}<div class="book-info"><div class="book-name">${escHtml(b.titleAr)}</div>
+      <div class="book-meta-row"><div class="book-meta-label">دار النشر</div><div class="book-meta-value">${escHtml(b.publisherAr||'غير مذكورة')}</div></div>
       ${linksInfo}
       <div class="book-links-admin">${linksHtml}</div></div>
       <div class="book-actions">
@@ -2647,11 +2679,7 @@ async function addPartner(){
   const ctaAr=document.getElementById('pCta').value.trim()||'ادعم الآن';
   let nameEn=nameAr,descEn=descAr,ctaEn='Support Now';
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:200,
-        messages:[{role:'user',content:'ترجم للإنجليزية JSON فقط:\n'+JSON.stringify({name:nameAr,desc:descAr,cta:ctaAr})}]})});
-    const data=await res.json();
-    const en=JSON.parse((data.content?.[0]?.text||'{}').replace(/```json|```/g,'').trim());
+    const en=await secureTranslate({name:nameAr,desc:descAr,cta:ctaAr},200);
     nameEn=en.name||nameAr;descEn=en.desc||descAr;ctaEn=en.cta||'Support Now';
   }catch(e){}
   D.partners.push({id:uid(),nameAr,nameEn,descAr,descEn,ctaAr,ctaEn,url,active:false});
@@ -2665,7 +2693,7 @@ function renderPartners(){
   D.partners.forEach(p=>{
     const row=document.createElement('div');row.className='item-row';
     row.innerHTML=`<div class="item-icon" style="background:var(--gl)"><svg viewBox="0 0 24 24" style="fill:var(--gd)"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div>
-      <div class="item-body"><div class="item-name">${p.nameAr}</div><div class="item-sub">${p.descAr||p.url}</div></div>
+      <div class="item-body"><div class="item-name">${escHtml(p.nameAr)}</div><div class="item-sub">${escHtml(p.descAr||p.url)}</div></div>
       <label class="toggle"><input type="checkbox" ${p.active?'checked':''} onchange="toggleItem('partners','${p.id}',this.checked)"><div class="track"></div></label>
       <button class="ico-btn" onclick="delItem('partners','${p.id}')"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>`;
     list.appendChild(row);
@@ -2690,6 +2718,7 @@ async function saveAdLink(){
   const editId=document.getElementById('adLinkEditId')?.value||'';
   if(!titleAr||!entityAr||!licenseNo||!url){toast('أكمل بيانات الرابط الأساسية');return;}
   const titleEn=titleAr,entityEn=entityAr;
+  const beforeSave=JSON.stringify(D);
   const payload={id:editId||uid(),titleAr,titleEn,entityAr,entityEn,licenseNo,url,image:adLinkImage||'',startDate:'',endDate:'',autoStop:false,active:true};
   const idx=(D.adLinks||[]).findIndex(item=>item.id===payload.id);
   if(idx>-1){
@@ -2701,7 +2730,13 @@ async function saveAdLink(){
     D.adLinks.push(payload);
   }
   const saved=await save();
-  if(!saved)return;
+  if(!saved){
+    D=JSON.parse(beforeSave);
+    normalizeData();
+    renderAdLinks();
+    toast('تعذر حفظ رابط الإعلان. بقيت الاستمارة مفتوحة للمحاولة مرة أخرى');
+    return;
+  }
   renderAdLinks();
   resetAdLinksForm();
   document.getElementById('adLinksForm')?.classList.remove('open');
@@ -2881,11 +2916,7 @@ async function saveCollab(){
   D.collab.monthlyClicks=document.getElementById('collabClicks').value.trim();
   if(titleAr){
     try{
-      const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:100,
-          messages:[{role:'user',content:'ترجم للإنجليزية JSON فقط:\n'+JSON.stringify({title:titleAr})}]})});
-      const data=await res.json();
-      const en=JSON.parse((data.content?.[0]?.text||'{}').replace(/```json|```/g,'').trim());
+      const en=await secureTranslate({title:titleAr},100);
       D.collab.heroTitleEn=en.title||titleAr;
     }catch(e){}
   }
@@ -2900,11 +2931,7 @@ async function addPlan(){
   const editId=document.getElementById('planEditId').value;
   let titleEn=titleAr,featsEn=featsAr;
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,
-        messages:[{role:'user',content:'ترجم للإنجليزية JSON فقط:\n'+JSON.stringify({title:titleAr,feats:featsAr})}]})});
-    const data=await res.json();
-    const en=JSON.parse((data.content?.[0]?.text||'{}').replace(/```json|```/g,'').trim());
+    const en=await secureTranslate({title:titleAr,feats:featsAr},300);
     titleEn=en.title||titleAr;featsEn=en.feats||featsAr;
   }catch(e){}
   // Convert datetime-local to ISO with Saudi timezone offset (+3)
@@ -2943,7 +2970,7 @@ function renderPlans(){
     const not_ended=!p.endDate||(new Date(p.endDate)>=now);
     const status=scheduled?(active_now&&not_ended?'🟢 نشط':'⏰ مجدول'):' ';
     row.innerHTML=`<div class="item-icon"><svg viewBox="0 0 24 24" style="fill:var(--am)"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div>
-      <div class="item-body"><div class="item-name">${p.titleAr}</div><div class="item-sub">${tL[p.type]||''} · ${p.price?p.price+' ريال':'يُحدد عند التواصل'} ${status}</div></div>
+      <div class="item-body"><div class="item-name">${escHtml(p.titleAr)}</div><div class="item-sub">${tL[p.type]||''} · ${p.price?escHtml(p.price)+' ريال':'يُحدد عند التواصل'} ${status}</div></div>
       <label class="toggle"><input type="checkbox" ${p.active?'checked':''} onchange="togglePlan('${p.id}',this.checked)"><div class="track"></div></label>
       <button class="ico-btn" onclick="delPlan('${p.id}')"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>`;
     list.appendChild(row);
@@ -2963,11 +2990,7 @@ async function addPlan(){
   const editId=document.getElementById('planEditId').value;
   let titleEn=titleAr,featsEn=featsAr;
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,
-        messages:[{role:'user',content:'ترجم للإنجليزية JSON فقط:\n'+JSON.stringify({title:titleAr,feats:featsAr})}]})});
-    const data=await res.json();
-    const en=JSON.parse((data.content?.[0]?.text||'{}').replace(/```json|```/g,'').trim());
+    const en=await secureTranslate({title:titleAr,feats:featsAr},300);
     titleEn=en.title||titleAr;featsEn=en.feats||featsAr;
   }catch(e){}
   const toISO=v=>{if(!v)return null;return new Date(v+':00+03:00').toISOString();};
@@ -3027,8 +3050,8 @@ function renderPlans(){
     const status=scheduled?(activeNow&&notEnded?'نشط الآن':'مجدول'):'';
     row.innerHTML=`<div class="item-icon"><svg viewBox="0 0 24 24" style="fill:var(--am)"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div>
       <div class="item-body">
-        <div class="item-name">${p.titleAr}${p.featured?' <span style="font-size:11px;color:var(--ac)">• بارزة</span>':''}</div>
-        <div class="item-sub">${p.descAr||''}${p.descAr?' • ':''}${typeLabels[p.type]||''} • ${p.price?p.price+' ريال':'يُحدد عند التواصل'} ${status?`• ${status}`:''}</div>
+        <div class="item-name">${escHtml(p.titleAr)}${p.featured?' <span style="font-size:11px;color:var(--ac)">• بارزة</span>':''}</div>
+        <div class="item-sub">${escHtml(p.descAr||'')}${p.descAr?' • ':''}${typeLabels[p.type]||''} • ${p.price?escHtml(p.price)+' ريال':'يُحدد عند التواصل'} ${status?`• ${status}`:''}</div>
       </div>
       <button class="ico-btn" onclick="editPlan('${p.id}')" title="تحرير"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm17.71-10.04a1.003 1.003 0 000-1.42l-2.5-2.5a1.003 1.003 0 00-1.42 0L14.96 5.12l3.75 3.75 1.99-1.66z"/></svg></button>
       <label class="toggle"><input type="checkbox" ${p.active?'checked':''} onchange="togglePlan('${p.id}',this.checked)"><div class="track"></div></label>
@@ -3208,16 +3231,16 @@ function renderRequests(){
       <td>${esc(r.name||'بدون اسم')}</td>
       <td><span class="req-phone">${esc(r.phone||'—')}</span></td>
       <td>${esc(r.company||'—')}</td>
-      <td><select class="request-status-select" aria-label="حالة الطلب" onchange="updateRequestStatus('${r.id}',this.value)">${statusOpts(r)}</select></td>
-      <td><button class="ico-eye" title="عرض التفاصيل" onclick="openRequestDetails('${r.id}')">${ICON_EYE}</button></td>
+      <td><select class="request-status-select" aria-label="حالة الطلب" onchange="updateRequestStatus(${jsString(r.id)},this.value)">${statusOpts(r)}</select></td>
+      <td><button class="ico-eye" title="عرض التفاصيل" onclick="openRequestDetails(${jsString(r.id)})">${ICON_EYE}</button></td>
       <td><div class="request-row-actions">
-        <button class="ico-whatsapp" title="إرسال عبر واتساب" aria-label="إرسال عبر واتساب" onclick="openRequestWhatsApp('${r.id}')">${ICON_WHATSAPP}</button>
+        <button class="ico-whatsapp" title="إرسال عبر واتساب" aria-label="إرسال عبر واتساب" onclick="openRequestWhatsApp(${jsString(r.id)})">${ICON_WHATSAPP}</button>
         <div class="row-actions-menu">
-          <button class="ico-dots" title="إجراءات" aria-haspopup="true" onclick="toggleRowMenu(event,'${r.id}')">⋯</button>
-          <div class="row-menu" id="rowMenu-${r.id}">
-          <button onclick="toggleRequestArchive('${r.id}',${r.archived?'false':'true'});closeRowMenus()">${r.archived?ICON_RESTORE:ICON_ARCHIVE}<span>${r.archived?'استعادة من الأرشيف':'أرشفة الطلب'}</span></button>
+          <button class="ico-dots" title="إجراءات" aria-haspopup="true" onclick="toggleRowMenu(event,${jsString(r.id)})">⋯</button>
+          <div class="row-menu" id="rowMenu-${esc(r.id)}">
+          <button onclick="toggleRequestArchive(${jsString(r.id)},${r.archived?'false':'true'});closeRowMenus()">${r.archived?ICON_RESTORE:ICON_ARCHIVE}<span>${r.archived?'استعادة من الأرشيف':'أرشفة الطلب'}</span></button>
           <div class="row-menu-sep"></div>
-          <button class="danger" onclick="closeRowMenus();deleteRequestNow('${r.id}')">${ICON_TRASH}<span>حذف نهائي</span></button>
+          <button class="danger" onclick="closeRowMenus();deleteRequestNow(${jsString(r.id)})">${ICON_TRASH}<span>حذف نهائي</span></button>
           </div>
         </div>
       </div></td>
@@ -3393,8 +3416,8 @@ function normalizeAdAmount(value){
   return String(value||'').replace(/[٠-٩]/g,d=>ar.indexOf(d)).replace(/[۰-۹]/g,d=>fa.indexOf(d)).replace(/[٬,\s]/g,'').replace('٫','.');
 }
 function buildWhatsAppMessage(r,amount,notes=''){
-  const date=`${requestHijriDate(r.created_at)} الموافق ${requestGregorianDate(r.created_at)}`;
-  const base=`السلام عليكم ورحمة الله وبركاته\nالمكرم (${r.name||'صاحب الطلب'})\nنسعد ونتشرف بتواصلكم معنا\nبخصوص طلب الإعلان رقم (${r.requestNo||r.id||''}) وتاريخ (${date}) نفيدكم بأن قيمة الإعلان (${amount||'—'}) ريال`;
+  const date=`${requestHijriDate(r.created_at)} - ${requestGregorianDate(r.created_at)}`;
+  const base=`السلام عليكم ورحمة الله وبركاته\nالمكرم (${r.name||'صاحب الطلب'})\nنسعد ونتشرف بتواصلكم معنا\n\n* بخصوص طلب الإعلان رقم (${r.requestNo||r.id||''}) وتاريخ (${date}) نفيدكم بأن قيمة الإعلان (${amount||'—'}) ريال\n* في حال موافقتكم على القيمة نأمل إشعارنا مع تزويدنا بالتراخيص الرسمية`;
   return notes.trim()?`${base}\n\n${notes.trim()}`:base;
 }
 function openRequestWhatsApp(id){
@@ -3408,7 +3431,7 @@ function openRequestWhatsApp(id){
   document.getElementById('whatsappAdAmount').value='';
   document.getElementById('whatsappNotes').value='';
   document.getElementById('whatsappNotesField').hidden=true;
-  document.getElementById('whatsappNoteToggle').textContent='+ إضافة ملاحظات';
+  document.getElementById('whatsappNoteToggle').textContent='إضافة ملاحظات';
   updateWhatsAppPreview();
   const modal=document.getElementById('whatsappModal');
   modal.classList.add('open');modal.setAttribute('aria-hidden','false');
@@ -3419,7 +3442,7 @@ function toggleWhatsAppNotes(){
   const button=document.getElementById('whatsappNoteToggle');
   if(!field||!button)return;
   field.hidden=!field.hidden;
-  button.textContent=field.hidden?'+ إضافة ملاحظات':'− إخفاء الملاحظات';
+  button.textContent=field.hidden?'إضافة ملاحظات':'إخفاء الملاحظات';
   if(!field.hidden)document.getElementById('whatsappNotes')?.focus();
   updateWhatsAppPreview();
 }
@@ -3444,8 +3467,10 @@ function sendRequestWhatsApp(){
   const phone=normalizeWhatsAppPhone(r.phone);
   if(!/^\d{8,15}$/.test(phone)){toast('رقم جوال صاحب الطلب غير صالح');return;}
   const amount=Number(raw).toLocaleString('ar-SA',{minimumFractionDigits:0,maximumFractionDigits:2});
-  const notes=document.getElementById('whatsappNotes')?.value||'';
-  const url=`https://wa.me/${phone}?text=${encodeURIComponent(buildWhatsAppMessage(r,amount,notes))}`;
+  const preview=document.getElementById('whatsappMessagePreview');
+  if(preview)preview.value=preview.value.replace(/\((?:—|â€”)\) ريال/g,`(${amount}) ريال`);
+  const message=preview?.value.trim()||buildWhatsAppMessage(r,amount,document.getElementById('whatsappNotes')?.value||'');
+  const url=`https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   window.open(url,'_blank','noopener,noreferrer');
   closeWhatsAppDialog();
 }
@@ -3628,7 +3653,8 @@ async function toggleItem(sec,id,val){
     if(!ok){renderBooksAdmin();return;}
   }
   item.active=val;
-  save();
+  const saved=await save();
+  if(!saved){await loadAll();return;}
   if(sec==='social')renderSocial();
   if(sec==='books')renderBooksAdmin();
   toast(val?'تم التفعيل':'تم الإيقاف');
@@ -3637,7 +3663,9 @@ async function delItem(sec,id){
   const msg=sec==='books'?'سيتم حذف هذا الكتاب نهائياً. هل أنت متأكد؟':'حذف هذا العنصر؟';
   const title=sec==='books'?'حذف الكتاب':'حذف العنصر';
   if(!(await platformConfirm(msg,title)))return;
-  D[sec]=D[sec].filter(i=>i.id!==id);save();
+  D[sec]=D[sec].filter(i=>i.id!==id);
+  const saved=await save();
+  if(!saved){await loadAll();return;}
   if(sec==='social')renderSocial();
   if(sec==='books')renderBooksAdmin();
   if(sec==='partners')renderPartners();
@@ -3671,7 +3699,8 @@ async function toggleItem(sec,id,val){
     if(!ok){renderAdLinks();return;}
   }
   item.active=val;
-  save();
+  const saved=await save();
+  if(!saved){await loadAll();return;}
   if(sec==='social')renderSocial();
   if(sec==='books')renderBooksAdmin();
   if(sec==='adLinks')renderAdLinks();
@@ -3683,7 +3712,8 @@ async function delItem(sec,id){
   const title=sec==='books'?'حذف الكتاب':'حذف العنصر';
   if(!(await platformConfirm(msg,title)))return;
   D[sec]=(D[sec]||[]).filter(i=>i.id!==id);
-  save();
+  const saved=await save();
+  if(!saved){await loadAll();return;}
   if(sec==='social')renderSocial();
   if(sec==='books')renderBooksAdmin();
   if(sec==='adLinks')renderAdLinks();
@@ -4090,3 +4120,4 @@ async function resetAnalytics(){
 </script>
 </body>
 </html>
+

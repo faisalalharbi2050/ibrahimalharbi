@@ -35,6 +35,7 @@ supabase functions deploy public-content
 supabase functions deploy public-events
 supabase functions deploy create-admin-user
 supabase functions deploy manage-admin-user
+supabase functions deploy admin-translate
 ```
 
 ## 4. الاستضافة والحماية
@@ -58,3 +59,10 @@ npm run check
 - فعّل تنبيهات الأخطاء واستهلاك قاعدة البيانات ووظائف Edge.
 - نفّذ اختبار تحميل تدريجي على نسخة staging، ثم ابدأ بنسبة صغيرة من الجمهور.
 - راجع نص الخصوصية ومدة الاحتفاظ بطلبات العملاء مع المستشار المختص.
+
+## حدود الطلبات العامة
+
+- طلب إعلان واحد لكل عنوان IP خلال 30 دقيقة.
+- طلب إعلان واحد لنفس رقم الجوال خلال 12 ساعة، ويخزن النظام بصمة مشفرة فقط في جدول الحدود.
+- النقرات تقبل معرفات الروابط المنشورة فقط، بحد نقرة لكل رابط من الشبكة خلال دقيقة.
+- تتطلب الترجمة الآمنة إضافة ANTHROPIC_API_KEY ضمن Supabase Secrets.

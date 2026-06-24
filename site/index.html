@@ -509,7 +509,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
       <div class="vcounter"><div class="vdot"></div><span id="vCount">٠</span>&nbsp;<span id="vLbl">متواجد الآن</span></div>
     </div>
 
-    <footer class="footer"><nav class="legal-links" aria-label="الروابط القانونية"><a href="privacy.html">سياسة الخصوصية</a><span aria-hidden="true">•</span><a href="terms.html">الشروط والأحكام</a></nav><span id="footerTxt">© جميع الحقوق محفوظة لإبراهيم الحربي</span></footer>
+    <footer class="footer"><nav class="legal-links" aria-label="الروابط القانونية"><a href="privacy.html">سياسة الخصوصية</a><span aria-hidden="true">•</span><a href="terms.html">الشروط والأحكام</a></nav><span id="footerTxt">© جميع الحقوق محفوظة</span></footer>
   </div>
 </div>
 <div class="offer-modal" id="offerModal" role="dialog" aria-modal="true" aria-labelledby="offerModalTitle" aria-hidden="true" onclick="if(event.target===this)closeOfferFlow()">
@@ -542,7 +542,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
 const SB_URL='https://lqqxdwzyeagtrcmdonso.supabase.co';
 const SB_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxxcXhkd3p5ZWFndHJjbWRvbnNvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1NDEwMTUsImV4cCI6MjA5NzExNzAxNX0.NuMcvZv2TZSZDktpOZvrUsOPBWHl8tp4-Rw9KjwS4F8';
@@ -557,7 +557,7 @@ const LAST_VISITOR_COUNT_KEY='visitor_count_last_known';
 const LOCAL_CLICK_CACHE_LIMIT=5000;
 const ACTIVE_VISITOR_HEARTBEAT_MS=30000;
 const ACTIVE_VISITOR_CLEANUP_MS=60000;
-const PUBLIC_DATA_POLL_INTERVAL_MS=300000;
+const PUBLIC_DATA_POLL_INTERVAL_MS=900000;
 let D={};
 let selectedOfferId=null;
 let activeVisitorHeartbeatTimer=null;
@@ -619,11 +619,9 @@ function mergeRemoteData(localData,remoteData){
   const remote=remoteData&&typeof remoteData==='object'?remoteData:{};
   const merged={...local,...remote};
   if(local.avatar&&!remote.avatar)merged.avatar=local.avatar;
-  ['books','adLinks'].forEach(key=>{
-    if(Array.isArray(local[key])&&local[key].length&&(!Array.isArray(remote[key])||!remote[key].length)){
-      merged[key]=local[key];
-    }
-  });
+  // Empty remote arrays are authoritative: they mean the administrator deleted all items.
+  // Never resurrect deleted content from the visitor's local cache.
+  if(Object.prototype.hasOwnProperty.call(remote,'adLinks'))delete merged.partners;
   if(local.sectionsOff||remote.sectionsOff)merged.sectionsOff={...(local.sectionsOff||{}),...(remote.sectionsOff||{})};
   if(local.collab||remote.collab)merged.collab={...(local.collab||{}),...(remote.collab||{})};
   return merged;
@@ -717,7 +715,7 @@ async function loadData(){
     const response=await fetch(`${SB_URL}/functions/v1/public-content`,{
       method:'GET',
       headers:{apikey:SB_ANON_KEY,Authorization:`Bearer ${SB_ANON_KEY}`},
-      cache:'default'
+      cache:'no-store'
     });
     if(!response.ok)throw new Error('public-content-unavailable');
     const payload=await response.json();
@@ -768,12 +766,17 @@ function applyPublicData(nextData){
 }
 
 async function refreshPublicData(){
-  if(publicDataIsRefreshing||!sb?.from)return;
+  if(publicDataIsRefreshing)return;
   publicDataIsRefreshing=true;
   try{
-    const {data:row,error}=await sb.from('site_data').select('data').eq('id','main').single();
-    if(error)throw error;
-    if(row?.data&&JSON.stringify(row.data)!==publicDataSignature)applyPublicData(row.data);
+    const response=await fetch(SB_URL+'/functions/v1/public-content',{
+      method:'GET',
+      headers:{apikey:SB_ANON_KEY,Authorization:'Bearer '+SB_ANON_KEY},
+      cache:'no-store'
+    });
+    if(!response.ok)throw new Error('public-content-unavailable');
+    const payload=await response.json();
+    if(payload?.data&&JSON.stringify(payload.data)!==publicDataSignature)applyPublicData(payload.data);
   }catch(e){
     console.warn('Public data refresh failed',e);
   }finally{
@@ -794,19 +797,8 @@ function startPublicDataPolling(){
 }
 
 function startPublicRealtime(){
+  // Public content is cacheable and does not require one persistent WebSocket per visitor.
   startPublicDataPolling();
-  if(!sb?.channel||publicRealtimeChannel)return;
-  try{
-    publicRealtimeChannel=sb.channel('public-site-data')
-      .on('postgres_changes',{event:'*',schema:'public',table:'site_data',filter:'id=eq.main'},()=>schedulePublicDataRefresh())
-      .subscribe(status=>{
-        if(status==='CHANNEL_ERROR'||status==='TIMED_OUT'){
-          console.warn('Public realtime channel status:',status);
-        }
-      });
-  }catch(e){
-    console.warn('Public realtime setup failed',e);
-  }
 }
 
 async function updateVisitorCounter(){
@@ -1278,6 +1270,11 @@ async function submitOfferRequest(){
         body:{type:'collab_request',payload:dbReq}
       });
       if(!error&&data?.ok){savedRemote=true;if(data.requestNo)assignedRequestNo=data.requestNo;}
+      else if(data?.error==='request_recently_received'||error?.context?.status===429){
+        showOfferError('تم استلام طلب سابق. يمكنك إرسال طلب جديد لاحقًا.');
+        if(submitBtn){submitBtn.disabled=false;submitBtn.textContent='إرسال طلب الإعلان';}
+        return;
+      }
     }catch(e){}
   }
   if(submitBtn){submitBtn.disabled=false;submitBtn.textContent='إرسال طلب الإعلان';}
@@ -1314,7 +1311,7 @@ function updateStaticText(){
   document.getElementById('lblBooks').textContent=lang==='ar'?'مؤلفاتي':'My Publications';
   document.getElementById('lblPartners').textContent=lang==='ar'?'روابط الدعم / الإعلان':'Support / Ad Links';
   document.getElementById('lblCollab').textContent=lang==='ar'?'التعاون والإعلان':'Advertising & Collaboration';
-  document.getElementById('footerTxt').textContent=lang==='ar'?'© جميع الحقوق محفوظة لإبراهيم الحربي':'© All rights reserved — Ibrahim Al-Harbi';
+  document.getElementById('footerTxt').textContent=lang==='ar'?'© جميع الحقوق محفوظة':'© All rights reserved';
   document.getElementById('vLbl').textContent=lang==='ar'?'متواجد الآن':'online now';
 }
 document.addEventListener('DOMContentLoaded',loadData);
