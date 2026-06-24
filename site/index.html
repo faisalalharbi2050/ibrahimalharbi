@@ -154,12 +154,13 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
   border-radius:30px;
   padding:30px 24px 24px;
   margin-bottom:22px;
-  text-align:center;
+  text-align:right;
   animation:up .5s ease both;
   box-shadow:0 4px 14px rgba(120,128,140,.05);
 }
-.collab-title{font-family:var(--fn);font-size:23px;font-weight:var(--fw-b);letter-spacing:-.2px;color:var(--tx);margin-bottom:8px}
-.collab-sub{font-size:13px;color:var(--mt);line-height:1.85;max-width:420px;margin:0 auto 18px}
+.collab-title{font-family:var(--fn);font-size:23px;font-weight:var(--fw-b);letter-spacing:-.2px;color:var(--tx);margin-bottom:8px;display:flex;align-items:center;gap:9px;justify-content:flex-start}
+.collab-title::before{content:'';flex:0 0 auto;width:4px;height:18px;border-radius:4px;background:var(--ac)}
+.collab-sub{font-size:13px;color:var(--mt);line-height:1.85;max-width:420px;margin:0 0 18px}
 .collab-stats{display:flex;justify-content:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
 .cstat{min-width:86px;padding:10px 12px;border-radius:18px;background:rgba(247,247,248,.92);border:1px solid rgba(15,23,42,.06);text-align:center}
 .cstat-val{font-size:20px;font-weight:var(--fw-b);color:var(--tx);line-height:1.1}
@@ -182,7 +183,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
   cursor:pointer;
   border:1px solid #d6d9de;
   transition:all .2s;
-  width:min(100%,340px);
+  width:auto;
+  min-width:170px;
   max-width:340px;
   box-shadow:0 10px 24px rgba(17,17,17,.16);
 }
@@ -351,8 +353,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
   .advert-card{padding:16px 14px 14px;border-radius:22px}
   .advert-hdr{flex-direction:column;align-items:flex-start}
   .advert-title{font-size:15px}
-  .advert-footer{flex-direction:column;align-items:stretch}
-  .advert-wa-btn{width:100%}
+  .advert-footer{flex-direction:column;align-items:flex-start}
+  .advert-wa-btn{width:auto;align-self:flex-start}
   .platform-checks{grid-template-columns:1fr}
 }
 
@@ -925,7 +927,7 @@ function renderBooks(){
         <div class="book-meta-item"><span class="book-meta-label">دار النشر:</span><span class="book-meta-value">${pub}</span></div>
       </div>
       <div class="${buttonsClass}">
-        ${links.map((link,index)=>`<a class="bbtn ${index===0?'bbtn-p':'bbtn-d'}" href="${escapeHtml(link.url)}" target="_blank" rel="noopener" data-track-id="${escapeHtml(`${b.id}_link_${index}`)}"><svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>${escapeHtml(link.label)}</a>`).join('')}
+        ${links.map((link,index)=>`<a class="bbtn ${index===0?'bbtn-p':'bbtn-d'}" href="${escapeHtml(link.url)}" target="_blank" rel="noopener" data-track-id="${escapeHtml(`${b.id}_link_${index}`)}">${escapeHtml(link.label)}</a>`).join('')}
       </div>
     </div></div>`;
   }).join('')}</div></div>`;
