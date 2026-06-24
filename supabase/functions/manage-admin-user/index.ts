@@ -41,7 +41,7 @@ serve(async (req) => {
   const { data: guardedSession } = await adminClient.from("admin_login_sessions")
     .select("session_id").eq("session_id", sessionId).eq("user_id", callerData.user?.id || "00000000-0000-0000-0000-000000000000")
     .gt("expires_at", new Date().toISOString()).maybeSingle();
-  if (callerError || !callerData.user || callerRole !== "owner" || !guardedSession) {
+  if (callerError || !callerData.user || !["owner", "admin"].includes(callerRole) || !guardedSession) {
     return json({ error: "admin_auth_required" }, 403);
   }
 
@@ -50,6 +50,11 @@ serve(async (req) => {
   const userId = String(body.userId || "");
   if (!userId || !["update", "delete"].includes(action)) return json({ error: "invalid_request" }, 400);
   if (userId === callerData.user.id) return json({ error: "cannot_modify_current_user" }, 400);
+
+  const { data: targetData, error: targetError } = await adminClient.auth.admin.getUserById(userId);
+  const targetRole = String(targetData?.user?.app_metadata?.platform_role || targetData?.user?.app_metadata?.role || "");
+  if (targetError || !targetData?.user) return json({ error: "user_not_found" }, 404);
+  if (callerRole !== "owner" && targetRole === "owner") return json({ error: "admin_auth_required" }, 403);
 
   if (action === "delete") {
     const { error } = await adminClient.auth.admin.deleteUser(userId);

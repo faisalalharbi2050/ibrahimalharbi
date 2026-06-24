@@ -51,7 +51,7 @@ serve(async (req) => {
   const { data: guardedSession } = await adminClient.from("admin_login_sessions")
     .select("session_id").eq("session_id", sessionId).eq("user_id", caller?.id || "00000000-0000-0000-0000-000000000000")
     .gt("expires_at", new Date().toISOString()).maybeSingle();
-  if (callerError || !caller || callerRole !== "owner" || !guardedSession) {
+  if (callerError || !caller || !["owner", "admin"].includes(callerRole) || !guardedSession) {
     return json({ error: "admin_auth_required" }, 403);
   }
 
