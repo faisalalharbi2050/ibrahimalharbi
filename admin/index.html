@@ -267,7 +267,7 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 .request-detail-modal .modal-card{width:min(680px,100%);max-height:calc(100vh - 36px);display:flex;flex-direction:column}
 .request-detail-modal .modal-card-body{overflow:auto}
 .whatsapp-modal .modal-card{width:min(560px,100%)}
-.whatsapp-request-summary{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:14px}
+.whatsapp-request-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:14px}
 .whatsapp-request-summary div{border:1px solid var(--bd);border-radius:13px;background:#fafafb;padding:10px 12px}
 .whatsapp-request-summary span{display:block;font-size:10px;color:var(--lt);margin-bottom:3px}
 .whatsapp-request-summary strong{display:block;font-size:12.5px;color:var(--tx);text-align:right}
@@ -957,7 +957,7 @@ window.adminQuickLogin=async function(){
               <option value="newest" selected>الأحدث أولًا</option>
               <option value="oldest">الأقدم أولًا</option>
             </select>
-            <button class="btn-sm" type="button" onclick="exportRequestsCSV()">تصدير CSV</button>
+            <button class="btn-sm" type="button" onclick="exportRequestsExcel()">تصدير إكسل</button>
           </div>
           <div class="list" id="requestsList"></div>
         </div>
@@ -3579,46 +3579,59 @@ function sendRequestWhatsApp(){
   closeWhatsAppDialog();
 }
 
-function csvCell(value){
-  const s=String(value??'').replace(/\r?\n/g,' ').replace(/"/g,'""');
-  return `"${s}"`;
+function excelHtml(value){
+  return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch])).replace(/\r?\n/g,'<br>');
 }
 
-function exportRequestsCSV(){
+function exportRequestsExcel(){
   const labels=requestStatusLabels();
   const rows=getFilteredRequests();
   if(!rows.length){toast('لا توجد طلبات لتصديرها');return;}
   const headers=['رقم الطلب','الحالة','مؤرشف','تاريخ الإرسال','نوع الطلب','الاسم','الجهة / الشركة','الجوال','منتج الإعلان','المنصات','تفاصيل الطلب','ملاحظات داخلية','مصدر الحفظ'];
-  const lines=[headers.map(csvCell).join(',')];
-  rows.forEach(r=>{
-    lines.push([
-      r.requestNo||r.id,
-      labels[r.status]||labels.new,
-      r.archived?'نعم':'لا',
-      r.created_at?new Date(r.created_at).toLocaleString('ar-SA'):'',
-      r.planTitle||'طلب إعلان',
-      r.name,
-      r.company,
-      r.phone,
-      r.product||r.goal,
-      r.platforms,
-      r.notes,
-      r.internalNotes,
-      r.storage==='local'?'محلي':'قاعدة البيانات'
-    ].map(csvCell).join(','));
-  });
-  const blob=new Blob(['\ufeff'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'});
+  const widths=[120,110,80,180,130,150,180,140,190,210,320,260,120];
+  const statusFilter=document.getElementById('requestStatusFilter')?.selectedOptions?.[0]?.textContent||'الطلبات النشطة';
+  const sortLabel=document.getElementById('requestSortSelect')?.selectedOptions?.[0]?.textContent||'الأحدث أولًا';
+  const search=(document.getElementById('requestSearchInput')?.value||'').trim()||'بدون بحث';
+  const exportedAt=new Date().toLocaleString('ar-SA',{timeZone:'Asia/Riyadh'});
+  const colgroup=widths.map(w=>`<col style="width:${w}px">`).join('');
+  const head=headers.map(h=>`<th>${excelHtml(h)}</th>`).join('');
+  const bodyRows=rows.map(r=>[
+    r.requestNo||r.id,
+    labels[r.status]||labels.new,
+    r.archived?'نعم':'لا',
+    r.created_at?new Date(r.created_at).toLocaleString('ar-SA',{timeZone:'Asia/Riyadh'}):'',
+    r.planTitle||'طلب إعلان',
+    r.name,
+    r.company,
+    r.phone,
+    r.product||r.goal,
+    r.platforms,
+    r.notes,
+    r.internalNotes,
+    r.storage==='local'?'محلي':'قاعدة البيانات'
+  ].map((value,index)=>`<td class="${[0,7].includes(index)?'text ltr':'text'}">${excelHtml(value)}</td>`).join('')).map(cells=>`<tr>${cells}</tr>`).join('');
+  const html=`<!DOCTYPE html><html lang="ar" dir="rtl" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta charset="UTF-8"><meta name="ProgId" content="Excel.Sheet"><style>
+    body{font-family:Tahoma,Arial,sans-serif;direction:rtl;color:#111827;background:#fff}
+    table{border-collapse:collapse;table-layout:fixed;direction:rtl}
+    .title td{background:#111827;color:#fff;font-size:18px;font-weight:700;text-align:right;padding:14px 16px;border:1px solid #111827}
+    .meta td{background:#f4f6f8;color:#374151;font-size:12px;font-weight:700;text-align:right;padding:9px 12px;border:1px solid #d7dce2}
+    th{background:#1f2937;color:#fff;font-size:12px;font-weight:700;text-align:right;padding:10px 9px;border:1px solid #111827;white-space:normal}
+    td{font-size:12px;text-align:right;vertical-align:top;padding:9px 8px;border:1px solid #d7dce2;white-space:normal;mso-number-format:"\\@"}
+    tr:nth-child(even) td{background:#fbfcfd}
+    .ltr{direction:ltr;text-align:right;mso-number-format:"\\@"}
+    .text{mso-number-format:"\\@"}
+  </style></head><body><table>${colgroup}<tr class="title"><td colspan="${headers.length}">تقرير طلبات الإعلان</td></tr><tr class="meta"><td colspan="${headers.length}">تاريخ التصدير: ${excelHtml(exportedAt)} | عدد السجلات: ${rows.length} | التصفية: ${excelHtml(statusFilter)} | الترتيب: ${excelHtml(sortLabel)} | البحث: ${excelHtml(search)}</td></tr><tr>${head}</tr>${bodyRows}</table></body></html>`;
+  const blob=new Blob(['\ufeff'+html],{type:'application/vnd.ms-excel;charset=utf-8'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
   a.href=url;
-  a.download=`ad-requests-${new Date().toISOString().slice(0,10)}.csv`;
+  a.download=`ad-requests-${new Date().toISOString().slice(0,10)}.xls`;
   document.body.appendChild(a);
   a.click();
   a.remove();
   URL.revokeObjectURL(url);
-  toast('تم تصدير الطلبات');
+  toast('تم تصدير ملف إكسل');
 }
-
 function getSeenRequestIds(){
   return JSON.parse(localStorage.getItem(ADMIN_REQUEST_SEEN_KEY)||'[]');
 }
