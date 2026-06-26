@@ -732,7 +732,7 @@ window.adminQuickLogin=async function(){
       <!-- ANALYTICS -->
       <div class="panel" id="panel-analytics">
         <div class="analytics-page-head">
-          <div><span class="analytics-eyebrow">لوحة الأداء</span><h2 class="panel-title">نظرة شاملة على أداء الموقع</h2><p>قراءة موحدة للزيارات والتفاعل وطلبات الإعلان، بتوقيت المملكة العربية السعودية.</p></div>
+          <div><span class="analytics-eyebrow">الرئيسية</span><h2 class="panel-title">نظرة شاملة على أداء الموقع</h2><p>قراءة موحدة للزيارات والتفاعل وطلبات الإعلان، بتوقيت المملكة العربية السعودية.</p></div>
           <div class="stats-toolbar">
             <select id="aRange" onchange="renderAnalytics()" aria-label="الفترة الزمنية">
               <option value="7">آخر 7 أيام</option><option value="30" selected>آخر 30 يومًا</option><option value="90">آخر 3 أشهر</option><option value="all">كل الوقت</option>
@@ -743,14 +743,14 @@ window.adminQuickLogin=async function(){
         <div class="analytics-kpis" id="statsGrid"></div>
         <div class="analytics-split">
           <section class="analytics-card"><div class="analytics-card-head"><div><h3>حالات الطلبات</h3><p>توزيع طلبات الفترة المحددة</p></div></div><div id="requestStatusVisual"></div></section>
-          <section class="analytics-card"><div class="analytics-card-head"><div><h3>أفضل حسابات التواصل</h3><p>الأكثر نقرًا خلال الفترة</p></div></div><div id="topSocialVisual"></div></section>
+          <section class="analytics-card"><div class="analytics-card-head"><div><h3>أفضل حساباتي</h3><p>الأكثر نقرًا خلال الفترة</p></div></div><div id="topSocialVisual"></div></section>
         </div>
         <section class="analytics-card">
           <div class="analytics-card-head"><div><h3>أحدث التفاعلات</h3><p>الأحدث في الأعلى — مرتبة تنازليًا بالتاريخ الهجري والميلادي</p></div></div>
           <div class="analytics-table-wrap recent-scroll"><table class="analytics-table"><thead><tr><th>النوع</th><th>التفاعل</th><th>الحالة</th><th>التاريخ</th><th>الوقت</th></tr></thead><tbody id="recentAnalytics"></tbody></table></div>
         </section>
         <section class="analytics-card cum-card">
-          <div class="analytics-card-head"><div><h3>إجمالي النقرات التراكمية</h3><p>مجموع النقرات لكل رابط أو مؤلف أو وسيلة تواصل منذ الإطلاق</p></div><div id="cumulativeClicksSummary"></div></div>
+          <div class="analytics-card-head"><div><h3>إجمالي النقرات التراكمية</h3><p>مجموع النقرات لكل عنصر من الروابط ومؤلفاتي وحساباتي منذ الإطلاق</p></div><div id="cumulativeClicksSummary"></div></div>
           <div id="cumulativeClicksVisual"></div>
         </section>
         <section class="analytics-maintenance" aria-labelledby="dataManagementTitle">
@@ -2511,16 +2511,16 @@ function renderAnalyticsDashboard(model){
   const statusColors={new:'#5577c5',review:'#7b6fc2',contacted:'#c4973a',approved:'#43825a',rejected:'#bc5656',archived:'#8b8f97'},statusLabels={new:'جديد',review:'قيد المراجعة',contacted:'تم التواصل',approved:'تمت الموافقة',rejected:'مرفوض',archived:'مؤرشف'};
   const entries=Object.entries(model.statuses).filter(([,n])=>n>0),total=entries.reduce((a,[,n])=>a+n,0);let at=0;const stops=entries.map(([k,n])=>{const from=at;at+=n/Math.max(total,1)*100;return `${statusColors[k]||'#999'} ${from}% ${at}%`}).join(',');
   document.getElementById('requestStatusVisual').innerHTML=total?`<div class="status-layout"><div class="status-donut" style="background:conic-gradient(${stops})"><div class="status-total">${nf(total)}<small>طلب</small></div></div><div class="status-list">${entries.map(([k,n])=>`<div class="status-row"><span class="status-row-main"><i class="status-color" style="background:${statusColors[k]||'#999'}"></i><span>${statusLabels[k]||k}</span></span><strong>${nf(n)}</strong></div>`).join('')}</div></div>`:'<div class="chart-empty">لا توجد طلبات في هذه الفترة.</div>';
-  const socialRows=model.topSocial.length?model.topSocial.map((x,i)=>`<tr><td><span class="cumulative-rank">${nf(i+1)}</span></td><td><span class="cumulative-link-name" title="${esc(x.name)}">${esc(x.name)}</span></td><td><span class="cumulative-count">${nf(x.count)}</span></td></tr>`).join(''):'<tr><td colspan="3" style="text-align:center;color:var(--mt);padding:24px">لا توجد نقرات على حسابات التواصل في هذه الفترة.</td></tr>';
+  const socialRows=model.topSocial.length?model.topSocial.map((x,i)=>`<tr><td><span class="cumulative-rank">${nf(i+1)}</span></td><td><span class="cumulative-link-name" title="${esc(x.name)}">${esc(x.name)}</span></td><td><span class="cumulative-count">${nf(x.count)}</span></td></tr>`).join(''):'<tr><td colspan="3" style="text-align:center;color:var(--mt);padding:24px">لا توجد نقرات على حساباتي في هذه الفترة.</td></tr>';
   document.getElementById('topSocialVisual').innerHTML=`<div class="analytics-table-wrap cumulative-table-wrap"><table class="analytics-table cumulative-table"><thead><tr><th>الترتيب</th><th>الحساب</th><th>إجمالي النقرات</th></tr></thead><tbody>${socialRows}</tbody></table></div>`;
   const cumEl=document.getElementById('cumulativeClicksVisual');
   const cumSummary=document.getElementById('cumulativeClicksSummary');
   if(cumEl){
-    const catLabels={social:'وسيلة تواصل',book:'مؤلف',ad:'رابط إعلان/دعم',request:'باقة إعلان',other:'أخرى'};
+    const catLabels={social:'حساباتي',book:'مؤلفاتي',ad:'الروابط',request:'طلبات الإعلان',other:'أخرى'};
     const lt=model.linkTotals||[];
-    if(cumSummary)cumSummary.innerHTML=`<div class="cum-summary"><div class="cum-stat"><span class="cum-stat-l">إجمالي النقرات</span><span class="cum-stat-v">${nf(model.cumulativeTotal)}</span></div><div class="cum-stat-divider"></div><div class="cum-stat"><span class="cum-stat-l">روابط مُتتبَّعة</span><span class="cum-stat-v">${nf(lt.length)}</span></div></div>`;
-    const rows=lt.length?lt.map((x,i)=>`<tr><td><span class="cumulative-rank">${nf(i+1)}</span></td><td><span class="cumulative-link-name" title="${esc(x.name)}">${esc(x.name)}</span></td><td><span class="interaction-chip">${catLabels[x.category]||catLabels.other}</span></td><td><span class="cumulative-count">${nf(x.count)}</span></td></tr>`).join(''):'<tr><td colspan="4" style="text-align:center;color:var(--mt);padding:24px">لا توجد نقرات مسجلة بعد على أي رابط.</td></tr>';
-    cumEl.innerHTML=`<div class="analytics-table-wrap cumulative-table-wrap"><table class="analytics-table cumulative-table"><thead><tr><th>الترتيب</th><th>الرابط / الحساب</th><th>التصنيف</th><th>إجمالي النقرات</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    if(cumSummary)cumSummary.innerHTML=`<div class="cum-summary"><div class="cum-stat"><span class="cum-stat-l">إجمالي النقرات</span><span class="cum-stat-v">${nf(model.cumulativeTotal)}</span></div><div class="cum-stat-divider"></div><div class="cum-stat"><span class="cum-stat-l">عناصر مُتتبَّعة</span><span class="cum-stat-v">${nf(lt.length)}</span></div></div>`;
+    const rows=lt.length?lt.map((x,i)=>`<tr><td><span class="cumulative-rank">${nf(i+1)}</span></td><td><span class="cumulative-link-name" title="${esc(x.name)}">${esc(x.name)}</span></td><td><span class="interaction-chip">${catLabels[x.category]||catLabels.other}</span></td><td><span class="cumulative-count">${nf(x.count)}</span></td></tr>`).join(''):'<tr><td colspan="4" style="text-align:center;color:var(--mt);padding:24px">لا توجد نقرات مسجلة بعد على أي عنصر.</td></tr>';
+    cumEl.innerHTML=`<div class="analytics-table-wrap cumulative-table-wrap"><table class="analytics-table cumulative-table"><thead><tr><th>الترتيب</th><th>العنصر</th><th>التصنيف</th><th>إجمالي النقرات</th></tr></thead><tbody>${rows}</tbody></table></div>`;
   }
   const recent=document.getElementById('recentAnalytics');recent.innerHTML=model.recent.length?model.recent.map(x=>`<tr>
       <td><span class="interaction-kind ${x.kind==='طلب'?'kind-req':'kind-click'}">${x.kind}</span></td>
@@ -3953,7 +3953,7 @@ async function exportPDF(range){
   const timeOf=c=>new Date(c.ts||c.created_at||0).getTime();
   const periodClicks=allClicks.filter(c=>{const t=timeOf(c);return t>=periodStart&&t<=periodEnd;});
   const names=getNames();
-  const catLabels={social:'وسيلة تواصل',book:'مؤلف',ad:'رابط إعلان/دعم',request:'باقة إعلان',other:'أخرى'};
+  const catLabels={social:'حساباتي',book:'مؤلفاتي',ad:'الروابط',request:'طلبات الإعلان',other:'أخرى'};
   const catOf=id=>(D.social||[]).some(s=>s.id===id)?'social':/_link_\d+$/.test(id)?'book':(D.adLinks||[]).some(p=>p.id===id)?'ad':/^advert_/.test(id)?'request':'other';
   const archivedSet=new Set((D.adLinks||[]).filter(l=>l.archived).map(l=>l.id));
   const archivedById={};(D.adLinks||[]).filter(l=>l.archived).forEach(l=>{archivedById[l.id]=l;});
@@ -4007,11 +4007,11 @@ tbody tr:nth-child(even){background:#fbfbfc}
   <div class="kpis">
     <div class="kpi"><div class="v">${fmt(visitors)}</div><div class="l">إجمالي الزيارات</div></div>
     <div class="kpi"><div class="v">${fmt(cumTotal)}</div><div class="l">إجمالي النقرات التراكمية</div></div>
-    <div class="kpi"><div class="v">${fmt(rows.length)}</div><div class="l">روابط مُتتبَّعة</div></div>
+    <div class="kpi"><div class="v">${fmt(rows.length)}</div><div class="l">عناصر مُتتبَّعة</div></div>
     <div class="kpi"><div class="v">${fmt(requestsTotal)}</div><div class="l">طلبات الإعلان</div></div>
   </div>`;
-  h+=`<h2>إجمالي النقرات التراكمية لكل رابط</h2><div class="sub">مجموع النقرات منذ إطلاق المنصة، مرتبة من الأعلى تفاعلًا.</div>`;
-  h+=`<table><thead><tr><th>#</th><th>الرابط / الحساب</th><th>التصنيف</th><th>النقرات التراكمية</th><th>الحصة</th><th>خلال ${e(periodLabel)}</th></tr></thead><tbody>`;
+  h+=`<h2>إجمالي النقرات التراكمية حسب القسم</h2><div class="sub">مجموع النقرات منذ إطلاق المنصة، مرتبة من الأعلى تفاعلًا.</div>`;
+  h+=`<table><thead><tr><th>#</th><th>العنصر</th><th>التصنيف</th><th>النقرات التراكمية</th><th>الحصة</th><th>خلال ${e(periodLabel)}</th></tr></thead><tbody>`;
   if(rows.length)rows.forEach((r,i)=>{h+=`<tr><td class="rank">${fmt(i+1)}</td><td>${e(r.name)}</td><td><span class="chip">${catLabels[r.cat]||catLabels.other}</span></td><td class="num">${fmt(r.total)}</td><td class="muted">${pct(r.total)}%</td><td class="num">${fmt(r.period)}</td></tr>`;});
   else h+='<tr><td colspan="6" style="text-align:center;color:#9a9ca3;padding:18px">لا توجد نقرات مسجّلة بعد.</td></tr>';
   h+='</tbody></table>';
