@@ -492,7 +492,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 
     <!-- Partners -->
     <div id="partnersWrap">
-      <div class="sec-lbl" id="lblPartners">دعم وإعلانات</div>
+      <div class="sec-lbl" id="lblPartners">الروابط</div>
       <div id="partnersSec"></div>
     </div>
 
@@ -946,7 +946,7 @@ function renderPartners(){
   });
   if(!items.length){wrap.style.display='none';sec.innerHTML='';return;}
   wrap.style.display='block';
-  sec.innerHTML=`<div class="section-frame"><div class="card-title-lite">الدعم / الإعلان</div>${items.map(p=>{
+  sec.innerHTML=`<div class="section-frame"><div class="card-title-lite">الروابط</div>${items.map(p=>{
     const name=escapeHtml(p.titleAr||p.titleEn||'');
     const desc=escapeHtml([p.entityAr,p.licenseNo?`ترخيص ${p.licenseNo}`:''].filter(Boolean).join(' • '));
     const cta='فتح الرابط';
@@ -1312,7 +1312,7 @@ document.addEventListener('click',event=>{
 function updateStaticText(){
   document.getElementById('lblSocial').textContent=lang==='ar'?'تابعني على':'Follow Me';
   document.getElementById('lblBooks').textContent=lang==='ar'?'مؤلفاتي':'My Publications';
-  document.getElementById('lblPartners').textContent=lang==='ar'?'روابط الدعم / الإعلان':'Support / Ad Links';
+  document.getElementById('lblPartners').textContent=lang==='ar'?'الروابط':'Links';
   document.getElementById('lblCollab').textContent=lang==='ar'?'التعاون والإعلان':'Advertising & Collaboration';
   document.getElementById('footerTxt').textContent=lang==='ar'?'© جميع الحقوق محفوظة':'© All rights reserved';
   document.getElementById('vLbl').textContent=lang==='ar'?'متواجد الآن':'online now';
