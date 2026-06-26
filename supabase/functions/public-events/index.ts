@@ -41,8 +41,8 @@ const GEO_AR_NAMES: Record<string, string> = {
   "dammam": "الدمام", "khobar": "الخبر", "al khobar": "الخبر", "dhahran": "الظهران", "taif": "الطائف",
   "tabuk": "تبوك", "abha": "أبها", "khamis mushait": "خميس مشيط", "buraidah": "بريدة", "buraydah": "بريدة",
   "hail": "حائل", "ha il": "حائل", "najran": "نجران", "jazan": "جازان", "jizan": "جازان", "al ahsa": "الأحساء",
-  "eastern province": "المنطقة الشرقية", "makkah province": "منطقة مكة المكرمة", "riyadh province": "منطقة الرياض",
-  "al madinah region": "منطقة المدينة المنورة", "qassim province": "منطقة القصيم", "asir province": "منطقة عسير",
+  "eastern province": "المنطقة الشرقية", "eastern region": "المنطقة الشرقية", "makkah province": "منطقة مكة المكرمة", "makkah region": "منطقة مكة المكرمة", "mecca province": "منطقة مكة المكرمة", "mecca region": "منطقة مكة المكرمة", "makkah al mukarramah province": "منطقة مكة المكرمة", "makkah al mukarramah region": "منطقة مكة المكرمة", "riyadh province": "منطقة الرياض", "riyadh region": "منطقة الرياض",
+  "al madinah region": "منطقة المدينة المنورة", "madinah region": "منطقة المدينة المنورة", "medina region": "منطقة المدينة المنورة", "qassim province": "منطقة القصيم", "qassim region": "منطقة القصيم", "al qassim region": "منطقة القصيم", "asir province": "منطقة عسير", "asir region": "منطقة عسير",
   "tabuk province": "منطقة تبوك", "hail region": "منطقة حائل", "jazan region": "منطقة جازان", "najran region": "منطقة نجران",
 };
 
