@@ -15,6 +15,8 @@ for (const file of publicFiles) {
   fs.copyFileSync(source, path.join(out, file));
 }
 
+fs.copyFileSync(path.join(root, 'site', 'vercel.json'), path.join(out, 'vercel.json'));
+
 fs.rmSync(adminOut, { recursive: true, force: true });
 fs.mkdirSync(adminOut, { recursive: true });
 fs.copyFileSync(path.join(root, 'admin/index.html'), path.join(adminOut, 'index.html'));
