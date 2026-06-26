@@ -1611,13 +1611,49 @@ function activatePanel(id){
   localStorage.setItem('admin_last_panel',id);
   if(location.hash!==`#${id}`)history.replaceState(null,'',`#${id}`);
 }
-function nav(id,el){
+async function nav(id,el){
+  const current=document.querySelector('.panel.on')?.id?.replace('panel-','')||'';
+  if(current&&current!==id){
+    const canLeave=await confirmSaveOpenEditorBeforeLeave();
+    if(!canLeave)return;
+  }
   activatePanel(id);
   if(el)el.classList.add('on');
   if(id==='requests')markNotificationsSeen();
   closeNotificationsPanel();
   closeSidebar();
   if(id==='analytics')requestAnimationFrame(()=>{renderAnalyticsFallback();renderAnalytics();});
+}
+function textValue(id){return document.getElementById(id)?.value?.trim()||'';}
+function isBookFormDirty(){
+  const form=document.getElementById('booksForm');
+  if(!form?.classList.contains('open'))return false;
+  const hasLink=[...document.querySelectorAll('#bookLinksEditor .book-link-input-row')].some(row=>{
+    const label=row.querySelector('.b-link-label')?.value.trim()||'';
+    const url=row.querySelector('.b-link-url')?.value.trim()||'';
+    return !!url || (label&&label!=='شراء');
+  });
+  return !!(bookEditId||bookCover||textValue('bTitle')||textValue('bPub')||hasLink);
+}
+function isAdLinkFormDirty(){
+  const form=document.getElementById('adLinksForm');
+  if(!form?.classList.contains('open'))return false;
+  return !!(adLinkImage||textValue('adLinkEditId')||textValue('adLinkTitle')||textValue('adLinkEntity')||textValue('adLinkLicense')||textValue('adLinkUrl'));
+}
+async function confirmSaveOpenEditorBeforeLeave(){
+  if(isBookFormDirty()){
+    const ok=await platformConfirm('لديك بيانات كتاب / مؤلف غير محفوظة. هل تريد حفظها قبل الانتقال؟','بيانات غير محفوظة');
+    if(!ok)return false;
+    const saved=await addBook();
+    return !!saved;
+  }
+  if(isAdLinkFormDirty()){
+    const ok=await platformConfirm('لديك بيانات رابط غير محفوظة. هل تريد حفظها قبل الانتقال؟','بيانات غير محفوظة');
+    if(!ok)return false;
+    const saved=await saveAdLink();
+    return !!saved;
+  }
+  return true;
 }
 function focusOpenedForm(form){
   if(!form)return;
@@ -2605,7 +2641,7 @@ async function delSocial(id){
 // BOOKS
 async function addBook(){
   const title=document.getElementById('bTitle').value.trim();
-  if(!title){toast('أدخل عنوان الكتاب');return;}
+  if(!title){toast('أدخل عنوان الكتاب');return false;}
   toast('جاري الإضافة...');
   const pub=document.getElementById('bPub').value.trim();
   const links=collectBookLinks();
@@ -2619,7 +2655,7 @@ async function addBook(){
   let addedItem=null;
   if(isEdit){
     const item=(D.books||[]).find(b=>b.id===bookEditId);
-    if(!item){toast('تعذر العثور على الكتاب');return;}
+    if(!item){toast('تعذر العثور على الكتاب');return false;}
     item.titleAr=title;
     item.titleEn=titleEn;
     item.publisherAr=pub;
@@ -2638,13 +2674,14 @@ async function addBook(){
     normalizeData();
     renderBooksAdmin();
     toast('تعذر حفظ الكتاب. بقيت الاستمارة مفتوحة للمحاولة مرة أخرى');
-    return;
+    return false;
   }
   renderBooksAdmin();
   closeBookForm();
   toast(isEdit?'تم تحديث الكتاب ✓':'تمت إضافة الكتاب ✓');
-  if(isEdit)return;
+  if(isEdit)return true;
   toast('تمت إضافة الكتاب وتفعيله في الواجهة');
+  return true;
 }
 function renderBooksAdmin(){
   const list=document.getElementById('booksAdminList');
@@ -2778,7 +2815,7 @@ async function saveAdLink(){
   const licenseNo=document.getElementById('adLinkLicense')?.value.trim();
   const url=document.getElementById('adLinkUrl')?.value.trim();
   const editId=document.getElementById('adLinkEditId')?.value||'';
-  if(!titleAr||!entityAr||!licenseNo||!url){toast('أكمل بيانات الرابط الأساسية');return;}
+  if(!titleAr||!entityAr||!licenseNo||!url){toast('أكمل بيانات الرابط الأساسية');return false;}
   const titleEn=titleAr,entityEn=entityAr;
   const beforeSave=JSON.stringify(D);
   const payload={id:editId||uid(),titleAr,titleEn,entityAr,entityEn,licenseNo,url,image:adLinkImage||'',startDate:'',endDate:'',autoStop:false,active:true};
@@ -2796,13 +2833,14 @@ async function saveAdLink(){
     D=JSON.parse(beforeSave);
     normalizeData();
     renderAdLinks();
-    toast('تعذر حفظ رابط الإعلان. بقيت الاستمارة مفتوحة للمحاولة مرة أخرى');
-    return;
+    toast('تعذر حفظ الرابط. بقيت الاستمارة مفتوحة للمحاولة مرة أخرى');
+    return false;
   }
   renderAdLinks();
   resetAdLinksForm();
   document.getElementById('adLinksForm')?.classList.remove('open');
   toast(editId?'تم تحديث الرابط ✓':'تمت إضافة الرابط ✓');
+  return true;
 }
 
 function editAdLink(id){

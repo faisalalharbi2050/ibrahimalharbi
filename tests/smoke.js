@@ -72,6 +72,26 @@ async function waitForServer() {
     if (notificationLayout.left < 0 || notificationLayout.right > notificationLayout.viewport) {
       throw new Error(`نافذة الإشعارات خارج الشاشة: ${JSON.stringify(notificationLayout)}`);
     }
+    const unsavedNavigationState = await page.evaluate(async () => {
+      document.querySelector('#dashboard').style.display = 'block';
+      verifiedAdminSession = { user: { app_metadata: { platform_role: 'owner' } } };
+      activatePanel('books');
+      openBookForm();
+      document.querySelector('#bTitle').value = 'عنوان غير محفوظ';
+      let prompted = false;
+      const nativeConfirm = window.platformConfirm;
+      window.platformConfirm = async () => { prompted = true; return false; };
+      await nav('analytics');
+      window.platformConfirm = nativeConfirm;
+      return {
+        prompted,
+        activePanel: document.querySelector('.panel.on')?.id || '',
+        dirty: isBookFormDirty(),
+      };
+    });
+    if (!unsavedNavigationState.prompted || unsavedNavigationState.activePanel !== 'panel-books' || !unsavedNavigationState.dirty) {
+      throw new Error(`فشل منع الانتقال مع بيانات كتاب غير محفوظة: ${JSON.stringify(unsavedNavigationState)}`);
+    }
     const whatsappState = await page.evaluate(() => {
       D.collab = { ...(D.collab || {}), requests: [{
         id: 'wa-test', requestNo: 'AB-123', name: 'محمد', phone: '0501234567',
