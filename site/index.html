@@ -1273,7 +1273,7 @@ async function submitOfferRequest(){
 }
 
 function queueClickTracking(id,url){
-  const payload={link_id:id,device:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop'};
+  const payload={link_id:id};
   Promise.resolve().then(async()=>{
     try{
       if(!sb)throw new Error('Supabase is not available');

@@ -25,6 +25,19 @@ function clean(value: unknown, max: number) {
   return String(value || "").trim().slice(0, max);
 }
 
+function cleanGeo(value: unknown, max = 120) {
+  const decoded = String(value || "").replace(/\+/g, " ");
+  try { return decodeURIComponent(decoded).trim().slice(0, max); }
+  catch { return decoded.trim().slice(0, max); }
+}
+
+function publicIp(value: string) {
+  if (!value || value === "unknown") return "";
+  if (/^(10\.|127\.|169\.254\.|172\.(1[6-9]|2\d|3[0-1])\.|192\.168\.)/.test(value)) return "";
+  if (/^(::1|fc00:|fd00:|fe80:)/i.test(value)) return "";
+  return value;
+}
+
 function normalizePhone(value: unknown) {
   const raw = clean(value, 30);
   const hasPlus = raw.startsWith("+");
@@ -54,6 +67,59 @@ async function sha256(value: string) {
   const bytes = new TextEncoder().encode(value);
   const digest = await crypto.subtle.digest("SHA-256", bytes);
   return Array.from(new Uint8Array(digest)).map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+async function resolveClickGeo(req: Request, supabase: ReturnType<typeof createClient>, ipHash: string, ip: string) {
+  const headerCountry = cleanGeo(req.headers.get("x-vercel-ip-country") || req.headers.get("cf-ipcountry"), 2).toUpperCase();
+  const headerRegion = cleanGeo(req.headers.get("x-vercel-ip-country-region") || req.headers.get("x-vercel-ip-region"));
+  const headerCity = cleanGeo(req.headers.get("x-vercel-ip-city") || req.headers.get("x-vercel-ip-city-name"));
+  const headerTimezone = cleanGeo(req.headers.get("x-vercel-ip-timezone"), 80);
+  const fromHeaders = {
+    country: headerCountry,
+    country_code: headerCountry,
+    region: headerRegion,
+    city: headerCity,
+    timezone: headerTimezone,
+    geo_source: headerCity || headerCountry ? "edge_headers" : "",
+  };
+  if (fromHeaders.city && fromHeaders.country_code) return fromHeaders;
+
+  const { data: cached } = await supabase
+    .from("public_geo_cache")
+    .select("country,country_code,region,city,timezone,geo_source,expires_at")
+    .eq("ip_hash", ipHash)
+    .gt("expires_at", new Date().toISOString())
+    .maybeSingle();
+  if (cached) return cached;
+
+  const safeIp = publicIp(ip);
+  if (!safeIp) return fromHeaders;
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 1200);
+    const res = await fetch("https://ipapi.co/" + encodeURIComponent(safeIp) + "/json/", {
+      headers: { "Accept": "application/json", "User-Agent": "ibrahimalharbi-analytics/1.0" },
+      signal: controller.signal,
+    });
+    clearTimeout(timer);
+    if (!res.ok) return fromHeaders;
+    const data = await res.json();
+    const geo = {
+      country: cleanGeo(data.country_name || data.country || fromHeaders.country),
+      country_code: cleanGeo(data.country_code || fromHeaders.country_code, 2).toUpperCase(),
+      region: cleanGeo(data.region || data.region_code || fromHeaders.region),
+      city: cleanGeo(data.city || fromHeaders.city),
+      timezone: cleanGeo(data.timezone || fromHeaders.timezone, 80),
+      geo_source: "ipapi",
+    };
+    await supabase.from("public_geo_cache").upsert({
+      ip_hash: ipHash,
+      ...geo,
+      expires_at: new Date(Date.now() + 7 * 86400000).toISOString(),
+      updated_at: new Date().toISOString(),
+    });
+    return geo;
+  } catch { return fromHeaders; }
 }
 
 serve(async (req) => {
@@ -130,9 +196,16 @@ serve(async (req) => {
         return json(req, { error: "rate_limited" }, 429);
       }
     } catch { return json(req, { error: "rate_limit_unavailable" }, 503); }
+    const geo = await resolveClickGeo(req, supabase, ipHash, forwarded);
     const { error } = await supabase.from("clicks").insert({
       link_id: linkId,
       device: ["mobile", "desktop"].includes(device) ? device : "unknown",
+      country: geo.country || null,
+      country_code: geo.country_code || null,
+      region: geo.region || null,
+      city: geo.city || null,
+      timezone: geo.timezone || null,
+      geo_source: geo.geo_source || null,
       hour: new Date().getUTCHours(),
       ts: new Date().toISOString(),
     });
