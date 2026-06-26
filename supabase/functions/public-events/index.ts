@@ -31,6 +31,28 @@ function cleanGeo(value: unknown, max = 120) {
   catch { return decoded.trim().slice(0, max); }
 }
 
+const GEO_AR_NAMES: Record<string, string> = {
+  "saudi arabia": "السعودية", "kingdom of saudi arabia": "السعودية", "sa": "السعودية",
+  "united arab emirates": "الإمارات", "uae": "الإمارات", "ae": "الإمارات",
+  "kuwait": "الكويت", "kw": "الكويت", "qatar": "قطر", "qa": "قطر", "bahrain": "البحرين", "bh": "البحرين",
+  "oman": "عمان", "om": "عمان", "egypt": "مصر", "eg": "مصر", "jordan": "الأردن", "jo": "الأردن",
+  "riyadh": "الرياض", "ar riyad": "الرياض", "ar riyadh": "الرياض",
+  "jeddah": "جدة", "jidda": "جدة", "makkah": "مكة", "mecca": "مكة", "medina": "المدينة المنورة", "madinah": "المدينة المنورة",
+  "dammam": "الدمام", "khobar": "الخبر", "al khobar": "الخبر", "dhahran": "الظهران", "taif": "الطائف",
+  "tabuk": "تبوك", "abha": "أبها", "khamis mushait": "خميس مشيط", "buraidah": "بريدة", "buraydah": "بريدة",
+  "hail": "حائل", "ha il": "حائل", "najran": "نجران", "jazan": "جازان", "jizan": "جازان", "al ahsa": "الأحساء",
+  "eastern province": "المنطقة الشرقية", "makkah province": "منطقة مكة المكرمة", "riyadh province": "منطقة الرياض",
+  "al madinah region": "منطقة المدينة المنورة", "qassim province": "منطقة القصيم", "asir province": "منطقة عسير",
+  "tabuk province": "منطقة تبوك", "hail region": "منطقة حائل", "jazan region": "منطقة جازان", "najran region": "منطقة نجران",
+};
+
+function geoAr(value: unknown) {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+  if (/[\u0600-\u06FF]/.test(raw)) return raw;
+  const key = raw.toLowerCase().replace(/[._-]/g, " ").replace(/\s+/g, " ").trim();
+  return GEO_AR_NAMES[key] || raw;
+}
 function publicIp(value: string) {
   if (!value || value === "unknown") return "";
   if (/^(10\.|127\.|169\.254\.|172\.(1[6-9]|2\d|3[0-1])\.|192\.168\.)/.test(value)) return "";
@@ -74,9 +96,9 @@ async function resolveClickGeo(req: Request, supabase: ReturnType<typeof createC
   const headerCity = cleanGeo(req.headers.get("x-vercel-ip-city") || req.headers.get("x-vercel-ip-city-name"));
   const headerTimezone = cleanGeo(req.headers.get("x-vercel-ip-timezone"), 80);
   const fromHeaders = {
-    country: "",
-    region: headerRegion,
-    city: headerCity,
+    country: geoAr(req.headers.get("x-vercel-ip-country") || ""),
+    region: geoAr(headerRegion),
+    city: geoAr(headerCity),
     timezone: headerTimezone,
     geo_source: headerCity ? "edge_headers" : "",
   };
@@ -103,9 +125,9 @@ async function resolveClickGeo(req: Request, supabase: ReturnType<typeof createC
     if (!res.ok) return fromHeaders;
     const data = await res.json();
     const geo = {
-      country: cleanGeo(data.country_name || fromHeaders.country),
-      region: cleanGeo(data.region || data.region_code || fromHeaders.region),
-      city: cleanGeo(data.city || fromHeaders.city),
+      country: geoAr(data.country_name || data.country_code || fromHeaders.country),
+      region: geoAr(data.region || data.region_code || fromHeaders.region),
+      city: geoAr(data.city || fromHeaders.city),
       timezone: cleanGeo(data.timezone || fromHeaders.timezone, 80),
       geo_source: "ipapi",
     };
