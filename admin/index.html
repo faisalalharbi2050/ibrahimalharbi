@@ -1141,10 +1141,6 @@ const PLATS={
 };
 const DEFAULT_SOCIAL_PLATFORMS=['snapchat','youtube','twitter','instagram','tiktok','telegram','facebook','whatsapp'];
 const GEO_AR_NAMES={
-  'saudi arabia':'السعودية','kingdom of saudi arabia':'السعودية','sa':'السعودية',
-  'united arab emirates':'الإمارات','uae':'الإمارات','ae':'الإمارات',
-  'kuwait':'الكويت','kw':'الكويت','qatar':'قطر','qa':'قطر','bahrain':'البحرين','bh':'البحرين',
-  'oman':'عمان','om':'عمان','egypt':'مصر','eg':'مصر','jordan':'الأردن','jo':'الأردن',
   'riyadh':'الرياض','ar riyad':'الرياض','ar riyadh':'الرياض',
   'jeddah':'جدة','jidda':'جدة','makkah':'مكة','mecca':'مكة','medina':'المدينة المنورة','madinah':'المدينة المنورة',
   'dammam':'الدمام','khobar':'الخبر','al khobar':'الخبر','dhahran':'الظهران','taif':'الطائف',
@@ -1154,18 +1150,51 @@ const GEO_AR_NAMES={
   'al madinah region':'منطقة المدينة المنورة','madinah region':'منطقة المدينة المنورة','medina region':'منطقة المدينة المنورة','qassim province':'منطقة القصيم','qassim region':'منطقة القصيم','al qassim region':'منطقة القصيم','asir province':'منطقة عسير','asir region':'منطقة عسير',
   'tabuk province':'منطقة تبوك','hail region':'منطقة حائل','jazan region':'منطقة جازان','najran region':'منطقة نجران'
 };
+const ISO_REGION_CODES='AC AD AE AF AG AI AL AM AO AQ AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BV BW BY BZ CA CC CD CF CG CH CI CK CL CM CN CO CP CR CU CV CW CX CY CZ DE DG DJ DK DM DO DZ EA EC EE EG EH ER ES ET EU EZ FI FJ FK FM FO FR GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GS GT GU GW GY HK HM HN HR HT HU IC ID IE IL IM IN IO IQ IR IS IT JE JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW PY QA QO RE RO RS RU RW SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TA TC TD TF TG TH TJ TK TL TM TN TO TR TT TV TW TZ UA UG UM UN US UY UZ VA VC VE VG VI VN VU WF WS XK YE YT ZA ZM ZW'.split(' ');
+const COUNTRY_CODE_ALIASES={
+  'uae':'AE','u a e':'AE','united arab emirates':'AE','ksa':'SA','kingdom of saudi arabia':'SA','saudi arabia':'SA',
+  'uk':'GB','u k':'GB','great britain':'GB','britain':'GB','england':'GB','united kingdom':'GB',
+  'usa':'US','u s a':'US','us':'US','u s':'US','america':'US','united states':'US','united states of america':'US',
+  'south korea':'KR','north korea':'KP','russia':'RU','vietnam':'VN','iran':'IR','syria':'SY','palestine':'PS','turkey':'TR','czech republic':'CZ'
+};
+let COUNTRY_NAME_TO_CODE=null;
+function geoKey(value){return String(value||'').trim().toLowerCase().replace(/[._-]/g,' ').replace(/&/g,' and ').replace(/[^a-z0-9 ]+/g,'').replace(/\s+/g,' ').trim();}
+function buildCountryNameMap(){
+  if(COUNTRY_NAME_TO_CODE)return COUNTRY_NAME_TO_CODE;
+  COUNTRY_NAME_TO_CODE={...COUNTRY_CODE_ALIASES};
+  const locales=['en','en-US','en-GB'];
+  locales.forEach(locale=>{
+    try{
+      const dn=new Intl.DisplayNames([locale],{type:'region'});
+      ISO_REGION_CODES.forEach(code=>{try{const name=dn.of(code);if(name)COUNTRY_NAME_TO_CODE[geoKey(name)]=code;}catch(e){}});
+    }catch(e){}
+  });
+  return COUNTRY_NAME_TO_CODE;
+}
+function countryCodeFromName(value){
+  const raw=String(value||'').trim();
+  if(/^[a-z]{2}$/i.test(raw))return raw.toUpperCase();
+  const key=geoKey(raw);
+  return buildCountryNameMap()[key]||'';
+}
+function countryAr(value){
+  const raw=String(value||'').trim();
+  if(!raw)return '';
+  if(/[\u0600-\u06FF]/.test(raw))return raw;
+  const code=countryCodeFromName(raw);
+  if(code){try{return new Intl.DisplayNames(['ar'],{type:'region'}).of(code)||raw;}catch(e){}}
+  return GEO_AR_NAMES[geoKey(raw)]||raw;
+}
 function geoAr(value){
   const raw=String(value||'').trim();
   if(!raw)return '';
   if(/[\u0600-\u06FF]/.test(raw))return raw;
-  const key=raw.toLowerCase().replace(/[._-]/g,' ').replace(/\s+/g,' ').trim();
-  return GEO_AR_NAMES[key]||raw;
+  return GEO_AR_NAMES[geoKey(raw)]||raw;
 }
 function geoLabelAr(geo,empty='غير محدد'){
-  const parts=[geoAr(geo?.city),geoAr(geo?.region),geoAr(geo?.country)].filter(Boolean);
+  const parts=[geoAr(geo?.city),geoAr(geo?.region),countryAr(geo?.country)].filter(Boolean);
   return parts.join('، ')||empty;
 }
-
 function normalizeSocialPlatform(name){
   const v=String(name||'').trim().toLowerCase();
   const map=[

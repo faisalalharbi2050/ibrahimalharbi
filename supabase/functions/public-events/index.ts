@@ -32,10 +32,6 @@ function cleanGeo(value: unknown, max = 120) {
 }
 
 const GEO_AR_NAMES: Record<string, string> = {
-  "saudi arabia": "السعودية", "kingdom of saudi arabia": "السعودية", "sa": "السعودية",
-  "united arab emirates": "الإمارات", "uae": "الإمارات", "ae": "الإمارات",
-  "kuwait": "الكويت", "kw": "الكويت", "qatar": "قطر", "qa": "قطر", "bahrain": "البحرين", "bh": "البحرين",
-  "oman": "عمان", "om": "عمان", "egypt": "مصر", "eg": "مصر", "jordan": "الأردن", "jo": "الأردن",
   "riyadh": "الرياض", "ar riyad": "الرياض", "ar riyadh": "الرياض",
   "jeddah": "جدة", "jidda": "جدة", "makkah": "مكة", "mecca": "مكة", "medina": "المدينة المنورة", "madinah": "المدينة المنورة",
   "dammam": "الدمام", "khobar": "الخبر", "al khobar": "الخبر", "dhahran": "الظهران", "taif": "الطائف",
@@ -45,15 +41,75 @@ const GEO_AR_NAMES: Record<string, string> = {
   "al madinah region": "منطقة المدينة المنورة", "madinah region": "منطقة المدينة المنورة", "medina region": "منطقة المدينة المنورة", "qassim province": "منطقة القصيم", "qassim region": "منطقة القصيم", "al qassim region": "منطقة القصيم", "asir province": "منطقة عسير", "asir region": "منطقة عسير",
   "tabuk province": "منطقة تبوك", "hail region": "منطقة حائل", "jazan region": "منطقة جازان", "najran region": "منطقة نجران",
 };
-
+const ISO_REGION_CODES = "AC AD AE AF AG AI AL AM AO AQ AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BV BW BY BZ CA CC CD CF CG CH CI CK CL CM CN CO CP CR CU CV CW CX CY CZ DE DG DJ DK DM DO DZ EA EC EE EG EH ER ES ET EU EZ FI FJ FK FM FO FR GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GS GT GU GW GY HK HM HN HR HT HU IC ID IE IL IM IN IO IQ IR IS IT JE JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW PY QA QO RE RO RS RU RW SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TA TC TD TF TG TH TJ TK TL TM TN TO TR TT TV TW TZ UA UG UM UN US UY UZ VA VC VE VG VI VN VU WF WS XK YE YT ZA ZM ZW".split(" ");
+const COUNTRY_CODE_ALIASES: Record<string, string> = {
+  "uae": "AE", "u a e": "AE", "united arab emirates": "AE", "ksa": "SA", "kingdom of saudi arabia": "SA", "saudi arabia": "SA",
+  "uk": "GB", "u k": "GB", "great britain": "GB", "britain": "GB", "england": "GB", "united kingdom": "GB",
+  "usa": "US", "u s a": "US", "us": "US", "u s": "US", "america": "US", "united states": "US", "united states of america": "US",
+  "south korea": "KR", "north korea": "KP", "russia": "RU", "vietnam": "VN", "iran": "IR", "syria": "SY", "palestine": "PS", "turkey": "TR", "czech republic": "CZ",
+};
+let countryNameToCode: Record<string, string> | null = null;
+function geoKey(value: unknown) {
+  return String(value || "").trim().toLowerCase().replace(/[._-]/g, " ").replace(/&/g, " and ").replace(/[^a-z0-9 ]+/g, "").replace(/\s+/g, " ").trim();
+}
+function buildCountryNameMap() {
+  if (countryNameToCode) return countryNameToCode;
+  countryNameToCode = { ...COUNTRY_CODE_ALIASES };
+  for (const locale of ["en", "en-US", "en-GB"]) {
+    try {
+      const dn = new Intl.DisplayNames([locale], { type: "region" });
+      for (const code of ISO_REGION_CODES) {
+        try {
+          const name = dn.of(code);
+          if (name) countryNameToCode[geoKey(name)] = code;
+        } catch { /* Some special CLDR regions are runtime-dependent. */ }
+      }
+    } catch { /* Intl data may vary by runtime. */ }
+  }
+  return countryNameToCode;
+}
+function countryCodeFromName(value: unknown) {
+  const raw = String(value || "").trim();
+  if (/^[a-z]{2}$/i.test(raw)) return raw.toUpperCase();
+  return buildCountryNameMap()[geoKey(raw)] || "";
+}
+function countryAr(value: unknown) {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+  if (/[\u0600-\u06FF]/.test(raw)) return raw;
+  const code = countryCodeFromName(raw);
+  if (code) {
+    try { return new Intl.DisplayNames(["ar"], { type: "region" }).of(code) || raw; }
+    catch { /* Fall through to local aliases. */ }
+  }
+  return GEO_AR_NAMES[geoKey(raw)] || raw;
+}
 function geoAr(value: unknown) {
   const raw = String(value || "").trim();
   if (!raw) return "";
   if (/[\u0600-\u06FF]/.test(raw)) return raw;
-  const key = raw.toLowerCase().replace(/[._-]/g, " ").replace(/\s+/g, " ").trim();
-  return GEO_AR_NAMES[key] || raw;
+  return GEO_AR_NAMES[geoKey(raw)] || raw;
 }
-function publicIp(value: string) {
+function hasArabic(value: unknown) {
+  return /[\u0600-\u06FF]/.test(String(value || ""));
+}
+function normalizeGeo(geo: Record<string, unknown>) {
+  return {
+    country: countryAr(geo.country),
+    region: geoAr(geo.region),
+    city: geoAr(geo.city),
+    timezone: cleanGeo(geo.timezone, 80),
+    geo_source: cleanGeo(geo.geo_source, 80),
+  };
+}
+async function fetchJson(url: string, timeoutMs = 1300) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, { headers: { "Accept": "application/json", "User-Agent": "ibrahimalharbi-analytics/1.0" }, signal: controller.signal });
+    return res.ok ? await res.json() : null;
+  } finally { clearTimeout(timer); }
+}function publicIp(value: string) {
   if (!value || value === "unknown") return "";
   if (/^(10\.|127\.|169\.254\.|172\.(1[6-9]|2\d|3[0-1])\.|192\.168\.)/.test(value)) return "";
   if (/^(::1|fc00:|fd00:|fe80:)/i.test(value)) return "";
@@ -92,17 +148,17 @@ async function sha256(value: string) {
 }
 
 async function resolveClickGeo(req: Request, supabase: ReturnType<typeof createClient>, ipHash: string, ip: string) {
+  const headerCountryCode = cleanGeo(req.headers.get("x-vercel-ip-country"), 2);
   const headerRegion = cleanGeo(req.headers.get("x-vercel-ip-country-region") || req.headers.get("x-vercel-ip-region"));
   const headerCity = cleanGeo(req.headers.get("x-vercel-ip-city") || req.headers.get("x-vercel-ip-city-name"));
   const headerTimezone = cleanGeo(req.headers.get("x-vercel-ip-timezone"), 80);
-  const fromHeaders = {
-    country: geoAr(req.headers.get("x-vercel-ip-country") || ""),
-    region: geoAr(headerRegion),
-    city: geoAr(headerCity),
+  const fromHeaders = normalizeGeo({
+    country: headerCountryCode,
+    region: headerRegion,
+    city: headerCity,
     timezone: headerTimezone,
     geo_source: headerCity ? "edge_headers" : "",
-  };
-  if (fromHeaders.city && fromHeaders.country) return fromHeaders;
+  });
 
   const { data: cached } = await supabase
     .from("public_geo_cache")
@@ -110,27 +166,45 @@ async function resolveClickGeo(req: Request, supabase: ReturnType<typeof createC
     .eq("ip_hash", ipHash)
     .gt("expires_at", new Date().toISOString())
     .maybeSingle();
-  if (cached) return cached;
+  if (cached) {
+    const normalized = normalizeGeo(cached);
+    if (normalized.geo_source === "ipwho_ar" || hasArabic(normalized.city) || hasArabic(normalized.region)) return normalized;
+  }
 
   const safeIp = publicIp(ip);
   if (!safeIp) return fromHeaders;
   try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 1200);
-    const res = await fetch("https://ipapi.co/" + encodeURIComponent(safeIp) + "/json/", {
-      headers: { "Accept": "application/json", "User-Agent": "ibrahimalharbi-analytics/1.0" },
-      signal: controller.signal,
-    });
-    clearTimeout(timer);
-    if (!res.ok) return fromHeaders;
-    const data = await res.json();
-    const geo = {
-      country: geoAr(data.country_name || data.country_code || fromHeaders.country),
-      region: geoAr(data.region || data.region_code || fromHeaders.region),
-      city: geoAr(data.city || fromHeaders.city),
-      timezone: cleanGeo(data.timezone || fromHeaders.timezone, 80),
+    const ipwho = await fetchJson("https://ipwho.is/" + encodeURIComponent(safeIp) + "?lang=ar");
+    if (ipwho && ipwho.success !== false) {
+      const geo = normalizeGeo({
+        country: ipwho.country_code || ipwho.country || fromHeaders.country,
+        region: ipwho.region || fromHeaders.region,
+        city: ipwho.city || fromHeaders.city,
+        timezone: ipwho.timezone?.id || ipwho.timezone || fromHeaders.timezone,
+        geo_source: "ipwho_ar",
+      });
+      if (geo.country || geo.city) {
+        await supabase.from("public_geo_cache").upsert({
+          ip_hash: ipHash,
+          ...geo,
+          expires_at: new Date(Date.now() + 7 * 86400000).toISOString(),
+          updated_at: new Date().toISOString(),
+        });
+        return geo;
+      }
+    }
+  } catch { /* Fall back to ipapi. */ }
+
+  try {
+    const data = await fetchJson("https://ipapi.co/" + encodeURIComponent(safeIp) + "/json/");
+    if (!data) return fromHeaders;
+    const geo = normalizeGeo({
+      country: data.country_code || data.country_name || fromHeaders.country,
+      region: data.region || data.region_code || fromHeaders.region,
+      city: data.city || fromHeaders.city,
+      timezone: data.timezone || fromHeaders.timezone,
       geo_source: "ipapi",
-    };
+    });
     await supabase.from("public_geo_cache").upsert({
       ip_hash: ipHash,
       ...geo,
