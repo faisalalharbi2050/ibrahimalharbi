@@ -155,6 +155,9 @@ serve(async (req) => {
       platforms: clean(payload.platforms, 300),
       budget: clean(payload.budget, 80) || null,
       notes: clean(payload.notes, 2000),
+      edit_used_at: new Date().toISOString(),
+      editable_until: new Date().toISOString(),
+      edit_token_hash: null,
     };
     if (!requestId || !editTokenHash) return json(req, { error: "invalid_edit_token" }, 403);
     if (!patch.name || !patch.phone || !patch.company || !patch.product || !patch.platforms || !patch.notes) {
@@ -172,8 +175,9 @@ serve(async (req) => {
       .update(patch)
       .eq("id", requestId)
       .eq("edit_token_hash", editTokenHash)
+      .is("edit_used_at", null)
       .gt("editable_until", new Date().toISOString())
-      .select("request_no, editable_until")
+      .select("request_no, editable_until, edit_used_at")
       .maybeSingle();
     if (error) return json(req, { error: "request_not_saved" }, 503);
     if (!updated) return json(req, { error: "edit_window_closed" }, 403);
@@ -202,6 +206,7 @@ serve(async (req) => {
     legal_acknowledgement: true,
     edit_token_hash: await sha256(rateSalt + ":edit:" + editToken),
     editable_until: editableUntil,
+    edit_used_at: null,
   };
 
   if (!request.name || !request.phone || !request.company || !request.product || !request.platforms || !request.notes) {
