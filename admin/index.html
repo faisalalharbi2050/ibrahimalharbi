@@ -222,15 +222,20 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 /* CROP MODAL */
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;align-items:center;justify-content:center;padding:20px}
 .modal.open{display:flex}
-.modal-box{background:var(--sf);border-radius:18px;padding:20px;width:100%;max-width:440px}
-.modal-box.book-crop-mode{max-width:560px}
+.modal-box{background:var(--sf);border-radius:18px;padding:20px;width:min(720px,100%);max-width:720px;max-height:calc(100dvh - 40px);display:flex;flex-direction:column}
+.modal-box.book-crop-mode{max-width:760px}
 .modal-title{font-size:15px;font-weight:var(--fw-b);margin-bottom:12px}
-.crop-wrap{width:100%;height:280px;overflow:hidden;border-radius:var(--rs);background:#000;margin-bottom:12px}
-.modal-box.book-crop-mode .crop-wrap{height:420px}
+.crop-wrap{width:100%;height:clamp(320px,62dvh,620px);min-height:0;overflow:hidden;border-radius:var(--rs);background:#000;margin-bottom:12px;touch-action:none}
+.modal-box.book-crop-mode .crop-wrap{height:clamp(360px,68dvh,680px)}
+.modal-box.free-crop-mode .crop-wrap{height:clamp(340px,66dvh,640px)}
 .crop-wrap img{max-width:100%}
 .crop-help{font-size:12px;color:var(--mt);margin:-4px 0 12px;line-height:1.7}
-.modal-footer{display:flex;gap:8px;justify-content:flex-end}
-
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.link-url-tools{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center}
+.link-fetch-btn{height:40px;padding-inline:13px;white-space:nowrap;border-radius:var(--rs)}
+.link-fetch-btn:disabled{opacity:.6;cursor:not-allowed}
+.link-fetch-hint{display:block;font-size:10.5px;color:var(--lt);margin-top:6px;line-height:1.6}
+@media(max-width:640px){.modal{padding:0;align-items:stretch}.modal-box{height:100dvh;max-height:100dvh;border-radius:0;padding:16px}.crop-wrap,.modal-box.book-crop-mode .crop-wrap,.modal-box.free-crop-mode .crop-wrap{height:auto;flex:1}.modal-footer{justify-content:stretch}.modal-footer button{flex:1}.link-url-tools{grid-template-columns:1fr}.link-fetch-btn{width:100%;justify-content:center}}
 /* ITEMS LIST */
 .list{display:flex;flex-direction:column;gap:8px;margin-bottom:2px}
 .item-row{display:flex;align-items:center;gap:10px;background:var(--s2);border-radius:var(--rs);padding:10px 12px;border:1px solid var(--bd)}
@@ -1853,7 +1858,7 @@ function enhanceAdminUi(){
               </div>
               <div class="r2">
                 <div class="field"><label>رقم الترخيص</label><input id="adLinkLicense" placeholder="رقم الترخيص"></div>
-                <div class="field"><label>الرابط المباشر</label><input id="adLinkUrl" placeholder="https://..." dir="ltr"></div>
+                <div class="field"><label>الرابط المباشر</label><div class="link-url-tools"><input id="adLinkUrl" placeholder="https://..." dir="ltr" onblur="maybeFetchAdLinkImage()"><button type="button" class="btn-cancel link-fetch-btn" id="adLinkFetchImageBtn" onclick="fetchAdLinkImage(true)">جلب صورة الرابط</button></div><span class="link-fetch-hint">يمكن جلب صورة الصفحة تلقائيًا ثم تعديلها أو استبدالها.</span></div>
               </div>
               <input id="adLinkEditId" type="hidden">
               <div class="form-btns">
@@ -2235,15 +2240,16 @@ function openCropper(src,mode='avatar'){
     ?'يمكنك سحب الصورة والتكبير بعجلة الماوس أو اللمس، كما يمكنك تصغير أو تكبير إطار القص حتى يظهر الغلاف كاملًا.'
     :'حرّك الصورة داخل الإطار ثم طبّق القص.';
   modalBox.classList.toggle('book-crop-mode',mode==='book'||mode==='adlink');
+  modalBox.classList.toggle('free-crop-mode',mode==='adlink');
   document.getElementById('cropModal').classList.add('open');
   const img=document.getElementById('cropImg');
   img.src=src;
   setTimeout(()=>{
     if(cropper)cropper.destroy();
     cropper=new Cropper(img,{
-      aspectRatio:mode==='book' ? 3/4 : mode==='adlink' ? 3/4 : 1,
+      aspectRatio:mode==='book' ? 3/4 : mode==='avatar' ? 1 : NaN,
       viewMode:1,
-      autoCropArea:(mode==='book'||mode==='adlink') ? 0.72 : 1,
+      autoCropArea:mode==='adlink' ? 0.86 : mode==='book' ? 0.74 : 1,
       dragMode:'move',
       responsive:true,
       restore:false,
@@ -2251,19 +2257,20 @@ function openCropper(src,mode='avatar'){
       center:true,
       highlight:false,
       cropBoxMovable:true,
-      cropBoxResizable:mode==='book'||mode==='adlink',
+      cropBoxResizable:mode!=='avatar',
       toggleDragModeOnDblclick:false,
       zoomable:true,
       scalable:true,
       wheelZoomRatio:0.08,
-      minCropBoxWidth:mode==='book' ? 140 : 80,
-      minCropBoxHeight:mode==='book' ? 180 : 80
+      minCropBoxWidth:mode==='book' ? 140 : mode==='adlink' ? 110 : 80,
+      minCropBoxHeight:mode==='book' ? 180 : mode==='adlink' ? 110 : 80
     });
   },200);
 }
 function closeCrop(){
   document.getElementById('cropModal').classList.remove('open');
   document.getElementById('cropModalBox').classList.remove('book-crop-mode');
+  document.getElementById('cropModalBox').classList.remove('free-crop-mode');
   if(cropper){cropper.destroy();cropper=null;}
   cropMode='avatar';
 }
@@ -2283,16 +2290,15 @@ function applyCrop(){
     return;
   }
   if(cropMode==='adlink'){
-    const c=cropper.getCroppedCanvas({width:720,height:960});
-    adLinkImage=compressCanvas(c,220);
-    const preview=document.getElementById('adLinkImagePreview');
-    if(preview&&adLinkImage){
-      preview.src=adLinkImage;preview.style.display='block';
-      const icon=document.querySelector('.ad-cover-btn-face .ci');
-      const text=document.querySelector('.ad-cover-btn-face .ct');
-      if(icon)icon.style.display='none';
-      if(text)text.style.display='none';
-    }
+    const data=cropper.getData(true);
+    const ratio=(data.width&&data.height)?data.width/data.height:1;
+    const maxSide=900;
+    let w=Math.round(Math.min(maxSide,Math.max(320,data.width||720)));
+    let h=Math.round(w/ratio);
+    if(h>maxSide){h=maxSide;w=Math.round(h*ratio);}
+    const c=cropper.getCroppedCanvas({width:w,height:h,imageSmoothingEnabled:true,imageSmoothingQuality:'high'});
+    adLinkImage=compressCanvas(c,240);
+    setAdLinkImagePreview(adLinkImage);
     closeCrop();toast('تم تجهيز صورة الرابط ✓');
     return;
   }
@@ -2321,12 +2327,7 @@ function onAdLinkImageFile(input){
 }
 function clearAdLinkImage(){
   adLinkImage=null;
-  const preview=document.getElementById('adLinkImagePreview');
-  if(preview){preview.removeAttribute('src');preview.style.display='none';}
-  const icon=document.querySelector('.ad-cover-btn-face .ci');
-  const text=document.querySelector('.ad-cover-btn-face .ct');
-  if(icon)icon.style.display='block';
-  if(text)text.style.display='block';
+  setAdLinkImagePreview('');
 }
 
 // PROFILE
@@ -2714,11 +2715,58 @@ function renderPartners(){
   });
 }
 
+function setAdLinkImagePreview(value){
+  const preview=document.getElementById('adLinkImagePreview');
+  if(preview){
+    if(value){preview.src=value;preview.style.display='block';}
+    else{preview.removeAttribute('src');preview.style.display='none';}
+  }
+  const icon=document.querySelector('.ad-cover-btn-face .ci');
+  const text=document.querySelector('.ad-cover-btn-face .ct');
+  if(icon)icon.style.display=value?'none':'block';
+  if(text)text.style.display=value?'none':'block';
+}
+function adLinkUrlValue(){
+  const raw=document.getElementById('adLinkUrl')?.value.trim()||'';
+  if(!raw)return '';
+  try{return new URL(raw).href;}catch{return '';}
+}
+let adLinkAutoFetchUrl='';
+let adLinkFetchBusy=false;
+async function maybeFetchAdLinkImage(){
+  if(adLinkImage)return;
+  const url=adLinkUrlValue();
+  if(!url||url===adLinkAutoFetchUrl)return;
+  await fetchAdLinkImage(false);
+}
+async function fetchAdLinkImage(manual=false){
+  const url=adLinkUrlValue();
+  if(!url){if(manual)toast('أدخل رابطًا صحيحًا أولا');return;}
+  if(adLinkFetchBusy){if(manual)toast('جار جلب صورة الرابط...');return;}
+  adLinkFetchBusy=true;
+  adLinkAutoFetchUrl=url;
+  const btn=document.getElementById('adLinkFetchImageBtn');
+  const oldLabel=btn?.textContent||'';
+  if(btn){btn.disabled=true;btn.textContent='جار الجلب...';}
+  try{
+    const {data,error}=await sb.functions.invoke('admin-media',{body:{action:'link-preview',url}});
+    if(error||!data?.image){if(manual)toast('لم أجد صورة مناسبة في الرابط');return;}
+    openCropper(data.image,'adlink');
+    toast('تم جلب الصورة، عدّل القص ثم طبّقه');
+  }catch(e){
+    console.warn('Link image fetch failed',e);
+    if(manual)toast('تعذر جلب صورة الرابط');
+  }finally{
+    adLinkFetchBusy=false;
+    if(btn){btn.disabled=false;btn.textContent=oldLabel||'جلب صورة الرابط';}
+  }
+}
 function resetAdLinksForm(){
   ['adLinkTitle','adLinkEntity','adLinkLicense','adLinkUrl','adLinkEditId'].forEach(id=>{
     const el=document.getElementById(id);
     if(el)el.value='';
   });
+  adLinkAutoFetchUrl='';
   clearAdLinkImage();
   const saveBtn=document.querySelector('#adLinksForm .btn-save');
   if(saveBtn)saveBtn.textContent='حفظ الرابط';
@@ -2765,12 +2813,7 @@ function editAdLink(id){
   document.getElementById('adLinkLicense').value=item.licenseNo||'';
   document.getElementById('adLinkUrl').value=item.url||'';
   adLinkImage=item.image||null;
-  const preview=document.getElementById('adLinkImagePreview');
-  if(preview){preview.src=adLinkImage||'';preview.style.display=adLinkImage?'block':'none';}
-  const imageIcon=document.querySelector('.ad-cover-btn-face .ci');
-  const imageText=document.querySelector('.ad-cover-btn-face .ct');
-  if(imageIcon)imageIcon.style.display=adLinkImage?'none':'block';
-  if(imageText)imageText.style.display=adLinkImage?'none':'block';
+  setAdLinkImagePreview(adLinkImage);
   document.getElementById('adLinkEditId').value=item.id;
   const saveBtn=document.querySelector('#adLinksForm .btn-save');
   if(saveBtn)saveBtn.textContent='حفظ التعديل';

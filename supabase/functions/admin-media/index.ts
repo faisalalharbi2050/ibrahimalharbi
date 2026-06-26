@@ -40,6 +40,87 @@ function decodeDataUrl(value: string) {
   return { bytes, ext, contentType };
 }
 
+function attr(tag: string, name: string) {
+  const match = tag.match(new RegExp(`${name}\\s*=\\s*(["'])(.*?)\\1`, "i"));
+  return match ? match[2].replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").trim() : "";
+}
+
+function firstMetaContent(html: string, keys: string[]) {
+  const tags = html.match(/<meta\b[^>]*>/gi) || [];
+  for (const tag of tags) {
+    const key = (attr(tag, "property") || attr(tag, "name") || attr(tag, "itemprop")).toLowerCase();
+    if (keys.includes(key)) {
+      const content = attr(tag, "content");
+      if (content) return content;
+    }
+  }
+  return "";
+}
+
+function firstLinkHref(html: string, relName: string) {
+  const tags = html.match(/<link\b[^>]*>/gi) || [];
+  for (const tag of tags) {
+    const rel = attr(tag, "rel").toLowerCase().split(/\s+/);
+    if (rel.includes(relName)) {
+      const href = attr(tag, "href");
+      if (href) return href;
+    }
+  }
+  return "";
+}
+
+function bytesToBase64(bytes: Uint8Array) {
+  let binary = "";
+  const chunk = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunk) binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
+  return btoa(binary);
+}
+
+function safePreviewUrl(value: unknown) {
+  try {
+    const url = new URL(String(value || "").trim());
+    if (!["http:", "https:"].includes(url.protocol)) return null;
+    const host = url.hostname.toLowerCase();
+    if (host === "localhost" || host.endsWith(".local") || host === "127.0.0.1" || host === "0.0.0.0" || host === "::1") return null;
+    if (/^(10|127)\./.test(host) || /^192\.168\./.test(host) || /^172\.(1[6-9]|2\d|3[0-1])\./.test(host)) return null;
+    return url;
+  } catch {
+    return null;
+  }
+}
+
+async function readLinkPreview(req: Request, body: Record<string, unknown>) {
+  const pageUrl = safePreviewUrl(body?.url);
+  if (!pageUrl) return json(req, { error: "invalid_url" }, 400);
+
+  const pageRes = await fetch(pageUrl, {
+    redirect: "follow",
+    signal: AbortSignal.timeout(9000),
+    headers: { "user-agent": "Mozilla/5.0 Link Preview Bot", accept: "text/html,application/xhtml+xml" },
+  }).catch(() => null);
+  if (!pageRes || !pageRes.ok) return json(req, { error: "page_fetch_failed" }, 502);
+  const pageType = (pageRes.headers.get("content-type") || "").toLowerCase();
+  if (pageType && !pageType.includes("text/html") && !pageType.includes("application/xhtml")) return json(req, { error: "page_not_html" }, 415);
+  const html = (await pageRes.text()).slice(0, 700_000);
+  const rawImage = firstMetaContent(html, ["og:image:secure_url", "og:image", "twitter:image", "twitter:image:src", "image"]) || firstLinkHref(html, "image_src");
+  if (!rawImage) return json(req, { error: "image_not_found" }, 404);
+
+  const imageUrl = safePreviewUrl(new URL(rawImage, pageUrl).href);
+  if (!imageUrl) return json(req, { error: "invalid_image_url" }, 400);
+  const imageRes = await fetch(imageUrl, {
+    redirect: "follow",
+    signal: AbortSignal.timeout(9000),
+    headers: { "user-agent": "Mozilla/5.0 Link Preview Bot", accept: "image/avif,image/webp,image/png,image/jpeg,image/gif,*/*;q=0.8" },
+  }).catch(() => null);
+  if (!imageRes || !imageRes.ok) return json(req, { error: "image_fetch_failed" }, 502);
+  const imageType = (imageRes.headers.get("content-type") || "").split(";")[0].toLowerCase();
+  if (!["image/jpeg", "image/png", "image/webp", "image/gif"].includes(imageType)) return json(req, { error: "unsupported_image_type" }, 415);
+  const bytes = new Uint8Array(await imageRes.arrayBuffer());
+  if (bytes.byteLength > 3 * 1024 * 1024) return json(req, { error: "preview_image_too_large" }, 413);
+
+  const title = firstMetaContent(html, ["og:title", "twitter:title"]) || (html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || "").replace(/\s+/g, " ").trim();
+  return json(req, { ok: true, image: `data:${imageType};base64,${bytesToBase64(bytes)}`, imageUrl: imageUrl.href, title: title.slice(0, 160) });
+}
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors(req) });
   if (req.method !== "POST") return json(req, { error: "method_not_allowed" }, 405);
@@ -70,6 +151,8 @@ serve(async (req) => {
   if (callerError || !caller || !["owner", "admin", "editor"].includes(role) || !guarded) return json(req, { error: "admin_auth_required" }, 403);
 
   const body = await req.json().catch(() => null);
+  if (String(body?.action || "") === "link-preview") return await readLinkPreview(req, body || {});
+
   const decoded = decodeDataUrl(String(body?.image || ""));
   if (!decoded) return json(req, { error: "invalid_image" }, 400);
   if (decoded.bytes.byteLength > 2 * 1024 * 1024) return json(req, { error: "image_too_large" }, 413);
