@@ -32,6 +32,10 @@ function normalizePhone(value: unknown) {
   return (hasPlus ? "+" : "") + digits;
 }
 
+function addMinutes(minutes: number) {
+  return new Date(Date.now() + minutes * 60 * 1000).toISOString();
+}
+
 function collectTrackableIds(data: Record<string, unknown>) {
   const ids = new Set(["collab_wa"]);
   for (const item of Array.isArray(data.social) ? data.social : []) if (item?.id) ids.add(String(item.id));
@@ -70,7 +74,7 @@ serve(async (req) => {
   const body = await req.json().catch(() => null);
   if (body && JSON.stringify(body).length > 32_768) return json(req, { error: "payload_too_large" }, 413);
   const type = clean(body?.type, 32);
-  if (!body || !["visit", "click", "collab_request"].includes(type)) return json(req, { error: "invalid_event" }, 400);
+  if (!body || !["visit", "click", "collab_request", "collab_request_update"].includes(type)) return json(req, { error: "invalid_event" }, 400);
 
   const forwarded = req.headers.get("cf-connecting-ip") || req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   const ipHash = await sha256(`${rateSalt}:${forwarded}`);
@@ -83,6 +87,16 @@ serve(async (req) => {
     });
     if (error) throw error;
     return data === true;
+  }
+
+  async function rateLimitRetryAfterSeconds(key: string) {
+    const { data } = await supabase
+      .from("public_rate_limits")
+      .select("expires_at")
+      .eq("rate_key", key)
+      .maybeSingle();
+    const expiresAt = data?.expires_at ? new Date(String(data.expires_at)).getTime() : 0;
+    return Math.max(0, Math.ceil((expiresAt - Date.now()) / 1000));
   }
 
   if (type === "visit") {
@@ -126,7 +140,49 @@ serve(async (req) => {
   }
 
   const payload = body.payload || {};
+
+  if (type === "collab_request_update") {
+    const requestId = clean(payload.request_id, 80);
+    const editToken = clean(payload.edit_token, 160);
+    const editTokenHash = editToken ? await sha256(rateSalt + ":edit:" + editToken) : "";
+    const patch = {
+      plan_id: clean(payload.plan_id, 80) || null,
+      plan_title: clean(payload.plan_title, 160) || "\u0637\u0644\u0628 \u0625\u0639\u0644\u0627\u0646",
+      name: clean(payload.name, 120),
+      phone: normalizePhone(payload.phone),
+      company: clean(payload.company, 160),
+      product: clean(payload.product, 500),
+      platforms: clean(payload.platforms, 300),
+      budget: clean(payload.budget, 80) || null,
+      notes: clean(payload.notes, 2000),
+    };
+    if (!requestId || !editTokenHash) return json(req, { error: "invalid_edit_token" }, 403);
+    if (!patch.name || !patch.phone || !patch.company || !patch.product || !patch.platforms || !patch.notes) {
+      return json(req, { error: "missing_required_fields" }, 400);
+    }
+    if (!/^\+?[0-9]{8,15}$/.test(patch.phone)) return json(req, { error: "invalid_phone" }, 400);
+
+    try {
+      const editKey = "collab:edit:" + await sha256(requestId);
+      if (!(await consumeRateLimit(editKey, 10))) return json(req, { error: "rate_limited" }, 429);
+    } catch { return json(req, { error: "rate_limit_unavailable" }, 503); }
+
+    const { data: updated, error } = await supabase
+      .from("collab_requests")
+      .update(patch)
+      .eq("id", requestId)
+      .eq("edit_token_hash", editTokenHash)
+      .gt("editable_until", new Date().toISOString())
+      .select("request_no, editable_until")
+      .maybeSingle();
+    if (error) return json(req, { error: "request_not_saved" }, 503);
+    if (!updated) return json(req, { error: "edit_window_closed" }, 403);
+    return json(req, { ok: true, requestNo: updated.request_no, editableUntil: updated.editable_until });
+  }
+
   const normalizedPhone = normalizePhone(payload.phone);
+  const editToken = crypto.randomUUID() + "-" + crypto.randomUUID();
+  const editableUntil = addMinutes(30);
   const request = {
     id: crypto.randomUUID(),
     request_no: "pending",
@@ -144,6 +200,8 @@ serve(async (req) => {
     internal_notes: "",
     consent: true,
     legal_acknowledgement: true,
+    edit_token_hash: await sha256(rateSalt + ":edit:" + editToken),
+    editable_until: editableUntil,
   };
 
   if (!request.name || !request.phone || !request.company || !request.product || !request.platforms || !request.notes) {
@@ -156,11 +214,13 @@ serve(async (req) => {
   const phoneRateKey = "collab:phone:" + phoneHash;
   try {
     const ipAllowed = await consumeRateLimit(ipRateKey, 30 * 60);
-    if (!ipAllowed) return json(req, { error: "request_recently_received" }, 429);
+    if (!ipAllowed) {
+      return json(req, { error: "request_recently_received", retryAfterSeconds: await rateLimitRetryAfterSeconds(ipRateKey) }, 429);
+    }
     const phoneAllowed = await consumeRateLimit(phoneRateKey, 12 * 60 * 60);
     if (!phoneAllowed) {
       await supabase.from("public_rate_limits").delete().eq("rate_key", ipRateKey);
-      return json(req, { error: "request_recently_received" }, 429);
+      return json(req, { error: "request_recently_received", retryAfterSeconds: await rateLimitRetryAfterSeconds(phoneRateKey) }, 429);
     }
   } catch { return json(req, { error: "rate_limit_unavailable" }, 503); }
 
@@ -175,5 +235,11 @@ serve(async (req) => {
     await supabase.from("public_rate_limits").delete().in("rate_key", [ipRateKey, phoneRateKey]);
     return json(req, { error: "request_not_saved" }, 503);
   }
-  return json(req, { ok: true, requestNo: inserted?.request_no || request.request_no });
+  return json(req, {
+    ok: true,
+    requestId: request.id,
+    requestNo: inserted?.request_no || request.request_no,
+    editToken,
+    editableUntil,
+  });
 });
