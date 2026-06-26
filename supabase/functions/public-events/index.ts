@@ -70,23 +70,21 @@ async function sha256(value: string) {
 }
 
 async function resolveClickGeo(req: Request, supabase: ReturnType<typeof createClient>, ipHash: string, ip: string) {
-  const headerCountry = cleanGeo(req.headers.get("x-vercel-ip-country") || req.headers.get("cf-ipcountry"), 2).toUpperCase();
   const headerRegion = cleanGeo(req.headers.get("x-vercel-ip-country-region") || req.headers.get("x-vercel-ip-region"));
   const headerCity = cleanGeo(req.headers.get("x-vercel-ip-city") || req.headers.get("x-vercel-ip-city-name"));
   const headerTimezone = cleanGeo(req.headers.get("x-vercel-ip-timezone"), 80);
   const fromHeaders = {
-    country: headerCountry,
-    country_code: headerCountry,
+    country: "",
     region: headerRegion,
     city: headerCity,
     timezone: headerTimezone,
-    geo_source: headerCity || headerCountry ? "edge_headers" : "",
+    geo_source: headerCity ? "edge_headers" : "",
   };
-  if (fromHeaders.city && fromHeaders.country_code) return fromHeaders;
+  if (fromHeaders.city && fromHeaders.country) return fromHeaders;
 
   const { data: cached } = await supabase
     .from("public_geo_cache")
-    .select("country,country_code,region,city,timezone,geo_source,expires_at")
+    .select("country,region,city,timezone,geo_source,expires_at")
     .eq("ip_hash", ipHash)
     .gt("expires_at", new Date().toISOString())
     .maybeSingle();
@@ -105,8 +103,7 @@ async function resolveClickGeo(req: Request, supabase: ReturnType<typeof createC
     if (!res.ok) return fromHeaders;
     const data = await res.json();
     const geo = {
-      country: cleanGeo(data.country_name || data.country || fromHeaders.country),
-      country_code: cleanGeo(data.country_code || fromHeaders.country_code, 2).toUpperCase(),
+      country: cleanGeo(data.country_name || fromHeaders.country),
       region: cleanGeo(data.region || data.region_code || fromHeaders.region),
       city: cleanGeo(data.city || fromHeaders.city),
       timezone: cleanGeo(data.timezone || fromHeaders.timezone, 80),
@@ -201,7 +198,6 @@ serve(async (req) => {
       link_id: linkId,
       device: ["mobile", "desktop"].includes(device) ? device : "unknown",
       country: geo.country || null,
-      country_code: geo.country_code || null,
       region: geo.region || null,
       city: geo.city || null,
       timezone: geo.timezone || null,
