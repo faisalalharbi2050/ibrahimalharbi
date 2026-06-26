@@ -264,7 +264,7 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 .request-detail-cell.full{grid-column:1/-1}
 .request-detail-cell span{display:block;font-size:11px;color:var(--lt);margin-bottom:5px}
 .request-detail-cell strong{display:block;font-size:13px;color:var(--tx);line-height:1.7;white-space:pre-wrap;word-break:break-word}
-.request-detail-modal .modal-card{width:min(760px,100%);max-height:calc(100vh - 36px);display:flex;flex-direction:column}
+.request-detail-modal .modal-card{width:min(680px,100%);max-height:calc(100vh - 36px);display:flex;flex-direction:column}
 .request-detail-modal .modal-card-body{overflow:auto}
 .whatsapp-modal .modal-card{width:min(560px,100%)}
 .whatsapp-request-summary{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:14px}
@@ -585,15 +585,17 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 .request-table .archived-row td{background:#fbfbfc}
 .req-archived-tag{display:inline-flex;margin-inline-start:6px;font-size:10px;font-weight:700;color:#6b7280;background:#eceef1;border-radius:6px;padding:2px 6px}
 /* Read-only request detail (mirrors public ad-request form) */
-.req-detail-form{display:flex;flex-direction:column;gap:13px}
-.req-detail-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding-bottom:12px;border-bottom:1px solid var(--bd)}
+.req-detail-form{display:flex;flex-direction:column;gap:10px}
+.req-detail-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding-bottom:10px;border-bottom:1px solid var(--bd)}
 .req-detail-head .request-no-badge{font-size:13px}
 .req-detail-status{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;padding:5px 11px;border-radius:999px;background:#eef5ec;color:#2a5c1f}
 .req-detail-field{display:flex;flex-direction:column;gap:5px}
 .req-detail-field>label{font-size:11px;font-weight:700;color:var(--mt)}
-.req-detail-field .req-detail-value{border:1px solid var(--bd);border-radius:13px;background:#fafafb;padding:11px 13px;font-size:13px;color:var(--tx);line-height:1.8;white-space:pre-wrap;word-break:break-word;min-height:18px}
+.req-detail-field .req-detail-value{border:1px solid var(--bd);border-radius:10px;background:#fafafb;padding:9px 11px;font-size:13px;color:var(--tx);line-height:1.65;white-space:pre-wrap;word-break:break-word;min-height:18px}
 .req-detail-field .req-detail-value.ltr{direction:ltr;text-align:right}
-.req-detail-row{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.req-detail-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.req-detail-meta{grid-template-columns:1fr 1fr}
+.req-detail-wide{grid-column:1/-1}
 @media(max-width:560px){.req-detail-row{grid-template-columns:1fr}}
 .panel-sub{margin:6px 0 18px;color:var(--mt);font-size:13px;line-height:1.7}
 .pw-field{display:flex;align-items:center;gap:4px;width:100%;border:1px solid var(--bds);border-radius:var(--rs);background:var(--sf);padding-inline-end:6px;transition:border .2s}
@@ -3468,9 +3470,10 @@ function openRequestDetails(id){
   const modal=document.getElementById('requestDetailModal');
   if(title)title.textContent='تفاصيل طلب الإعلان';
   const statusLabel=r.archived?'مؤرشف':(labels[r.status]||labels.new);
-  const dateLine=`${requestDayName(r.created_at)} · ${requestHijriDate(r.created_at)} · ${requestGregorianDate(r.created_at)} · ${requestTimeLabel(r.created_at)}`;
+  const dateLine=`${requestDayName(r.created_at)} · ${requestHijriDate(r.created_at)} · ${requestGregorianDate(r.created_at)}`;
+  const timeLine=requestTimeLabel(r.created_at);
   const field=(label,value,opts={})=>`
-    <div class="req-detail-field">
+    <div class="req-detail-field${opts.wide?' req-detail-wide':''}">
       <label>${esc(label)}</label>
       <div class="req-detail-value${opts.ltr?' ltr':''}">${esc(value&&String(value).trim()?value:'غير محدد')}</div>
     </div>`;
@@ -3480,17 +3483,21 @@ function openRequestDetails(id){
         <span class="request-no-badge">${esc(r.requestNo||r.id||'')}</span>
         <span class="req-detail-status">${esc(statusLabel)}</span>
       </div>
-      ${field('نوع الطلب',r.planTitle||'طلب إعلان')}
-      ${field('تاريخ ووقت الإرسال',dateLine)}
+      <div class="req-detail-row req-detail-meta">
+        ${field('تاريخ الطلب',dateLine)}
+        ${field('وقت الطلب',timeLine)}
+      </div>
       <div class="req-detail-row">
         ${field('الاسم',r.name)}
         ${field('رقم الجوال',r.phone,{ltr:true})}
       </div>
-      ${field('الجهة / الشركة',r.company)}
-      ${field('المنتج أو الخدمة',r.product||r.goal)}
+      <div class="req-detail-row">
+        ${field('الجهة / الشركة',r.company)}
+        ${field('المنتج أو الخدمة',r.product||r.goal)}
+      </div>
       ${field('المنصات المطلوبة',r.platforms)}
-      ${field('تفاصيل الإعلان',r.notes)}
-      ${r.internalNotes&&r.internalNotes.trim()?field('ملاحظات داخلية',r.internalNotes):''}
+      ${field('تفاصيل الإعلان',r.notes,{wide:true})}
+      ${r.internalNotes&&r.internalNotes.trim()?field('ملاحظات داخلية',r.internalNotes,{wide:true}):''}
     </div>`;
   }
   if(modal){modal.classList.add('open');modal.setAttribute('aria-hidden','false');}
@@ -4217,4 +4224,3 @@ async function resetAnalytics(){
 </script>
 </body>
 </html>
-
