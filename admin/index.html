@@ -1221,6 +1221,9 @@ let adminRequestRefreshTimer=null;
 let adminPollingTimer=null;
 let adminAnalyticsRefreshTimer=null;
 let adminIsRefreshing=false;
+let adminAnalyticsInFlight=false;
+let adminAnalyticsQueued=false;
+let adminAnalyticsHasRendered=false;
 let adminHasUnsavedInput=false;
 const ADMIN_POLL_INTERVAL_MS=300000;
 const ADMIN_ANALYTICS_REFRESH_DELAY_MS=1500;
@@ -1556,9 +1559,8 @@ async function doLogin(){
     const savedPanel=getPreferredPanel();
     activatePanel(savedPanel);
     if(savedPanel==='analytics'){
-      requestAnimationFrame(()=>renderAnalyticsFallback());
-      requestAnimationFrame(()=>renderAnalytics());
-      setTimeout(renderAnalytics,120);
+      requestAnimationFrame(()=>renderAnalytics({showLoading:true}));
+      setTimeout(()=>renderAnalytics({background:true}),120);
     }
   });
 }
@@ -1628,9 +1630,8 @@ async function bootstrapAdmin(){
   const savedPanel=getPreferredPanel();
   activatePanel(savedPanel);
   if(savedPanel==='analytics'){
-    requestAnimationFrame(()=>renderAnalyticsFallback());
-    requestAnimationFrame(()=>renderAnalytics());
-    setTimeout(renderAnalytics,120);
+    requestAnimationFrame(()=>renderAnalytics({showLoading:true}));
+    setTimeout(()=>renderAnalytics({background:true}),120);
   }
 }
 bootstrapAdmin();
@@ -1680,7 +1681,7 @@ async function nav(id,el){
   if(id==='requests')markNotificationsSeen();
   closeNotificationsPanel();
   closeSidebar();
-  if(id==='analytics')requestAnimationFrame(()=>{renderAnalyticsFallback();renderAnalytics();});
+  if(id==='analytics')requestAnimationFrame(()=>renderAnalytics({showLoading:true}));
 }
 function textValue(id){return document.getElementById(id)?.value?.trim()||'';}
 function isBookFormDirty(){
@@ -2185,7 +2186,7 @@ async function loadAll(){
     setValue('collabFollowers',D.collab.followers);
     setValue('collabClicks',D.collab.monthlyClicks);
     updateLiveHeader();
-    renderSocial();renderBooksAdmin();renderAdLinks();renderPlans();renderAnalyticsFallback();renderPermissions();
+    renderSocial();renderBooksAdmin();renderAdLinks();renderPlans();if(!adminAnalyticsHasRendered)renderAnalyticsFallback();renderPermissions();
   };
 
   enhanceAdminUi();
@@ -2255,8 +2256,7 @@ function scheduleAnalyticsRefresh(){
   adminAnalyticsRefreshTimer=setTimeout(()=>{
     const activePanel=sessionStorage.getItem('admin_last_panel')||localStorage.getItem('admin_last_panel')||'analytics';
     if(activePanel!=='analytics'||document.hidden)return;
-    renderAnalyticsFallback();
-    renderAnalytics();
+    renderAnalytics({background:true});
   },ADMIN_ANALYTICS_REFRESH_DELAY_MS);
 }
 
@@ -3934,8 +3934,13 @@ function clickLocationLabel(click){
   return '-';
 }
 
-async function renderAnalytics(){
-  const rv=document.getElementById('aRange');if(!rv)return;renderAnalyticsFallback();
+async function renderAnalytics(options={}){
+  const rv=document.getElementById('aRange');if(!rv)return;
+  const showLoading=options.showLoading===true||(!options.background&&!adminAnalyticsHasRendered);
+  if(adminAnalyticsInFlight){adminAnalyticsQueued=true;return;}
+  adminAnalyticsInFlight=true;
+  if(showLoading)renderAnalyticsFallback();
+  try{
   const selected=rv.value,days=selected==='all'?null:parseInt(selected,10),fetchDays=days?days*2:null,now=Date.now(),currentStart=days?now-days*86400000:0,previousStart=days?now-days*2*86400000:0;
   let clicks=[],dailyVisits=[],requests=[],visitorTotal=0;
   // Fetch all-time clicks so cumulative totals are accurate; period subsets are derived below.
@@ -3970,6 +3975,11 @@ async function renderAnalytics(){
   const topLocations=Object.values(geoCounts).sort((a,b)=>b.count-a.count).slice(0,10);
   const recent=[...currentClicks.map(c=>({kind:'\u0646\u0642\u0631\u0629',title:names[c.link_id||c.id]||c.link_id||'\u0631\u0627\u0628\u0637',status:clickLocationLabel(c),date:c.ts||c.created_at})),...currentRequests.map(r=>({kind:'\u0637\u0644\u0628',title:r.plan_title||r.name||r.request_no||'\u0637\u0644\u0628 \u0625\u0639\u0644\u0627\u0646',status:statusLabels[normalizedStatus(r)],date:r.created_at||r.createdAt}))].filter(x=>x.date).sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,60);
   renderAnalyticsDashboard({current:{visits:currentVisits,clicks:currentClicks.length,requests:currentRequests.length,conversion:currentConversion},previous:days?{visits:previousVisits,clicks:previousClicks.length,requests:previousRequests.length,conversion:previousConversion}:null,series,statuses,contacted,approved,topSocial,topLocations,linkTotals,cumulativeTotal,recent});
+  adminAnalyticsHasRendered=true;
+  }finally{
+    adminAnalyticsInFlight=false;
+    if(adminAnalyticsQueued){adminAnalyticsQueued=false;scheduleAnalyticsRefresh();}
+  }
 }
 // EXPORT — flexible date-range dialog
 let exportSel='30';
