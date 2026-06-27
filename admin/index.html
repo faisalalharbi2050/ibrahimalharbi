@@ -28,11 +28,12 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 
 /* LOGIN */
 #authBootScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
-.auth-boot-card{display:flex;flex-direction:column;align-items:center;gap:14px;color:var(--mt);font-size:13px}
-.auth-boot-mark{width:54px;height:54px;border-radius:50%;background:var(--al);display:flex;align-items:center;justify-content:center}
-.auth-boot-mark svg{width:25px;height:25px;fill:var(--ac)}
-.auth-boot-spinner{width:22px;height:22px;border:2px solid #dedee2;border-top-color:#111;border-radius:50%;animation:authSpin .7s linear infinite}
-@keyframes authSpin{to{transform:rotate(360deg)}}
+.auth-boot-card{display:flex;align-items:center;justify-content:center;gap:10px;opacity:.92}
+.auth-boot-card span{width:9px;height:9px;border-radius:50%;background:#111;animation:authDotPulse 1.05s ease-in-out infinite}
+.auth-boot-card span:nth-child(2){animation-delay:.14s}
+.auth-boot-card span:nth-child(3){animation-delay:.28s}
+@keyframes authDotPulse{0%,80%,100%{transform:translateY(0) scale(.72);opacity:.32;box-shadow:0 0 0 rgba(17,17,17,0)}40%{transform:translateY(-8px) scale(1);opacity:1;box-shadow:0 8px 18px rgba(17,17,17,.12)}}
+@media (prefers-reduced-motion:reduce){.auth-boot-card span{animation:none;opacity:.65}}
 #loginScreen{display:none;align-items:center;justify-content:center;min-height:100vh;padding:20px}
 .login-box{background:var(--sf);border-radius:20px;border:1px solid var(--bd);padding:38px 34px;width:100%;max-width:400px;text-align:center;box-shadow:none}
 .login-logo{width:60px;height:60px;border-radius:50%;background:var(--al);margin:0 auto 18px;display:flex;align-items:center;justify-content:center}
@@ -619,13 +620,7 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 </head>
 <body>
 
-<div id="authBootScreen" role="status" aria-live="polite">
-  <div class="auth-boot-card">
-    <div class="auth-boot-mark"><svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></div>
-    <div class="auth-boot-spinner" aria-hidden="true"></div>
-    <span>جارٍ التحقق من الجلسة الآمنة...</span>
-  </div>
-</div>
+<div id="authBootScreen" role="status" aria-live="polite"><div class="auth-boot-card" aria-hidden="true"><span></span><span></span><span></span></div></div>
 
 <!-- LOGIN -->
 <div id="loginScreen">
@@ -1399,6 +1394,11 @@ function showLogin(){
   document.getElementById('dashboard').style.display='none';
   document.getElementById('loginScreen').style.display='flex';
 }
+function showAdminBoot(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('dashboard').style.display='none';
+  document.getElementById('authBootScreen').style.display='flex';
+}
 function showDashboard(){
   document.getElementById('authBootScreen').style.display='none';
   document.getElementById('loginScreen').style.display='none';
@@ -1551,15 +1551,15 @@ async function doLogin(){
   }
   setAdminAuth(session);
   applySessionPermissions();
-  showDashboard();
-  activatePanel(getPreferredPanel());
-  loadAll().then(()=>{
+  showAdminBoot();
+  loadAll().catch(e=>console.warn('Admin data load failed during login',e)).then(()=>{
+    showDashboard();
     startLiveClock();
     startAdminRealtime();
     const savedPanel=getPreferredPanel();
     activatePanel(savedPanel);
     if(savedPanel==='analytics'){
-      requestAnimationFrame(()=>renderAnalytics({showLoading:true}));
+      requestAnimationFrame(()=>renderAnalytics({background:true}));
       setTimeout(()=>renderAnalytics({background:true}),120);
     }
   });
@@ -1621,16 +1621,16 @@ async function bootstrapAdmin(){
   }
   ensureAdminAuth(session);
   applySessionPermissions();
-  showDashboard();
-  activatePanel(getPreferredPanel());
+  showAdminBoot();
   try{await loadAll();}catch(e){console.warn('Admin data load failed during bootstrap',e);}
   if(!hasAdminAuth())return;
+  showDashboard();
   startLiveClock();
   startAdminRealtime();
   const savedPanel=getPreferredPanel();
   activatePanel(savedPanel);
   if(savedPanel==='analytics'){
-    requestAnimationFrame(()=>renderAnalytics({showLoading:true}));
+    requestAnimationFrame(()=>renderAnalytics({background:true}));
     setTimeout(()=>renderAnalytics({background:true}),120);
   }
 }
