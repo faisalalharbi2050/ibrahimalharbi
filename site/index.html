@@ -1313,22 +1313,32 @@ async function submitOfferRequest(){
 }
 
 function queueClickTracking(id,url){
-  const payload={link_id:id};
-  Promise.resolve().then(async()=>{
+  const linkId=String(id||'').trim();
+  if(!linkId)return;
+  const payload={type:'click',payload:{link_id:linkId}};
+  const send=()=>{
     try{
-      if(!sb)throw new Error('Supabase is not available');
-      await sb.functions.invoke('public-events',{body:{type:'click',payload}});
-    }catch(e){}
-  });
+      fetch(SB_URL+'/functions/v1/public-events',{
+        method:'POST',
+        headers:{apikey:SB_ANON_KEY,Authorization:'Bearer '+SB_ANON_KEY,'Content-Type':'application/json'},
+        body:JSON.stringify(payload),
+        keepalive:true
+      }).catch(()=>{});
+    }catch(e){
+      try{if(sb)sb.functions.invoke('public-events',{body:payload});}catch(_){}
+    }
+  };
+  if('requestIdleCallback' in window)requestIdleCallback(send,{timeout:1200});
+  else setTimeout(send,120);
 }
 function trackClick(id,url){
-  if(url&&url.startsWith('http'))window.open(url,'_blank','noopener');
   queueClickTracking(id,url);
+  return true;
 }
 document.addEventListener('click',event=>{
   const link=event.target.closest('a[data-track-id]');
   if(link)queueClickTracking(link.dataset.trackId||'',link.href||'');
-});
+},{capture:true,passive:true});
 
 function updateStaticText(){
   document.getElementById('lblSocial').textContent=lang==='ar'?'تابعني على':'Follow Me';
