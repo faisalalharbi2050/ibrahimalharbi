@@ -564,10 +564,26 @@ let publicDataRefreshTimer=null;
 let publicDataPollingTimer=null;
 let publicDataIsRefreshing=false;
 let publicDataSignature='';
+let publicRenderedSignatures={profile:'',social:'',books:'',partners:'',collab:''};
+
+function stablePublicId(prefix,parts){
+  const raw=parts.map(part=>String(part||'').trim()).filter(Boolean).join('|')||prefix;
+  let hash=0;
+  for(let i=0;i<raw.length;i++)hash=((hash<<5)-hash+raw.charCodeAt(i))|0;
+  return prefix+'_'+Math.abs(hash).toString(36);
+}
+
+function stableStringify(value){
+  if(Array.isArray(value))return '['+value.map(stableStringify).join(',')+']';
+  if(value&&typeof value==='object'){
+    return '{'+Object.keys(value).sort().map(key=>JSON.stringify(key)+':'+stableStringify(value[key])).join(',')+'}';
+  }
+  return JSON.stringify(value??null);
+}
 
 function normalizeAdLink(item){
   return {
-    id:item.id||('link_'+Date.now().toString(36)+Math.random().toString(36).slice(2,5)),
+    id:item.id||stablePublicId('link',[item.url,item.titleAr,item.titleEn,item.entityAr,item.entityEn]),
     titleAr:item.titleAr||item.nameAr||'',
     titleEn:item.titleEn||item.nameEn||item.titleAr||item.nameAr||'',
     entityAr:item.entityAr||item.descAr||'',
@@ -702,8 +718,7 @@ async function loadData(){
   try{D=hasCachedData?JSON.parse(cached):{};}catch(e){localStorage.removeItem('influencer_data');D={};hasCachedData=false;}
   normalizeData();
   if(hasCachedData){
-    publicDataSignature=JSON.stringify(D);
-    applyPublicData();
+    applyPublicData(null,{force:true});
     setPublicLoading(false);
   }
   try{
@@ -713,7 +728,7 @@ async function loadData(){
   }catch(e){
     console.warn('Public content unavailable; using the last cached version.');
     if(!hasCachedData){
-      applyPublicData();
+      applyPublicData(null,{force:true});
       setPublicLoading(false);
       schedulePublicDataRefresh();
     }
@@ -722,13 +737,20 @@ async function loadData(){
   startPublicRealtime();
 }
 
-function applyPublicData(nextData){
-  if(nextData&&typeof nextData==='object'){
-    publicDataSignature=JSON.stringify(nextData);
-    D=mergeRemoteData(D,nextData);
-    normalizeData();
-    localStorage.setItem('influencer_data',JSON.stringify(D));
-  }
+function publicDataSnapshot(){
+  return stableStringify(D);
+}
+
+function publicSectionSnapshot(section){
+  if(section==='profile')return stableStringify({avatar:D.avatar||'',nameAr:D.nameAr||'',titleAr:D.titleAr||'',bioAr:D.bioAr||'',mowthooqNum:D.mowthooqNum||''});
+  if(section==='social')return stableStringify(D.social||[]);
+  if(section==='books')return stableStringify({sectionsOff:D.sectionsOff?.books,books:D.books||[]});
+  if(section==='partners')return stableStringify({sectionsOff:D.sectionsOff?.adLinks,adLinks:D.adLinks||[]});
+  if(section==='collab')return stableStringify({collab:D.collab||{},sectionsOff:D.sectionsOff?.collab});
+  return '';
+}
+
+function renderPublicProfile(){
   const name=D.nameAr||'';
   const bio=D.bioAr||'';
   document.getElementById('metaTitle').textContent='صفحتي';
@@ -736,12 +758,19 @@ function applyPublicData(nextData){
   document.getElementById('twTitle').content='صفحتي';
   document.getElementById('metaDesc').content='الصفحة الرسمية لإبراهيم بن عبدالله الحربي';
   document.getElementById('ogDesc').content='الصفحة الرسمية لإبراهيم بن عبدالله الحربي';
+  const avImg=document.getElementById('avImg');
+  const avPh=document.getElementById('avPh');
   if(D.avatar){
     document.getElementById('ogImage').content=D.avatar;
     document.getElementById('twImage').content=D.avatar;
-    document.getElementById('avImg').src=D.avatar;
-    document.getElementById('avImg').style.display='block';
-    document.getElementById('avPh').style.display='none';
+    if(avImg&&avImg.src!==D.avatar)avImg.src=D.avatar;
+    if(avImg)avImg.style.display='block';
+    if(avPh)avPh.style.display='none';
+  }else{
+    document.getElementById('ogImage').content='';
+    document.getElementById('twImage').content='';
+    if(avImg){avImg.removeAttribute('src');avImg.style.display='none';}
+    if(avPh)avPh.style.display='flex';
   }
   document.getElementById('pName').textContent=name||'إبراهيم بن عبدالله الحربي';
   document.getElementById('pTitle').textContent=D.titleAr||'';
@@ -750,16 +779,42 @@ function applyPublicData(nextData){
   const mwText=document.getElementById('mwText');
   if(D.mowthooqNum){
     if(mwBadge)mwBadge.style.display='inline-flex';
-    if(mwText)mwText.textContent='\u0645\u0648\u062b\u0648\u0642 - '+D.mowthooqNum;
+    if(mwText)mwText.textContent='موثوق - '+D.mowthooqNum;
   }else if(mwBadge){
     mwBadge.style.display='none';
   }
-  renderSocial();
-  renderBooks();
-  renderPartners();
-  renderCollab();
 }
 
+function renderPublicSectionIfChanged(section,renderFn,force=false){
+  const nextSignature=publicSectionSnapshot(section);
+  if(!force&&publicRenderedSignatures[section]===nextSignature)return;
+  publicRenderedSignatures[section]=nextSignature;
+  renderFn();
+}
+
+function renderPublicData(force=false){
+  renderPublicSectionIfChanged('profile',renderPublicProfile,force);
+  renderPublicSectionIfChanged('social',renderSocial,force);
+  renderPublicSectionIfChanged('books',renderBooks,force);
+  renderPublicSectionIfChanged('partners',renderPartners,force);
+  renderPublicSectionIfChanged('collab',renderCollab,force);
+}
+
+function applyPublicData(nextData,options={}){
+  const force=options.force===true;
+  if(nextData&&typeof nextData==='object'){
+    D=mergeRemoteData(D,nextData);
+    normalizeData();
+    localStorage.setItem('influencer_data',JSON.stringify(D));
+  }else{
+    normalizeData();
+  }
+  const nextSignature=publicDataSnapshot();
+  if(!force&&nextSignature===publicDataSignature)return false;
+  publicDataSignature=nextSignature;
+  renderPublicData(force);
+  return true;
+}
 async function refreshPublicData(){
   if(publicDataIsRefreshing)return;
   publicDataIsRefreshing=true;
@@ -771,7 +826,7 @@ async function refreshPublicData(){
     });
     if(!response.ok)throw new Error('public-content-unavailable');
     const payload=await response.json();
-    if(payload?.data&&JSON.stringify(payload.data)!==publicDataSignature)applyPublicData(payload.data);
+    if(payload?.data)applyPublicData(payload.data);
   }catch(e){
     console.warn('Public data refresh failed',e);
   }finally{
