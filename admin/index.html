@@ -670,6 +670,7 @@ window.adminQuickLogin=async function(){
       <div class="ni" onclick="nav('analytics',this)"><svg viewBox="0 0 24 24"><path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/></svg>الرئيسية</div>
       <div class="ni" onclick="nav('adlinks',this)"><svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>الروابط</div>
       <div class="ni" onclick="nav('requests',this)"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 4-7 4.5L5 7V5l7 4.5L19 5v2z"/></svg>طلبات الإعلان</div>
+      <div class="ni" onclick="nav('privacy_requests',this)"><svg viewBox="0 0 24 24"><path d="M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 15-4-4 1.41-1.41L11 13.17l5.59-5.59L18 9l-7 7z"/></svg>طلبات الخصوصية</div>
       <div class="ni" onclick="nav('books',this)"><svg viewBox="0 0 24 24"><path d="M12 6.1C10.55 5.3 8.85 4.9 6.9 4.9c-1.15 0-2.27.14-3.35.42-.46.12-.78.53-.78 1v12.05c0 .66.61 1.15 1.25 1 1-.25 1.96-.37 2.88-.37 1.7 0 3.18.33 4.44.99.41.22.91.22 1.32 0C13.92 19.33 15.4 19 17.1 19c.92 0 1.88.12 2.88.37.64.15 1.25-.34 1.25-1V6.32c0-.47-.32-.88-.78-1A13.44 13.44 0 0 0 17.1 4.9c-1.95 0-3.65.4-5.1 1.2zm-1.05 11.35c-1.18-.45-2.53-.68-4.05-.68-.69 0-1.39.06-2.1.17V7.18c.69-.12 1.39-.18 2.1-.18 1.55 0 2.9.29 4.05.87v9.58zm2.1 0V7.87C14.2 7.29 15.55 7 17.1 7c.71 0 1.41.06 2.1.18v9.76c-.71-.11-1.41-.17-2.1-.17-1.52 0-2.87.23-4.05.68z"/></svg>مؤلفاتي</div>
       <div class="ni" onclick="nav('profile',this)"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>بياناتي</div>
       <div class="ni" onclick="nav('social',this)"><svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>حساباتي</div>
@@ -962,6 +963,33 @@ window.adminQuickLogin=async function(){
         </div>
       </div>
 
+      <!-- PRIVACY REQUESTS -->
+      <div class="panel" id="panel-privacy_requests">
+        <h2 class="panel-title">طلبات الخصوصية</h2>
+        <p class="panel-sub">طلبات التواصل المتعلقة بالخصوصية وحماية البيانات الشخصية فقط.</p>
+        <div class="card">
+          <div class="card-hd"><div><div class="card-title">التواصل بشأن الخصوصية</div><div class="card-sub">طلبات واردة من نموذج سياسة الخصوصية مع رقم مرجعي مستقل.</div></div></div>
+          <div class="request-tools">
+            <input id="privacyRequestSearchInput" placeholder="بحث بالرقم، الاسم، الجوال أو تفاصيل الطلب..." oninput="renderPrivacyRequests()">
+            <select id="privacyRequestStatusFilter" onchange="renderPrivacyRequests()">
+              <option value="active" selected>الطلبات النشطة</option>
+              <option value="all">كل الطلبات</option>
+              <option value="new">جديد</option>
+              <option value="review">قيد المراجعة</option>
+              <option value="contacted">تم التواصل</option>
+              <option value="closed">مغلق</option>
+              <option value="archived">الأرشيف</option>
+            </select>
+            <select id="privacyRequestSortSelect" onchange="renderPrivacyRequests()">
+              <option value="newest" selected>الأحدث أولًا</option>
+              <option value="oldest">الأقدم أولًا</option>
+            </select>
+            <button class="btn-sm" type="button" onclick="refreshPrivacyRequests()">تحديث</button>
+          </div>
+          <div class="list" id="privacyRequestsList"></div>
+        </div>
+      </div>
+
       <!-- SETTINGS -->
       <div class="panel" id="panel-settings">
         <h2 class="panel-title">الإعدادات</h2>
@@ -1207,12 +1235,15 @@ function normalizeSocialPlatform(name){
 }
 
 const ADMIN_REQUEST_SEEN_KEY='admin_seen_collab_request_ids_v2';
+const ADMIN_PRIVACY_REQUEST_SEEN_KEY='admin_seen_privacy_request_ids_v1';
 let D={},cropper=null,cropMode='avatar',bookCover=null,adLinkImage=null,bookEditId=null,socialEditId=null,socialFormEditId=null;
 let adminUiEnhanced=false;
 let requestsRemoteStatus='idle';
+let privacyRequestsRemoteStatus='idle';
 let adminRealtimeChannel=null;
 let adminRealtimeRefreshTimer=null;
 let adminRequestRefreshTimer=null;
+let adminPrivacyRequestRefreshTimer=null;
 let adminPollingTimer=null;
 let adminAnalyticsRefreshTimer=null;
 let adminIsRefreshing=false;
@@ -1232,6 +1263,7 @@ const PERMISSION_SECTIONS=[
   {id:'books',label:'مؤلفاتي'},
   {id:'profile',label:'بياناتي'},
   {id:'social',label:'حساباتي'},
+  {id:'privacy_requests',label:'\u0637\u0644\u0628\u0627\u062a \u0627\u0644\u062e\u0635\u0648\u0635\u064a\u0629'},
   {id:'settings',label:'الإعدادات'}
 ];
 let confirmState=null;
@@ -1372,7 +1404,7 @@ function getAllowedPanels(){
   if(role==='owner')return new Set([...PERMISSION_SECTIONS.map(item=>item.id),'permissions']);
   if(role==='admin')return new Set([...PERMISSION_SECTIONS.map(item=>item.id),'permissions']);
   if(role==='analyst')return new Set(['analytics']);
-  if(role==='support')return new Set(['requests']);
+  if(role==='support')return new Set(['requests','privacy_requests']);
   const sections=verifiedAdminSession?.user?.app_metadata?.sections;
   return new Set(Array.isArray(sections)?sections:[]);
 }
@@ -1679,6 +1711,7 @@ async function nav(id,el){
   activatePanel(id);
   if(el)el.classList.add('on');
   if(id==='requests')markNotificationsSeen();
+  if(id==='privacy_requests')markPrivacyNotificationsSeen();
   closeNotificationsPanel();
   closeSidebar();
   if(id==='analytics')requestAnimationFrame(()=>renderAnalytics({showLoading:true}));
@@ -1851,7 +1884,8 @@ function enhanceAdminUi(){
       requests:'طلبات الإعلان',
       adlinks:'الروابط',
       permissions:'منح الصلاحيات',
-      settings:'الإعدادات'
+      settings:'الإعدادات',
+      privacy_requests:'\u0637\u0644\u0628\u0627\u062a \u0627\u0644\u062e\u0635\u0648\u0635\u064a\u0629'
     });
     navs.forEach((el)=>{
       const svg=el.querySelector('svg');
@@ -1867,7 +1901,7 @@ function enhanceAdminUi(){
       return [match?match[1]:'',el];
     }));
     const divider=sidebar.querySelector('.side-divider');
-    ['analytics','adlinks','requests','books','profile','social'].forEach(id=>{
+    ['analytics','adlinks','requests','books','profile','social','privacy_requests'].forEach(id=>{
       const item=navByPanel.get(id);
       if(item)sidebar.insertBefore(item,divider||null);
     });
@@ -2108,6 +2142,7 @@ function normalizeData(){
   if(!D.collab)D.collab={plans:[]};
   if(!Array.isArray(D.collab.plans))D.collab.plans=[];
   if(!Array.isArray(D.collab.requests))D.collab.requests=[];
+  if(!Array.isArray(D.privacyRequests))D.privacyRequests=[];
   D.books.forEach(b=>{if(b.active===undefined)b.active=true;b.links=bookLinksFor(b);delete b.printUrl;delete b.digitalUrl;});
   D.adLinks.forEach(p=>{if(p.active===undefined)p.active=true;});
   if(!D.sectionsOff)D.sectionsOff={};
@@ -2210,7 +2245,9 @@ async function loadAll(){
   }catch(e){}
 
   await loadCollabRequests();
+  await loadPrivacyRequests();
   renderRequests();
+  renderPrivacyRequests();
   await renderRequestDbAuth();
   renderRequestNotifications(true);
   renderAnalytics();
@@ -2251,6 +2288,18 @@ function scheduleRequestRefresh(){
   },250);
 }
 
+function schedulePrivacyRequestRefresh(){
+  if(adminPrivacyRequestRefreshTimer)clearTimeout(adminPrivacyRequestRefreshTimer);
+  adminPrivacyRequestRefreshTimer=setTimeout(async()=>{
+    try{
+      await loadPrivacyRequests();
+      renderPrivacyRequests();
+    }catch(e){
+      console.warn('Privacy request refresh failed',e);
+    }
+  },250);
+}
+
 function scheduleAnalyticsRefresh(){
   if(adminAnalyticsRefreshTimer)clearTimeout(adminAnalyticsRefreshTimer);
   adminAnalyticsRefreshTimer=setTimeout(()=>{
@@ -2276,11 +2325,12 @@ function startAdminRealtime(){
     adminRealtimeChannel=sb.channel('admin-live-dashboard')
       .on('postgres_changes',{event:'*',schema:'public',table:'site_data',filter:'id=eq.main'},()=>scheduleAdminRefresh('site_data'))
       .on('postgres_changes',{event:'*',schema:'public',table:'collab_requests'},()=>scheduleRequestRefresh())
+      .on('postgres_changes',{event:'*',schema:'public',table:'privacy_requests'},()=>schedulePrivacyRequestRefresh())
       .on('postgres_changes',{event:'*',schema:'public',table:'clicks'},()=>scheduleAnalyticsRefresh())
       .on('postgres_changes',{event:'*',schema:'public',table:'visitors'},()=>scheduleAnalyticsRefresh())
       .on('postgres_changes',{event:'*',schema:'public',table:'daily_visits'},()=>scheduleAnalyticsRefresh())
       .subscribe(status=>{
-        if(status==='SUBSCRIBED')scheduleRequestRefresh();
+        if(status==='SUBSCRIBED'){scheduleRequestRefresh();schedulePrivacyRequestRefresh();}
         if(status==='CHANNEL_ERROR'||status==='TIMED_OUT'){
           console.warn('Admin realtime channel status:',status);
         }
@@ -3345,6 +3395,148 @@ async function loadCollabRequests(){
   requestsRemoteStatus='remote-error';
   D.collab.requests=localRequests;
 }
+
+async function loadPrivacyRequests(){
+  const normalizePrivacyRequest=r=>({
+    ...r,
+    requestNo:r.requestNo||r.request_no||(r.seq?('PR-'+String(r.seq).padStart(5,'0')):('PR-'+String(r.id||Date.now()).slice(-6).toUpperCase())),
+    seq:r.seq??null,
+    status:r.status||'new',
+    archived:!!r.archived,
+    internalNotes:r.internalNotes||r.internal_notes||'',
+    details:r.details||''
+  });
+  const localRequests=JSON.parse(localStorage.getItem('privacy_requests')||'[]').map(r=>({...normalizePrivacyRequest(r),storage:'local'}));
+  if(!sb?.auth){privacyRequestsRemoteStatus='local';D.privacyRequests=localRequests;return;}
+  const session=await getSupabaseAdminSession();
+  if(!session){privacyRequestsRemoteStatus='auth-required';D.privacyRequests=localRequests;return;}
+  try{
+    const {data,error}=await sb.from('privacy_requests').select('*').order('created_at',{ascending:false});
+    if(error)throw error;
+    if(Array.isArray(data)){privacyRequestsRemoteStatus='remote';D.privacyRequests=data.map(r=>({...normalizePrivacyRequest(r),storage:'remote'}));return;}
+  }catch(e){}
+  privacyRequestsRemoteStatus='remote-error';
+  D.privacyRequests=localRequests;
+}
+
+function privacyRequestStatusLabels(){return {new:'New',review:'In review',contacted:'Contacted',closed:'Closed'};}
+let privacyRequestSelection=new Set();
+
+async function refreshPrivacyRequests(){
+  await loadPrivacyRequests();
+  renderPrivacyRequests();
+  toast('Privacy requests refreshed');
+}
+
+function getFilteredPrivacyRequests(){
+  const query=(document.getElementById('privacyRequestSearchInput')?.value||'').trim().toLowerCase();
+  const filter=document.getElementById('privacyRequestStatusFilter')?.value||'active';
+  const sort=document.getElementById('privacyRequestSortSelect')?.value||'newest';
+  let items=[...(D.privacyRequests||[])];
+  items=items.filter(r=>{
+    if(filter==='active'&&r.archived)return false;
+    if(filter==='archived'&&!r.archived)return false;
+    if(!['active','all','archived'].includes(filter)&&r.status!==filter)return false;
+    if(!query)return true;
+    return [r.requestNo,r.name,r.phone,r.details,r.internalNotes].filter(Boolean).join(' ').toLowerCase().includes(query);
+  });
+  items.sort((a,b)=>{
+    const av=new Date(a.created_at||0).getTime();
+    const bv=new Date(b.created_at||0).getTime();
+    return sort==='oldest'?av-bv:bv-av;
+  });
+  return items;
+}
+
+function renderPrivacyRequests(){
+  const list=document.getElementById('privacyRequestsList');
+  if(!list)return;
+  const items=getFilteredPrivacyRequests();
+  const visibleIds=new Set(items.map(r=>r.id));
+  privacyRequestSelection=new Set([...privacyRequestSelection].filter(id=>visibleIds.has(id)));
+  if(!items.length){
+    const msg=privacyRequestsRemoteStatus==='auth-required'?'Sign in from Settings to view privacy requests.':'No matching privacy requests.';
+    list.innerHTML=`<div class="request-empty">${msg}</div>`;
+    return;
+  }
+  const labels=privacyRequestStatusLabels();
+  const statusOpts=r=>Object.keys(labels).map(key=>`<option value="${key}" ${r.status===key?'selected':''}>${labels[key]}</option>`).join('');
+  const rows=items.map((r,index)=>`<tr class="${r.archived?'archived-row':''}">
+    <td><input type="checkbox" class="privacy-req-check" value="${esc(r.id)}" ${privacyRequestSelection.has(r.id)?'checked':''} onchange="onPrivacyRequestCheck()"></td>
+    <td>${index+1}</td>
+    <td><span class="req-day">${esc(requestDayName(r.created_at))}</span></td>
+    <td><div class="req-date"><span class="req-date-h">${esc(requestHijriDate(r.created_at))}</span><span class="req-date-g">${esc(requestGregorianDate(r.created_at))}</span></div></td>
+    <td><span class="request-no-badge">${esc(r.requestNo||r.id||'')}</span>${r.archived?'<span class="req-archived-tag">Archived</span>':''}</td>
+    <td>${esc(r.name||'No name')}</td>
+    <td><span class="req-phone">${esc(r.phone||'-')}</span></td>
+    <td>Privacy</td>
+    <td><select class="request-status-select" onchange="updatePrivacyRequestStatus(${jsString(r.id)},this.value)">${statusOpts(r)}</select></td>
+    <td><button class="ico-eye" title="Details" onclick="openPrivacyRequestDetails(${jsString(r.id)})">${ICON_EYE}</button></td>
+    <td><div class="request-row-actions"><div class="row-actions-menu">
+      <button class="ico-dots" title="Actions" aria-haspopup="true" onclick="toggleRowMenu(event,${jsString('privacy-'+r.id)})">...</button>
+      <div class="row-menu" id="rowMenu-privacy-${esc(r.id)}">
+        <button onclick="togglePrivacyRequestArchive(${jsString(r.id)},${r.archived?'false':'true'});closeRowMenus()">${r.archived?ICON_RESTORE:ICON_ARCHIVE}<span>${r.archived?'Restore':'Archive'}</span></button>
+        <div class="row-menu-sep"></div>
+        <button class="danger" onclick="closeRowMenus();deletePrivacyRequestNow(${jsString(r.id)})">${ICON_TRASH}<span>Delete permanently</span></button>
+      </div>
+    </div></div></td>
+  </tr>`).join('');
+  const allChecked=items.length&&items.every(r=>privacyRequestSelection.has(r.id));
+  list.innerHTML=`<div class="request-bulkbar">
+    <span class="bulk-count">Selected: <b id="privacyBulkCount">${privacyRequestSelection.size}</b> of ${items.length}</span>
+    <button class="btn-bulk danger" id="privacyBulkDeleteBtn" ${privacyRequestSelection.size?'':'disabled'} onclick="deleteSelectedPrivacyRequests()">${ICON_TRASH}<span>Delete selected</span></button>
+  </div>
+  <div class="request-table-wrap"><table class="request-table"><thead><tr>
+    <th><input type="checkbox" class="privacy-req-check" id="privacyReqSelectAll" ${allChecked?'checked':''} onclick="toggleSelectAllPrivacyRequests(this.checked)"></th>
+    <th>#</th><th>Day</th><th>Date</th><th>Request</th><th>Name</th><th>Phone</th><th>Type</th><th>Status</th><th>Details</th><th>Actions</th>
+  </tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+
+function onPrivacyRequestCheck(){
+  privacyRequestSelection=new Set([...document.querySelectorAll('.privacy-req-check:not(#privacyReqSelectAll):checked')].map(c=>c.value));
+  const count=document.getElementById('privacyBulkCount');if(count)count.textContent=String(privacyRequestSelection.size);
+  const btn=document.getElementById('privacyBulkDeleteBtn');if(btn)btn.disabled=privacyRequestSelection.size===0;
+  const all=document.getElementById('privacyReqSelectAll');const total=document.querySelectorAll('.privacy-req-check:not(#privacyReqSelectAll)').length;
+  if(all)all.checked=total>0&&privacyRequestSelection.size===total;
+}
+function toggleSelectAllPrivacyRequests(checked){document.querySelectorAll('.privacy-req-check:not(#privacyReqSelectAll)').forEach(c=>{c.checked=checked;});onPrivacyRequestCheck();}
+
+async function persistPrivacyRequest(req,patch={}){
+  Object.assign(req,patch);
+  if(req.storage==='remote'){
+    const remotePatch={...patch};
+    if('internalNotes' in remotePatch){remotePatch.internal_notes=remotePatch.internalNotes;delete remotePatch.internalNotes;}
+    try{await sb.from('privacy_requests').update(remotePatch).eq('id',req.id);}catch(e){}
+  }else{
+    localStorage.setItem('privacy_requests',JSON.stringify((D.privacyRequests||[]).map(r=>r.id===req.id?{...r,...patch}:r)));
+  }
+}
+async function updatePrivacyRequestStatus(id,status){const req=(D.privacyRequests||[]).find(x=>x.id===id);if(!req)return;await persistPrivacyRequest(req,{status});renderPrivacyRequests();toast('Privacy request status updated');}
+async function togglePrivacyRequestArchive(id,archived){const req=(D.privacyRequests||[]).find(x=>x.id===id);if(!req)return;await persistPrivacyRequest(req,{archived});renderPrivacyRequests();toast(archived?'Privacy request archived':'Privacy request restored');}
+async function removePrivacyRequestRecords(reqs){const remoteIds=reqs.filter(r=>r.storage==='remote').map(r=>r.id);if(remoteIds.length){try{await sb.from('privacy_requests').delete().in('id',remoteIds);}catch(e){}}const ids=new Set(reqs.map(r=>r.id));D.privacyRequests=(D.privacyRequests||[]).filter(r=>!ids.has(r.id));localStorage.setItem('privacy_requests',JSON.stringify((D.privacyRequests||[]).filter(r=>r.storage!=='remote')));}
+async function deletePrivacyRequestNow(id){const req=(D.privacyRequests||[]).find(x=>x.id===id);if(!req)return;if(!(await platformConfirm('This privacy request will be permanently deleted: '+(req.requestNo||'')+'. Continue?','Delete privacy request')))return;await removePrivacyRequestRecords([req]);privacyRequestSelection.delete(id);renderPrivacyRequests();toast('Privacy request deleted');}
+async function deleteSelectedPrivacyRequests(){const reqs=(D.privacyRequests||[]).filter(r=>privacyRequestSelection.has(r.id));if(!reqs.length){toast('No requests selected');return;}if(!(await platformConfirm('This will permanently delete '+reqs.length+' privacy requests. Continue?','Delete selected requests')))return;await removePrivacyRequestRecords(reqs);privacyRequestSelection.clear();renderPrivacyRequests();toast('Selected privacy requests deleted');}
+
+function openPrivacyRequestDetails(id){
+  const r=(D.privacyRequests||[]).find(x=>x.id===id);if(!r)return;
+  const labels=privacyRequestStatusLabels();
+  const title=document.getElementById('requestDetailTitle');const body=document.getElementById('requestDetailBody');const modal=document.getElementById('requestDetailModal');
+  if(title)title.textContent='Privacy request details';
+  const statusLabel=r.archived?'Archived':(labels[r.status]||labels.new);
+  const field=(label,value,opts={})=>`<div class="req-detail-field${opts.wide?' req-detail-wide':''}"><label>${esc(label)}</label><div class="req-detail-value${opts.ltr?' ltr':''}">${esc(value&&String(value).trim()?value:'Not provided')}</div></div>`;
+  if(body){body.innerHTML=`<div class="req-detail-form">
+    <div class="req-detail-head"><span class="request-no-badge">${esc(r.requestNo||r.id||'')}</span><span class="req-detail-status">${esc(statusLabel)}</span></div>
+    <div class="req-detail-row req-detail-meta">${field('Request date',requestDayName(r.created_at)+' · '+requestHijriDate(r.created_at)+' · '+requestGregorianDate(r.created_at))}${field('Request time',requestTimeLabel(r.created_at))}</div>
+    <div class="req-detail-row">${field('Name',r.name)}${field('Phone',r.phone,{ltr:true})}</div>
+    ${field('Request type','Privacy')}
+    ${field('Details',r.details,{wide:true})}
+    <div class="req-detail-field req-detail-wide"><label for="privacyInternalNotesInput">Internal notes</label><textarea id="privacyInternalNotesInput" class="req-detail-notes" placeholder="Internal note, not visible to the requester">${esc(r.internalNotes||'')}</textarea><button class="btn-save" type="button" style="margin-top:10px" onclick="savePrivacyRequestInternalNotes(${jsString(r.id)},document.getElementById('privacyInternalNotesInput').value)">Save note</button></div>
+  </div>`;}
+  if(modal){modal.classList.add('open');modal.setAttribute('aria-hidden','false');}
+}
+async function savePrivacyRequestInternalNotes(id,value){const req=(D.privacyRequests||[]).find(x=>x.id===id);if(!req)return;await persistPrivacyRequest(req,{internalNotes:String(value||'').trim()});toast('Internal note saved');}
+function getSeenPrivacyRequestIds(){return JSON.parse(localStorage.getItem(ADMIN_PRIVACY_REQUEST_SEEN_KEY)||'[]');}
+function markPrivacyNotificationsSeen(){const ids=(D.privacyRequests||[]).filter(item=>item.status==='new').map(item=>item.id);localStorage.setItem(ADMIN_PRIVACY_REQUEST_SEEN_KEY,JSON.stringify([...new Set([...getSeenPrivacyRequestIds(),...ids])]));}
 
 const ICON_EYE='<svg viewBox="0 0 24 24"><path d="M12 5c-5.5 0-9 7-9 7s3.5 7 9 7 9-7 9-7-3.5-7-9-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>';
 const ICON_TRASH='<svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>';

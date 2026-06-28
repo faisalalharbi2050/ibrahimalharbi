@@ -29,7 +29,28 @@
     .rights{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}.right-item{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:13px;color:var(--muted)}.right-item strong{display:block;margin-bottom:2px}
     .contact{margin-top:30px;padding:18px;border-radius:18px;background:linear-gradient(135deg,#f4f7f4,#fafafa);border:1px solid #dbe7dc;color:var(--ink)}.contact h2{color:var(--ink);border-color:#6f9273;margin-top:0}.contact p{color:var(--muted);margin-bottom:0}.contact a{color:var(--ok);font-weight:700}
     .footer{text-align:center;color:#8a8f98;font-size:12px;padding:22px 10px 0}
-    @media(max-width:620px){.page{margin:16px auto 34px}.topbar{align-items:center;flex-direction:column-reverse}.back{width:auto;align-self:flex-start}.brand{text-align:center}.hero{padding:27px 22px;border-radius:22px}h1{font-size:25px}.content{padding:24px 20px;border-radius:22px}.rights{grid-template-columns:1fr}}
+
+    .privacy-request{margin:28px 0 0;padding:20px;border-radius:20px;background:#fbfbfc;border:1px solid var(--line)}.privacy-request.is-closed{display:none}
+    .privacy-request-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}.privacy-request h2{margin:0;border-color:#111}.privacy-close{border:1px solid #d4d7dd;background:#fff;color:var(--muted);border-radius:12px;padding:8px 12px;font-family:Tajawal,sans-serif;font-size:12px;font-weight:700;cursor:pointer}.privacy-close:hover{background:#f5f5f6;color:var(--ink)}
+    .privacy-request-copy{font-size:13px;color:var(--muted);margin-bottom:16px}
+    .privacy-form{display:grid;gap:12px}
+    .privacy-form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .privacy-field label{display:block;font-size:12px;font-weight:700;color:var(--ink);margin-bottom:6px}
+    .privacy-field input,.privacy-field textarea{width:100%;border:1px solid #d4d7dd;border-radius:12px;padding:12px 13px;font-family:Tajawal,sans-serif;font-size:14px;color:var(--ink);background:#fff;outline:none}
+    .privacy-field input:focus,.privacy-field textarea:focus{border-color:#111}
+    .privacy-field textarea{min-height:120px;resize:vertical;line-height:1.8}
+    .privacy-fixed-type{display:flex;align-items:center;min-height:45px;border:1px solid #d4d7dd;border-radius:12px;padding:10px 13px;background:#f5f5f6;color:var(--ink);font-weight:700;font-size:14px}
+    .privacy-consent{display:flex;gap:10px;align-items:flex-start;font-size:12px;color:var(--muted);line-height:1.8;cursor:pointer}
+    .privacy-consent input{margin-top:6px;accent-color:#111;flex:0 0 auto}
+    .privacy-submit{width:fit-content;min-width:180px;border:0;border-radius:13px;background:#111;color:#fff;font-family:Tajawal,sans-serif;font-weight:700;font-size:14px;padding:12px 20px;cursor:pointer;transition:background .2s,transform .2s}
+    .privacy-submit:hover{background:#2b2b2d;transform:translateY(-1px)}
+    .privacy-submit:disabled{opacity:.65;cursor:not-allowed;transform:none}
+    .privacy-message{display:none;border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.8}
+    .privacy-message.show{display:block}
+    .privacy-message.ok{background:#eef8ef;border:1px solid #cfe6d2;color:#245b2a}
+    .privacy-message.err{background:#fff4f2;border:1px solid #ffd7d2;color:#9f1f17}
+    .privacy-ref{display:inline-flex;margin-top:8px;padding:6px 10px;border-radius:999px;background:#fff;border:1px solid #cfe6d2;font-weight:700;direction:ltr}
+    @media(max-width:620px){.page{margin:16px auto 34px}.topbar{align-items:center;flex-direction:column-reverse}.back{width:auto;align-self:flex-start}.brand{text-align:center}.hero{padding:27px 22px;border-radius:22px}h1{font-size:25px}.content{padding:24px 20px;border-radius:22px}.rights{grid-template-columns:1fr}.privacy-form-row{grid-template-columns:1fr}.privacy-submit{width:100%}}
   </style>
 </head>
 <body>
@@ -52,7 +73,7 @@
       <p class="summary">تُعالج البيانات الشخصية وفق نظام حماية البيانات الشخصية في المملكة العربية السعودية ولائحته التنفيذية، وبالقدر اللازم لتقديم الخدمة وحماية الموقع والوفاء بالمتطلبات النظامية. هذا الموقع ليس متجرًا إلكترونيًا ولا يعالج عمليات دفع أو بيع مباشر، وتُستخدم بيانات طلب الإعلان أو الدعم فقط لاستقبال الطلب ومراجعته والتواصل بشأنه، ولا تُستخدم للبيع أو المشاركة التجارية أو التسويق العام خارج هذا النطاق.</p>
 
       <h2>1. من المسؤول عن بياناتك؟</h2>
-      <p>تتولى <strong>إدارة الموقع</strong> الإشراف على معالجة البيانات الشخصية وتحديد أغراض استخدامها ووسائل حمايتها. ويمكن التواصل بشأن الخصوصية أو ممارسة الحقوق عبر قنوات التواصل الرسمية المتاحة في الصفحة الرئيسية.</p>
+      <p>تتولى <strong>إدارة الموقع</strong> الإشراف على معالجة البيانات الشخصية وتحديد أغراض استخدامها ووسائل حمايتها. ويمكن التواصل بشأن الخصوصية أو ممارسة الحقوق عبر نموذج <a href="#privacy-contact">التواصل بشأن الخصوصية</a> المتاح في هذه الصفحة.</p>
 
       <h2>2. نطاق السياسة</h2>
       <p>تسري هذه السياسة على زوار الموقع، والأشخاص الذين يتفاعلون مع روابطه، ومقدمي طلبات الإعلان أو الدعم. ولا تشمل المواقع أو الخدمات الخارجية التي تُفتح عبر روابط مستقلة؛ إذ تخضع تلك الخدمات لسياساتها الخاصة.</p>
@@ -106,17 +127,104 @@
       <p>لا يتخذ الموقع قرارات تنتج أثرًا نظاميًا اعتمادًا على معالجة آلية بحتة. كما أن خدمة طلبات الإعلان موجهة للبالغين وممثلي الجهات، ولا نستهدف جمع بيانات من هم دون الثامنة عشرة.</p>
 
       <h2>12. الشكاوى والاستفسارات</h2>
-      <p>يمكنك تقديم طلب أو شكوى عبر قناة واتساب الرسمية في الصفحة الرئيسية، مع كتابة «طلب خصوصية» وتوضيح رقم الطلب إن وجد. وإذا لم تُعالج الشكوى على نحو مرضٍ، فيحق لك رفعها إلى الجهة المختصة بحماية البيانات الشخصية في المملكة العربية السعودية عبر <a href="https://dgp.sdaia.gov.sa" target="_blank" rel="noopener noreferrer">منصة حوكمة البيانات الوطنية التابعة لسدايا</a>.</p>
+      <p>يمكنك تقديم طلب أو استفسار أو شكوى متعلقة بالخصوصية من خلال نموذج <a href="#privacy-contact">التواصل بشأن الخصوصية</a> المتاح في هذه الصفحة. يرجى توضيح تفاصيل الطلب، وسيظهر لك رقم مرجعي بعد الإرسال لمتابعة الطلب عند الحاجة. وإذا لم تُعالج الشكوى على نحو مرضٍ، فيحق لك رفعها إلى الجهة المختصة بحماية البيانات الشخصية في المملكة العربية السعودية عبر <a href="https://dgp.sdaia.gov.sa" target="_blank" rel="noopener noreferrer">منصة حوكمة البيانات الوطنية التابعة لسدايا</a>.</p>
 
       <h2>13. تحديث السياسة</h2>
       <p>قد نحدث هذه السياسة عند تغير الخدمة أو طرق المعالجة أو المتطلبات النظامية. تُنشر النسخة المحدثة في هذه الصفحة ويظهر تاريخ سريانها في أعلاها، وتُطلب موافقة جديدة إذا كان التغيير يستلزم ذلك نظامًا.</p>
 
       <section class="contact">
         <h2>ممارسة حقوق الخصوصية</h2>
-        <p>ابدأ من <a href="index.html">الصفحة الرئيسية</a> واستخدم إحدى قنوات التواصل الرسمية، واكتب في بداية الرسالة «طلب خصوصية» لتسهيل توجيه طلبك ومعالجته.</p>
+        <p>استخدم نموذج <a href="#privacy-contact">التواصل بشأن الخصوصية</a> المتاح في هذه الصفحة لتقديم طلبات الخصوصية وممارسة حقوقك المتعلقة ببياناتك الشخصية. هذه القناة مخصصة لهذا الغرض فقط، وسيظهر لك رقم مرجعي بعد إرسال الطلب.</p>
+      </section>
+
+
+      <section class="privacy-request" id="privacy-contact">
+        <div class="privacy-request-head"><h2>التواصل بشأن الخصوصية</h2><button class="privacy-close" type="button" onclick="closePrivacyContact()">&#1573;&#1594;&#1604;&#1575;&#1602;</button></div>
+        <p class="privacy-request-copy">هذه القناة مخصصة فقط للطلبات والاستفسارات والشكاوى المتعلقة بالخصوصية وحماية البيانات الشخصية.</p>
+        <form class="privacy-form" id="privacyRequestForm">
+          <div class="privacy-form-row">
+            <div class="privacy-field">
+              <label for="privacyName">الاسم</label>
+              <input id="privacyName" name="name" autocomplete="name" maxlength="120" required placeholder="اكتب اسمك">
+            </div>
+            <div class="privacy-field">
+              <label for="privacyPhone">رقم الجوال</label>
+              <input id="privacyPhone" name="phone" dir="ltr" inputmode="tel" autocomplete="tel" maxlength="30" required placeholder="05xxxxxxxx">
+            </div>
+          </div>
+          <div class="privacy-field">
+            <label>نوع الطلب</label>
+            <div class="privacy-fixed-type">بشأن الخصوصية</div>
+          </div>
+          <div class="privacy-field">
+            <label for="privacyDetails">تفاصيل الطلب</label>
+            <textarea id="privacyDetails" name="details" maxlength="2000" required placeholder="اكتب طلبك المتعلق بالخصوصية فقط، مثل طلب حذف أو تصحيح أو الاطلاع على بياناتك الشخصية."></textarea>
+          </div>
+          <label class="privacy-consent" for="privacyConsent">
+            <input id="privacyConsent" type="checkbox" required>
+            <span>أقر بأن هذا الطلب متعلق بالخصوصية فقط، وأوافق على استخدام البيانات المدخلة لمعالجة الطلب والتواصل بشأنه.</span>
+          </label>
+          <div class="privacy-message" id="privacyRequestMessage" aria-live="polite"></div>
+          <button class="privacy-submit" id="privacySubmitBtn" type="submit">إرسال طلب الخصوصية</button>
+        </form>
       </section>
     </article>
     <div class="footer">© جميع الحقوق محفوظة</div>
   </main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+const SB_URL='https://lqqxdwzyeagtrcmdonso.supabase.co';
+const SB_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxxcXhkd3p5ZWFndHJjbWRvbnNvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1NDEwMTUsImV4cCI6MjA5NzExNzAxNX0.NuMcvZv2TZSZDktpOZvrUsOPBWHl8tp4-Rw9KjwS4F8';
+const privacySb=window.supabase?supabase.createClient(SB_URL,SB_ANON_KEY,{auth:{persistSession:false,autoRefreshToken:false}}):null;
+function showPrivacyMessage(kind,html){const el=document.getElementById('privacyRequestMessage');if(!el)return;el.className='privacy-message show '+kind;el.innerHTML=html;}
+function privacyRetryText(seconds){const minutes=Math.max(1,Math.ceil((Number(seconds)||900)/60));return 'تم استلام طلب حديث من نفس الجوال أو الشبكة. يمكنك المحاولة بعد '+minutes+' دقيقة.';}
+async function submitPrivacyRequest(event){
+  event.preventDefault();
+  const btn=document.getElementById('privacySubmitBtn');
+  const name=document.getElementById('privacyName').value.trim();
+  const phone=document.getElementById('privacyPhone').value.trim();
+  const details=document.getElementById('privacyDetails').value.trim();
+  const consent=document.getElementById('privacyConsent').checked;
+  if(!name||!phone||!details||!consent){showPrivacyMessage('err','يرجى إكمال الحقول المطلوبة والموافقة قبل الإرسال.');return;}
+  if(!/^\+?[0-9\s-]{8,20}$/.test(phone)){showPrivacyMessage('err','يرجى إدخال رقم جوال صحيح.');return;}
+  if(!privacySb){showPrivacyMessage('err','تعذر الاتصال بخدمة الإرسال حاليًا. يرجى المحاولة لاحقًا.');return;}
+  btn.disabled=true;btn.textContent='جاري الإرسال...';
+  try{
+    const {data,error}=await privacySb.functions.invoke('public-events',{body:{type:'privacy_request',payload:{name,phone,details,consent}}});
+    if(!error&&data?.ok){
+      document.getElementById('privacyRequestForm').reset();
+      showPrivacyMessage('ok','تم استلام طلبك المتعلق بالخصوصية بنجاح. احتفظ بالرقم المرجعي للمتابعة:<br><span class="privacy-ref">'+String(data.requestNo||'')+'</span>');
+      return;
+    }
+    if(data?.error==='request_recently_received'||error?.context?.status===429){showPrivacyMessage('err',privacyRetryText(data?.retryAfterSeconds));return;}
+    showPrivacyMessage('err','تعذر إرسال الطلب حاليًا. يرجى المحاولة لاحقًا.');
+  }catch(e){showPrivacyMessage('err','تعذر إرسال الطلب حاليًا. يرجى المحاولة لاحقًا.');}
+  finally{btn.disabled=false;btn.textContent='إرسال طلب الخصوصية';}
+}
+document.getElementById('privacyRequestForm')?.addEventListener('submit',submitPrivacyRequest);
+function openPrivacyContact(shouldScroll=false){
+  const section=document.getElementById('privacy-contact');
+  if(!section)return;
+  section.classList.remove('is-closed');
+  if(shouldScroll)setTimeout(()=>section.scrollIntoView({block:'start'}),0);
+}
+function closePrivacyContact(){
+  const section=document.getElementById('privacy-contact');
+  if(!section)return;
+  section.classList.add('is-closed');
+  if(location.hash==='#privacy-contact')history.replaceState(null,'',location.pathname+location.search);
+}
+document.querySelectorAll('a[href="#privacy-contact"]').forEach(link=>{
+  link.addEventListener('click',event=>{
+    event.preventDefault();
+    history.pushState(null,'','#privacy-contact');
+    openPrivacyContact(true);
+  });
+});
+window.addEventListener('hashchange',()=>{if(location.hash==='#privacy-contact')openPrivacyContact(true);});
+if(location.hash==='#privacy-contact')openPrivacyContact(false);
+
+</script>
 </body>
 </html>

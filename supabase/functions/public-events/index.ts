@@ -233,7 +233,7 @@ serve(async (req) => {
   const body = await req.json().catch(() => null);
   if (body && JSON.stringify(body).length > 32_768) return json(req, { error: "payload_too_large" }, 413);
   const type = clean(body?.type, 32);
-  if (!body || !["visit", "click", "collab_request", "collab_request_update"].includes(type)) return json(req, { error: "invalid_event" }, 400);
+  if (!body || !["visit", "click", "collab_request", "collab_request_update", "privacy_request"].includes(type)) return json(req, { error: "invalid_event" }, 400);
 
   const forwarded = req.headers.get("cf-connecting-ip") || req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   const ipHash = await sha256(`${rateSalt}:${forwarded}`);
@@ -305,6 +305,52 @@ serve(async (req) => {
   }
 
   const payload = body.payload || {};
+
+  if (type === "privacy_request") {
+    const privacyRequest = {
+      id: crypto.randomUUID(),
+      request_no: "pending",
+      name: clean(payload.name, 120),
+      phone: normalizePhone(payload.phone),
+      request_type: "privacy",
+      details: clean(payload.details, 2000),
+      status: "new",
+      archived: false,
+      internal_notes: "",
+      consent: payload.consent === true,
+    };
+
+    if (!privacyRequest.name || !privacyRequest.phone || !privacyRequest.details || !privacyRequest.consent) {
+      return json(req, { error: "missing_required_fields" }, 400);
+    }
+    if (!/^\+?[0-9]{8,15}$/.test(privacyRequest.phone)) return json(req, { error: "invalid_phone" }, 400);
+
+    const phoneHash = await sha256(rateSalt + ":privacy-phone:" + privacyRequest.phone);
+    const ipRateKey = "privacy:ip:" + ipHash;
+    const phoneRateKey = "privacy:phone:" + phoneHash;
+    try {
+      const ipAllowed = await consumeRateLimit(ipRateKey, 15 * 60);
+      if (!ipAllowed) {
+        return json(req, { error: "request_recently_received", retryAfterSeconds: await rateLimitRetryAfterSeconds(ipRateKey) }, 429);
+      }
+      const phoneAllowed = await consumeRateLimit(phoneRateKey, 6 * 60 * 60);
+      if (!phoneAllowed) {
+        await supabase.from("public_rate_limits").delete().eq("rate_key", ipRateKey);
+        return json(req, { error: "request_recently_received", retryAfterSeconds: await rateLimitRetryAfterSeconds(phoneRateKey) }, 429);
+      }
+    } catch { return json(req, { error: "rate_limit_unavailable" }, 503); }
+
+    const { data: inserted, error } = await supabase
+      .from("privacy_requests")
+      .insert(privacyRequest)
+      .select("request_no")
+      .single();
+    if (error) {
+      await supabase.from("public_rate_limits").delete().in("rate_key", [ipRateKey, phoneRateKey]);
+      return json(req, { error: "request_not_saved" }, 503);
+    }
+    return json(req, { ok: true, requestId: privacyRequest.id, requestNo: inserted?.request_no || privacyRequest.request_no });
+  }
 
   if (type === "collab_request_update") {
     const requestId = clean(payload.request_id, 80);
