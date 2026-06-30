@@ -716,27 +716,19 @@ async function loadData(){
   const cached=localStorage.getItem('influencer_data');
   let hasCachedData=!!cached;
   try{D=hasCachedData?JSON.parse(cached):{};}catch(e){localStorage.removeItem('influencer_data');D={};hasCachedData=false;}
-  normalizeData();
-  if(hasCachedData){
-    applyPublicData(null,{force:true});
-    setPublicLoading(false);
-  }
   try{
-    const payload=await fetchPublicContent(hasCachedData?0:PUBLIC_INITIAL_LOAD_TIMEOUT_MS);
-    if(payload?.data)applyPublicData(payload.data);
+    const payload=await fetchPublicContent(PUBLIC_INITIAL_LOAD_TIMEOUT_MS);
+    if(payload?.data)applyPublicData(payload.data,{replace:true,updatedAt:payload.updatedAt});
     setPublicLoading(false);
   }catch(e){
     console.warn('Public content unavailable; using the last cached version.');
-    if(!hasCachedData){
-      applyPublicData(null,{force:true});
-      setPublicLoading(false);
-      schedulePublicDataRefresh();
-    }
+    applyPublicData(null,{force:true});
+    setPublicLoading(false);
+    schedulePublicDataRefresh();
   }
   updateVisitorCounter();
   startPublicRealtime();
 }
-
 function publicDataSnapshot(){
   return stableStringify(D);
 }
@@ -802,10 +794,12 @@ function renderPublicData(force=false){
 
 function applyPublicData(nextData,options={}){
   const force=options.force===true;
+  const replace=options.replace===true;
   if(nextData&&typeof nextData==='object'){
-    D=mergeRemoteData(D,nextData);
+    D=replace?mergeRemoteData({},nextData):mergeRemoteData(D,nextData);
     normalizeData();
     localStorage.setItem('influencer_data',JSON.stringify(D));
+    if(options.updatedAt)localStorage.setItem('influencer_data_updated_at',String(options.updatedAt));
   }else{
     normalizeData();
   }
@@ -826,7 +820,7 @@ async function refreshPublicData(){
     });
     if(!response.ok)throw new Error('public-content-unavailable');
     const payload=await response.json();
-    if(payload?.data)applyPublicData(payload.data);
+    if(payload?.data)applyPublicData(payload.data,{replace:true,updatedAt:payload.updatedAt});
   }catch(e){
     console.warn('Public data refresh failed',e);
   }finally{

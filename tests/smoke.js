@@ -61,6 +61,63 @@ async function waitForServer() {
       throw new Error(`Admin restored deleted content from cache: ${JSON.stringify(adminDeletionMergeState)}`);
     }
 
+    const analyticsRangeState = await page.evaluate(async () => {
+      document.querySelector('#dashboard').style.display = 'block';
+      activatePanel('analytics');
+      D = { social: [], books: [], adLinks: [], collab: { plans: [] }, sectionsOff: {} };
+      const calls = [];
+      const originalRpc = window.sb?.rpc;
+      window.sb.rpc = async (_name, params) => {
+        calls.push(params?.p_days ?? null);
+        return { data: {
+          current: { visits: params?.p_days || 1000, clicks: (params?.p_days || 1000) + 1, requests: 2 },
+          previous: params?.p_days ? { visits: 1, clicks: 1, requests: 1 } : null,
+          statuses: {}, series: [], currentLinkCounts: [], cumulativeLinkCounts: [], topLocations: [], recent: []
+        }, error: null };
+      };
+      const select = document.querySelector('#aRange');
+      for (const value of ['7', '30', '90', 'all']) {
+        select.value = value;
+        await renderAnalytics();
+      }
+      window.sb.rpc = originalRpc;
+      return { calls, selected: select.value, html: document.querySelector('#statsGrid')?.innerHTML || '' };
+    });
+    if (JSON.stringify(analyticsRangeState.calls) !== JSON.stringify([7, 30, 90, null]) || analyticsRangeState.selected !== 'all' || !analyticsRangeState.html) {
+      throw new Error(`Analytics range dropdown did not request the selected periods: ${JSON.stringify(analyticsRangeState)}`);
+    }
+
+    const analyticsQueuedRangeState = await page.evaluate(async () => {
+      const calls = [];
+      let releaseFirst;
+      const first = new Promise((resolve) => { releaseFirst = resolve; });
+      const originalRpc = window.sb?.rpc;
+      window.sb.rpc = async (_name, params) => {
+        calls.push(params?.p_days ?? null);
+        if (calls.length === 1) await first;
+        return { data: {
+          current: { visits: params?.p_days || 1000, clicks: (params?.p_days || 1000) + 1, requests: 2 },
+          previous: params?.p_days ? { visits: 1, clicks: 1, requests: 1 } : null,
+          statuses: {}, series: [], currentLinkCounts: [], cumulativeLinkCounts: [], topLocations: [], recent: []
+        }, error: null };
+      };
+      adminAnalyticsHasRendered = true;
+      const select = document.querySelector('#aRange');
+      select.value = '7';
+      const inFlight = renderAnalytics();
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      select.value = '30';
+      await renderAnalytics();
+      releaseFirst();
+      await inFlight;
+      await new Promise((resolve) => setTimeout(resolve, 20));
+      window.sb.rpc = originalRpc;
+      return { calls };
+    });
+    if (JSON.stringify(analyticsQueuedRangeState.calls) !== JSON.stringify([7, 30])) {
+      throw new Error(`Queued analytics range selection was not applied immediately after the in-flight load: ${JSON.stringify(analyticsQueuedRangeState)}`);
+    }
+    await page.evaluate(() => { document.querySelector('#dashboard').style.display = 'none'; });
     if (!(await page.locator('#loginScreen').isVisible())) throw new Error('شاشة دخول الإدارة غير ظاهرة');
     if (await page.locator('#dashboard').isVisible()) throw new Error('لوحة الإدارة ظهرت دون جلسة موثقة');
     const notificationLayout = await page.evaluate(() => {

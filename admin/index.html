@@ -1249,10 +1249,11 @@ let adminAnalyticsRefreshTimer=null;
 let adminIsRefreshing=false;
 let adminAnalyticsInFlight=false;
 let adminAnalyticsQueued=false;
+let adminAnalyticsQueuedOptions=null;
 let adminAnalyticsHasRendered=false;
 let adminHasUnsavedInput=false;
 const ADMIN_POLL_INTERVAL_MS=300000;
-const ADMIN_ANALYTICS_REFRESH_DELAY_MS=1500;
+const ADMIN_ANALYTICS_REFRESH_DELAY_MS=15000;
 document.addEventListener('input',event=>{
   if(event.target.closest?.('#dashboard'))adminHasUnsavedInput=true;
 });
@@ -2986,10 +2987,16 @@ function adLinkClickTotal(id){return (adLinkClickCounts&&adLinkClickCounts[id])|
 async function loadAdLinkClickCounts(force=false){
   if(adLinkClickCounts&&!force)return adLinkClickCounts;
   try{
-    const clicks=await fetchAnalyticsClicks(null);
-    const map={};clicks.forEach(c=>{const id=c.link_id||c.id;if(id)map[id]=(map[id]||0)+1;});
+    const summary=await fetchAnalyticsSummary(null);
+    const map={};(summary.cumulativeLinkCounts||[]).forEach(x=>{if(x.id)map[x.id]=Number(x.count||0);});
     adLinkClickCounts=map;
-  }catch(e){adLinkClickCounts=adLinkClickCounts||{};}
+  }catch(e){
+    try{
+      const clicks=await fetchAnalyticsClicks(null);
+      const map={};clicks.forEach(c=>{const id=c.link_id||c.id;if(id)map[id]=(map[id]||0)+1;});
+      adLinkClickCounts=map;
+    }catch(_){adLinkClickCounts=adLinkClickCounts||{};}
+  }
   if(adLinksTab==='archive')renderAdLinks();
   return adLinkClickCounts;
 }
@@ -4126,14 +4133,83 @@ function clickLocationLabel(click){
   return '-';
 }
 
+async function fetchAnalyticsSummary(days){
+  if(!sb?.rpc)throw new Error('Supabase RPC is not available');
+  const {data,error}=await sb.rpc('admin_analytics_summary',{p_days:days||null});
+  if(error)throw error;
+  return typeof data==='string'?JSON.parse(data):(data||{});
+}
+
+function renderAnalyticsSummary(summary,days,now){
+  const names=getNames();
+  const socialIds=new Set((D.social||[]).map(x=>x.id));
+  const archivedLinkIds=new Set((D.adLinks||[]).filter(l=>l.archived).map(l=>l.id));
+  const linkCategoryOf=id=>(D.social||[]).some(s=>s.id===id)?'social':/_link_\d+$/.test(id)?'book':(D.adLinks||[]).some(p=>p.id===id)?'ad':/^advert_/.test(id)?'request':'other';
+  const current=summary.current||{};
+  const previous=summary.previous||null;
+  const currentVisits=Number(current.visits||0);
+  const currentRequests=Number(current.requests||0);
+  const previousVisits=previous?Number(previous.visits||0):null;
+  const previousRequests=previous?Number(previous.requests||0):0;
+  const currentConversion=currentVisits?Math.min(100,currentRequests/currentVisits*100):0;
+  const previousConversion=previous&&previousVisits?Math.min(100,previousRequests/previousVisits*100):0;
+  const series=(summary.series||[]).map(x=>({
+    key:x.key,
+    label:new Intl.DateTimeFormat('ar-SA',{day:'numeric',month:'short',timeZone:'Asia/Riyadh'}).format(new Date(`${x.key}T00:00:00+03:00`)),
+    visits:Number(x.visits||0),
+    clicks:Number(x.clicks||0),
+    requests:Number(x.requests||0)
+  }));
+  const currentLinkCounts=summary.currentLinkCounts||[];
+  const topSocial=currentLinkCounts.filter(x=>socialIds.has(x.id)).slice(0,6).map(x=>({name:names[x.id]||x.id,count:Number(x.count||0)}));
+  const linkTotals=(summary.cumulativeLinkCounts||[])
+    .filter(x=>names[x.id]&&!archivedLinkIds.has(x.id))
+    .map(x=>({id:x.id,name:names[x.id],count:Number(x.count||0),category:linkCategoryOf(x.id)}))
+    .sort((a,b)=>b.count-a.count);
+  const cumulativeTotal=linkTotals.reduce((a,x)=>a+x.count,0);
+  const statusLabels={new:'\u062c\u062f\u064a\u062f',review:'\u0642\u064a\u062f \u0627\u0644\u0645\u0631\u0627\u062c\u0639\u0629',contacted:'\u062a\u0645 \u0627\u0644\u062a\u0648\u0627\u0635\u0644',approved:'\u062a\u0645\u062a \u0627\u0644\u0645\u0648\u0627\u0641\u0642\u0629',rejected:'\u0645\u0631\u0641\u0648\u0636',archived:'\u0645\u0624\u0631\u0634\u0641'};
+  const recent=(summary.recent||[]).map(item=>{
+    if(item.kind==='click'){
+      return {kind:'\u0646\u0642\u0631\u0629',title:names[item.link_id]||item.link_id||'\u0631\u0627\u0628\u0637',status:clickLocationLabel(item),date:item.date};
+    }
+    return {kind:'\u0637\u0644\u0628',title:item.title||'\u0637\u0644\u0628 \u0625\u0639\u0644\u0627\u0646',status:statusLabels[item.status]||statusLabels.new,date:item.date};
+  }).filter(x=>x.date).slice(0,60);
+  renderAnalyticsDashboard({
+    current:{visits:currentVisits,clicks:Number(current.clicks||0),requests:currentRequests,conversion:currentConversion},
+    previous:previous?{visits:previousVisits,clicks:Number(previous.clicks||0),requests:previousRequests,conversion:previousConversion}:null,
+    series,
+    statuses:{new:0,review:0,contacted:0,approved:0,rejected:0,archived:0,...(summary.statuses||{})},
+    contacted:Number(summary.statuses?.contacted||0)+Number(summary.statuses?.approved||0),
+    approved:Number(summary.statuses?.approved||0),
+    topSocial,
+    topLocations:summary.topLocations||[],
+    linkTotals,
+    cumulativeTotal,
+    recent
+  });
+}
+
 async function renderAnalytics(options={}){
   const rv=document.getElementById('aRange');if(!rv)return;
   const showLoading=options.showLoading===true||(!options.background&&!adminAnalyticsHasRendered);
-  if(adminAnalyticsInFlight){adminAnalyticsQueued=true;return;}
+  if(adminAnalyticsInFlight){
+    adminAnalyticsQueued=true;
+    if(!options.background||options.showLoading)adminAnalyticsQueuedOptions=options;
+    else if(!adminAnalyticsQueuedOptions)adminAnalyticsQueuedOptions={background:true};
+    return;
+  }
   adminAnalyticsInFlight=true;
   if(showLoading)renderAnalyticsFallback();
   try{
   const selected=rv.value,days=selected==='all'?null:parseInt(selected,10),fetchDays=days?days*2:null,now=Date.now(),currentStart=days?now-days*86400000:0,previousStart=days?now-days*2*86400000:0;
+  try{
+    const summary=await fetchAnalyticsSummary(days);
+    renderAnalyticsSummary(summary,days,now);
+    adminAnalyticsHasRendered=true;
+    return;
+  }catch(summaryError){
+    console.warn('Fast analytics summary unavailable; falling back to legacy analytics fetch',summaryError);
+  }
   let clicks=[],dailyVisits=[],requests=[],visitorTotal=0;
   // Fetch all-time clicks so cumulative totals are accurate; period subsets are derived below.
   try{clicks=await fetchAnalyticsClicks(null);}catch(e){clicks=JSON.parse(localStorage.getItem('click_analytics')||'[]');}
@@ -4170,7 +4246,13 @@ async function renderAnalytics(options={}){
   adminAnalyticsHasRendered=true;
   }finally{
     adminAnalyticsInFlight=false;
-    if(adminAnalyticsQueued){adminAnalyticsQueued=false;scheduleAnalyticsRefresh();}
+    if(adminAnalyticsQueued){
+      const queuedOptions=adminAnalyticsQueuedOptions||{background:true};
+      adminAnalyticsQueued=false;
+      adminAnalyticsQueuedOptions=null;
+      if(queuedOptions.background&&!queuedOptions.showLoading)scheduleAnalyticsRefresh();
+      else setTimeout(()=>renderAnalytics(queuedOptions),0);
+    }
   }
 }
 // EXPORT — flexible date-range dialog
