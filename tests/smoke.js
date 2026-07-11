@@ -161,22 +161,33 @@ async function waitForServer() {
       document.querySelector('#whatsappNotes').value = 'موعد النشر حسب الاتفاق';
       updateWhatsAppPreview();
       const message = document.querySelector('#whatsappMessagePreview').value;
+      const notesVisible = !document.querySelector('#whatsappNotesField').hidden;
       let opened = '';
       const nativeOpen = window.open;
       window.open = (url) => { opened = String(url); };
       sendRequestWhatsApp();
+      openRequestWhatsApp('wa-test');
+      document.querySelector('#whatsappAdAmount').value = '';
+      updateWhatsAppPreview();
+      const blankAmountMessage = document.querySelector('#whatsappMessagePreview').value;
+      let openedWithoutAmount = '';
+      window.open = (url) => { openedWithoutAmount = String(url); };
+      sendRequestWhatsApp();
       window.open = nativeOpen;
       return {
         hasAction: !!document.querySelector('.request-row-actions > .ico-whatsapp'),
-        notesVisible: !document.querySelector('#whatsappNotesField').hidden,
+        notesVisible,
         message,
-        opened: decodeURIComponent(opened)
+        opened: decodeURIComponent(opened),
+        blankAmountMessage,
+        openedWithoutAmount: decodeURIComponent(openedWithoutAmount)
       };
     });
     if (!whatsappState.hasAction || !whatsappState.opened.includes('wa.me/966501234567') ||
         !whatsappState.message.includes('AB-123') || !whatsappState.message.includes('محمد') ||
         !whatsappState.message.includes('1500') || !whatsappState.message.includes('موعد النشر حسب الاتفاق') ||
-        !whatsappState.notesVisible) {
+        !whatsappState.notesVisible || !whatsappState.openedWithoutAmount.includes('wa.me/966501234567') ||
+        !whatsappState.blankAmountMessage.includes('—')) {
       throw new Error(`فشل مسار إرسال واتساب: ${JSON.stringify(whatsappState)}`);
     }
     console.log('✓ نجح اختبار الواجهة العامة ودخول الإدارة وإرسال واتساب');

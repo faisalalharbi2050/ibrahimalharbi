@@ -3830,10 +3830,11 @@ function sendRequestWhatsApp(){
   const r=(D.collab?.requests||[]).find(x=>x.id===id);
   if(!r){toast('تعذر العثور على الطلب');return;}
   const raw=normalizeAdAmount(document.getElementById('whatsappAdAmount')?.value);
-  if(!/^\d+(?:\.\d{1,2})?$/.test(raw)||Number(raw)<=0){toast('أدخل قيمة إعلان صحيحة');return;}
+  const hasAmount=raw.length>0;
+  if(hasAmount&&(!/^\d+(?:\.\d{1,2})?$/.test(raw)||Number(raw)<=0)){toast('أدخل قيمة إعلان صحيحة');return;}
   const phone=normalizeWhatsAppPhone(r.phone);
   if(!/^\d{8,15}$/.test(phone)){toast('رقم جوال صاحب الطلب غير صالح');return;}
-  const amount=Number(raw).toLocaleString('ar-SA',{minimumFractionDigits:0,maximumFractionDigits:2});
+  const amount=hasAmount?Number(raw).toLocaleString('ar-SA',{minimumFractionDigits:0,maximumFractionDigits:2}):'—';
   const preview=document.getElementById('whatsappMessagePreview');
   if(preview)preview.value=preview.value.replace(/\((?:—|â€”)\) ريال/g,`(${amount}) ريال`);
   const message=preview?.value.trim()||buildWhatsAppMessage(r,amount,document.getElementById('whatsappNotes')?.value||'');
