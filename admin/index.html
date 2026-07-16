@@ -617,7 +617,9 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 .export-custom input[type=date]{width:100%;border:1px solid var(--bds);border-radius:12px;padding:10px 12px;font-family:var(--fn);font-size:13px;background:#fff;color:var(--tx);outline:none}
 .export-custom input[type=date]:focus{border-color:var(--ac)}
 .export-hint{margin-top:14px;font-size:11px;color:var(--lt);line-height:1.7;background:#fafafb;border:1px solid var(--bd);border-radius:12px;padding:11px 13px}
-@media(max-width:520px){.export-presets{grid-template-columns:1fr 1fr}.export-custom .r2{grid-template-columns:1fr}}</style>
+.export-submit{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding-inline:20px;border-radius:14px;white-space:nowrap}
+.export-submit svg{width:17px;height:17px;display:block;flex:0 0 17px;fill:currentColor}
+@media(max-width:520px){.export-presets{grid-template-columns:1fr 1fr}.export-custom .r2{grid-template-columns:1fr}.modal-card-actions .export-submit{flex:1}}</style>
 </head>
 <body>
 
@@ -1120,8 +1122,8 @@ window.adminQuickLogin=async function(){
       <div class="export-hint" id="exportHint">سيشمل التقرير إجماليات النقرات التراكمية لكل القنوات مع أداء المدة المختارة.</div>
     </div>
     <div class="modal-card-actions">
-      <button class="btn-ghost" onclick="closeExportDialog()">إلغاء</button>
-      <button class="btn-save" onclick="runExport()"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>تصدير التقرير</button>
+      <button class="btn-ghost" type="button" onclick="closeExportDialog()">إلغاء</button>
+      <button class="btn-save export-submit" type="button" onclick="runExport()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg><span>تصدير التقرير</span></button>
     </div>
   </div>
 </div>
@@ -1886,7 +1888,7 @@ function enhanceAdminUi(){
       requests:'تواصل الأعمال',
       adlinks:'الروابط',
       permissions:'منح الصلاحيات',
-      settings:'الإعدادات',
+      settings:'الإعدادات',
       privacy_requests:'\u0637\u0644\u0628\u0627\u062a \u0627\u0644\u062e\u0635\u0648\u0635\u064a\u0629'
     });
     navs.forEach((el)=>{
@@ -4143,6 +4145,32 @@ async function fetchAnalyticsSummary(days){
   return typeof data==='string'?JSON.parse(data):(data||{});
 }
 
+function withExportTimeout(promise,ms=15000){
+  let timer;
+  const timeout=new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('export-timeout')),ms);});
+  return Promise.race([promise,timeout]).finally(()=>clearTimeout(timer));
+}
+
+async function fetchAnalyticsClicksBetween(start,end){
+  if(!sb)throw new Error('Supabase is not available');
+  const batchSize=1000;
+  let from=0,clicks=[];
+  while(true){
+    const {data,error}=await sb.from('clicks')
+      .select('link_id,ts,created_at,country,region,city')
+      .gte('ts',new Date(start).toISOString())
+      .lte('ts',new Date(end).toISOString())
+      .order('ts',{ascending:false})
+      .range(from,from+batchSize-1);
+    if(error)throw error;
+    const rows=data||[];
+    clicks=clicks.concat(rows);
+    if(rows.length<batchSize)break;
+    from+=batchSize;
+  }
+  return clicks;
+}
+
 function renderAnalyticsSummary(summary,days,now){
   const names=getNames();
   const socialIds=new Set((D.social||[]).map(x=>x.id));
@@ -4292,11 +4320,16 @@ async function runExport(){
 }
 async function exportPDF(range){
   range=range||{kind:'preset',v:(document.getElementById('aRange')?.value||'30')};
+  // Open immediately while this function is still inside the user's click event.
+  // Waiting for the analytics requests first causes browsers to block the report as a popup.
+  const w=window.open('','_blank');
+  if(!w){
+    toast('تعذر فتح التقرير. اسمح بالنوافذ المنبثقة لهذا الموقع ثم حاول مجددًا');
+    return false;
+  }
+  w.document.write('<!DOCTYPE html><html lang=ar dir=rtl><head><meta charset=UTF-8><title>جاري تجهيز التقرير</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#fafafb;color:#15161a;font-family:Arial,sans-serif}.loading{padding:28px;text-align:center;font-size:15px;font-weight:700}</style></head><body><div class=loading>جاري تجهيز التقرير...</div></body></html>');
+  w.document.close();
   toast('جاري تجهيز التقرير...');
-  let allClicks=[];
-  try{allClicks=await fetchAnalyticsClicks(null);}catch(e){allClicks=[];}
-  let visitors=0;try{const{data:v}=await sb.from('visitors').select('count').eq('id','counter').single();visitors=Number(v?.count||0);}catch(e){}
-  let requestsTotal=0;try{const{count}=await sb.from('collab_requests').select('id',{count:'exact',head:true});requestsTotal=Number(count||0);}catch(e){requestsTotal=(D.collab?.requests||[]).length;}
   const now=Date.now();
   // Resolve the reporting window (flexible: preset or custom from–to) and its label.
   let periodStart=0,periodEnd=now,periodLabel='كل الوقت';
@@ -4310,39 +4343,61 @@ async function exportPDF(range){
     const d=parseInt(range.v,10)||30;periodStart=now-d*86400000;periodEnd=now;
     periodLabel={'7':'آخر 7 أيام','30':'آخر 30 يومًا','90':'آخر 3 أشهر','365':'آخر سنة'}[String(range.v)]||`آخر ${d.toLocaleString('ar-SA')} يومًا`;
   }
-  const timeOf=c=>new Date(c.ts||c.created_at||0).getTime();
-  const periodClicks=allClicks.filter(c=>{const t=timeOf(c);return t>=periodStart&&t<=periodEnd;});
+  let summary,periodClicks=[];
+  try{
+    const summaryDays=range.kind==='preset'&&range.v!=='all'?(parseInt(range.v,10)||30):null;
+    const jobs=[withExportTimeout(fetchAnalyticsSummary(summaryDays))];
+    if(range.kind==='custom')jobs.push(withExportTimeout(fetchAnalyticsClicksBetween(periodStart,periodEnd)));
+    [summary,periodClicks=[]]=await Promise.all(jobs);
+  }catch(error){
+    console.error('Report analytics load failed',error);
+    const message=error?.message==='export-timeout'?'استغرق تجهيز بيانات التقرير وقتًا أطول من المتوقع. حاول مرة أخرى':'تعذر تحميل بيانات التقرير الآن. حاول مرة أخرى';
+    w.document.open();
+    w.document.write(`<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>تعذر تجهيز التقرير</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#fafafb;color:#15161a;font-family:Arial,sans-serif}.error{max-width:520px;padding:32px;text-align:center}.error h1{font-size:20px}.error p{color:#666;line-height:1.8}</style></head><body><div class="error"><h1>تعذر تجهيز التقرير</h1><p>${message}</p></div></body></html>`);
+    w.document.close();
+    toast(message);
+    return false;
+  }
+  const visitors=Number(summary?.visitorTotal??summary?.current?.visits??0);
+  const requestsTotal=Number(summary?.current?.requests||0);
   const names=getNames();
   const catLabels={social:'حساباتي',book:'مؤلفاتي',ad:'الروابط',request:'تواصل الأعمال',other:'أخرى'};
   const catOf=id=>(D.social||[]).some(s=>s.id===id)?'social':/_link_\d+$/.test(id)?'book':(D.adLinks||[]).some(p=>p.id===id)?'ad':/^advert_/.test(id)?'request':'other';
   const archivedSet=new Set((D.adLinks||[]).filter(l=>l.archived).map(l=>l.id));
   const archivedById={};(D.adLinks||[]).filter(l=>l.archived).forEach(l=>{archivedById[l.id]=l;});
-  const cum={};allClicks.forEach(c=>{const id=c.link_id||c.id;if(id)cum[id]=(cum[id]||0)+1;});
-  const per={};periodClicks.forEach(c=>{const id=c.link_id||c.id;if(id)per[id]=(per[id]||0)+1;});
+  const cum={};(summary?.cumulativeLinkCounts||[]).forEach(x=>{if(x.id)cum[x.id]=Number(x.count||0);});
+  const per={};
+  if(range.kind==='custom')periodClicks.forEach(c=>{const id=c.link_id||c.id;if(id)per[id]=(per[id]||0)+1;});
+  else (summary?.currentLinkCounts||[]).forEach(x=>{if(x.id)per[x.id]=Number(x.count||0);});
   const rows=Object.entries(cum).filter(([id])=>names[id]&&!archivedSet.has(id)).map(([id,total])=>({id,name:names[id],cat:catOf(id),total,period:per[id]||0})).sort((a,b)=>b.total-a.total);
   const archivedRows=Object.keys(archivedById).map(id=>{const l=archivedById[id];return {id,name:l.titleAr||'رابط مؤرشف',total:cum[id]||0,from:l.createdAt,to:l.archivedAt};}).sort((a,b)=>b.total-a.total);
   const cumTotal=rows.reduce((a,r)=>a+r.total,0)||0;
   const fmt=n=>Number(n||0).toLocaleString('ar-SA');
   const pct=n=>cumTotal?Math.round(n/cumTotal*100):0;
   const geoName=x=>geoLabelAr(x);
-  const geoCounts={};
-  periodClicks.forEach(c=>{
-    const label=geoName(c);
-    if(label&&label!=='\u063a\u064a\u0631 \u0645\u062d\u062f\u062f'){
-      const key=[c.country||'',c.region||'',c.city||''].join('|');
-      if(!geoCounts[key])geoCounts[key]={country:c.country||'',region:c.region||'',city:c.city||'',count:0};
-      geoCounts[key].count++;
-    }
-  });
-  const allGeoRows=Object.values(geoCounts);
-  const geoTotal=allGeoRows.reduce((a,x)=>a+x.count,0)||0;
-  const geoRows=allGeoRows.sort((a,b)=>b.count-a.count).slice(0,10);
+  let geoRows=[],geoTotal=0;
+  if(range.kind==='custom'){
+    const geoCounts={};
+    periodClicks.forEach(c=>{
+      const label=geoName(c);
+      if(label&&label!=='\u063a\u064a\u0631 \u0645\u062d\u062f\u062f'){
+        const key=[c.country||'',c.region||'',c.city||''].join('|');
+        if(!geoCounts[key])geoCounts[key]={country:c.country||'',region:c.region||'',city:c.city||'',count:0};
+        geoCounts[key].count++;
+      }
+    });
+    const allGeoRows=Object.values(geoCounts);
+    geoTotal=allGeoRows.reduce((a,x)=>a+x.count,0)||0;
+    geoRows=allGeoRows.sort((a,b)=>b.count-a.count).slice(0,10);
+  }else{
+    geoRows=(summary?.topLocations||[]).map(x=>({...x,count:Number(x.count||0)}));
+    geoTotal=Number(summary?.current?.clicks||0)||geoRows.reduce((a,x)=>a+x.count,0);
+  }
   const geoPct=n=>geoTotal?Math.round(n/geoTotal*100):0;
   const pName=D.nameAr||'المؤثر';const pTitle=D.titleAr||'';
   const genG=requestGregorianDate(now),genH=requestHijriDate(now),genT=requestTimeLabel(now);
   const refNo='IH-RPT-'+new Date().toISOString().slice(0,10).replace(/-/g,'');
   const e=v=>String(v??'').replace(/[&<>]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[ch]));
-  const w=window.open('','_blank');
   let h=`<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>تقرير الأداء — ${e(pName)}</title><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet"><style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Tajawal,sans-serif;color:#15161a;direction:rtl;background:#fff;line-height:1.6;font-size:12px}
@@ -4369,9 +4424,11 @@ tbody tr:nth-child(even){background:#fbfbfc}
 .rank{font-weight:800;color:#111;width:30px}
 .chip{display:inline-block;font-size:10px;font-weight:700;padding:3px 9px;border-radius:999px;background:#f1f2f4;color:#6b6d75}
 .num{font-weight:800;font-variant-numeric:tabular-nums}.muted{color:#8a8c93}
+.report-main-table th:nth-child(1){width:7%}.report-main-table th:nth-child(2){width:25%}.report-main-table th:nth-child(3){width:15%}.report-main-table th:nth-child(4){width:18%}.report-main-table th:nth-child(5){width:12%}.report-main-table th:nth-child(6){width:23%}
 .note{margin-top:26px;border:1px solid #e7e7ea;border-radius:14px;padding:14px 16px;font-size:11px;color:#6b6d75;line-height:1.9;background:#fafafb}
+.note ul{margin:8px 18px 0 0;padding:0}.note li{margin:3px 0;padding-inline-start:3px}
 .ft{margin-top:22px;padding-top:14px;border-top:1px solid #ececef;display:flex;justify-content:space-between;font-size:10.5px;color:#9a9ca3}
-@media print{body{font-size:11px}.page{padding:0}h2{break-after:avoid}table,tr,.kpi,.cover{break-inside:avoid}@page{margin:14mm}}
+@media print{html,body{width:100%;overflow:visible}body{font-size:10px}.page{width:100%;max-width:none;padding:0 2mm}h2,.sub{break-after:avoid-page;page-break-after:avoid}table{width:100%;max-width:100%;table-layout:fixed;font-size:9.5px;break-inside:auto}thead{display:table-header-group}th,td{padding:7px 8px;white-space:normal;overflow-wrap:anywhere;word-break:normal}tr,.kpi,.cover,.note{break-inside:avoid;page-break-inside:avoid}.report-main-section{break-before:page;page-break-before:always}@page{size:A4 portrait;margin:14mm 12mm}}
 </style></head><body><div class="page">
   <div class="cover">
     <div class="who"><h1>${e(pName)}</h1><p>${e(pTitle)}</p></div>
@@ -4390,21 +4447,22 @@ tbody tr:nth-child(even){background:#fbfbfc}
   else h+='\u003ctr\u003e\u003ctd colspan="4" style="text-align:center;color:#9a9ca3;padding:18px"\u003e\u0644\u0627 \u062a\u0648\u062c\u062f \u0628\u064a\u0627\u0646\u0627\u062a \u062f\u0648\u0644 \u0623\u0648 \u0645\u062f\u0646 \u0645\u0633\u062c\u0644\u0629 \u0636\u0645\u0646 \u0647\u0630\u0647 \u0627\u0644\u0641\u062a\u0631\u0629.\u003c/td\u003e\u003c/tr\u003e';
   h+='</tbody></table>';
   h+=`<div class="note"><b>\u062a\u0646\u0628\u064a\u0647 \u062d\u0648\u0644 \u0627\u0644\u0645\u0648\u0642\u0639 \u0627\u0644\u062c\u063a\u0631\u0627\u0641\u064a:</b> \u0627\u0644\u0645\u062f\u064a\u0646\u0629 \u0648\u0627\u0644\u062f\u0648\u0644\u0629 \u0645\u0624\u0634\u0631\u0627\u062a \u062a\u0642\u0631\u064a\u0628\u064a\u0629 \u0645\u0633\u062a\u0646\u062f\u0629 \u0625\u0644\u0649 \u0634\u0628\u0643\u0629 \u0627\u0644\u0632\u0627\u0626\u0631\u060c \u0648\u0644\u0627 \u064a\u062a\u0645 \u062a\u062e\u0632\u064a\u0646 \u0639\u0646\u0648\u0627\u0646 IP \u0627\u0644\u062d\u0642\u064a\u0642\u064a \u0623\u0648 \u0637\u0644\u0628 \u0625\u0630\u0646 \u0645\u0648\u0642\u0639 GPS \u0645\u0646 \u0627\u0644\u0645\u0633\u062a\u062e\u062f\u0645.</div>`;
-  h+=`<h2>إجمالي النقرات التراكمية حسب القسم</h2><div class="sub">مجموع النقرات منذ إطلاق المنصة، مرتبة من الأعلى تفاعلًا.</div>`;
-  h+=`<table><thead><tr><th>#</th><th>العنصر</th><th>التصنيف</th><th>النقرات التراكمية</th><th>الحصة</th><th>خلال ${e(periodLabel)}</th></tr></thead><tbody>`;
+  h+=`<section class="report-main-section"><h2>إجمالي النقرات التراكمية حسب القسم</h2><div class="sub">مجموع النقرات منذ إطلاق المنصة، مرتبة من الأعلى تفاعلًا.</div>`;
+  h+=`<table class="report-main-table"><thead><tr><th>#</th><th>العنصر</th><th>التصنيف</th><th>النقرات التراكمية</th><th>الحصة</th><th>خلال ${e(periodLabel)}</th></tr></thead><tbody>`;
   if(rows.length)rows.forEach((r,i)=>{h+=`<tr><td class="rank">${fmt(i+1)}</td><td>${e(r.name)}</td><td><span class="chip">${catLabels[r.cat]||catLabels.other}</span></td><td class="num">${fmt(r.total)}</td><td class="muted">${pct(r.total)}%</td><td class="num">${fmt(r.period)}</td></tr>`;});
   else h+='<tr><td colspan="6" style="text-align:center;color:#9a9ca3;padding:18px">لا توجد نقرات مسجّلة بعد.</td></tr>';
-  h+='</tbody></table>';
+  h+='</tbody></table></section>';
   if(archivedRows.length){
     h+=`<h2>روابط مؤرشفة</h2><div class="sub">روابط أُوقفت سابقًا، مع إجمالي نقراتها ومدّة نشاطها قبل الأرشفة.</div>`;
     h+=`<table><thead><tr><th>الرابط</th><th>النقرات التراكمية</th><th>مدة النشاط</th></tr></thead><tbody>`;
     archivedRows.forEach(r=>{const period=(r.from?requestGregorianDate(r.from):'غير محدد')+' ← '+(r.to?requestGregorianDate(r.to):'—');h+=`<tr><td>${e(r.name)}</td><td class="num">${fmt(r.total)}</td><td class="muted">${e(period)}</td></tr>`;});
     h+='</tbody></table>';
   }
-  h+=`<div class="note"><b>ملاحظة منهجية:</b> تُحتسب النقرة عند تفاعل زائر فعلي مع أحد روابط المنصة، وتُجمَّع الزيارات يوميًا بتوقيت السعودية. تُحدَّث هذه الأرقام لحظيًا ويمكن التحقق منها من لوحة التحكم الرسمية. هذا التقرير وثيقة قياس أداء معتمدة يمكن الاستناد إليها عند تقييم الفرص الإعلانية.</div>`;
+  h+=`<div class="note"><b>ملاحظة:</b><ul><li>هذا التقرير وثيقة قياس أداء معتمدة يمكن الاستناد إليها.</li><li>تُحتسب النقرة عند تفاعل زائر فعلي مع أحد روابط المنصة، وتُجمَّع الزيارات يوميًا بتوقيت السعودية.</li><li>تُحدَّث الأرقام لحظيًا.</li></ul></div>`;
   h+=`<div class="ft"><span>تقرير صادر رسميًا عن منصة ${e(pName)}</span><span>${e(refNo)} · ${e(genG)}</span></div>`;
   h+=`</div><scr`+`ipt>window.onload=()=>setTimeout(()=>window.print(),350)<\/scr`+`ipt></body></html>`;
-  w.document.write(h);w.document.close();toast('تم فتح التقرير للطباعة أو الحفظ كـ PDF');
+  w.document.open();w.document.write(h);w.document.close();toast('تم فتح التقرير للطباعة أو الحفظ كـ PDF');
+  return true;
 }
 
 // SETTINGS
