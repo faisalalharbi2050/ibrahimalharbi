@@ -176,6 +176,7 @@ body{font-family:var(--fn);font-weight:var(--fw-r);background:linear-gradient(18
 .card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--bd)}
 .card-title{font-size:14px;font-weight:var(--fw-b)}
 .card-sub{font-size:11px;color:var(--mt);margin-top:2px}
+.requests-card-sub{font-size:13px;font-weight:var(--fw-sb);color:var(--tx)}
 .panel-title{font-size:19px;font-weight:var(--fw-b);margin-bottom:12px}
 .section-heading{font-size:15px;font-weight:var(--fw-b);margin:18px 0 10px;color:var(--tx)}
 .section-heading:first-child{margin-top:0}
@@ -669,7 +670,7 @@ window.adminQuickLogin=async function(){
       <div class="ns">القائمة</div>
       <div class="ni" onclick="nav('analytics',this)"><svg viewBox="0 0 24 24"><path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/></svg>الرئيسية</div>
       <div class="ni" onclick="nav('adlinks',this)"><svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>الروابط</div>
-      <div class="ni" onclick="nav('requests',this)"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 4-7 4.5L5 7V5l7 4.5L19 5v2z"/></svg>طلبات الإعلان</div>
+      <div class="ni" onclick="nav('requests',this)"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 4-7 4.5L5 7V5l7 4.5L19 5v2z"/></svg>تواصل الأعمال</div>
       <div class="ni" onclick="nav('privacy_requests',this)"><svg viewBox="0 0 24 24"><path d="M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 15-4-4 1.41-1.41L11 13.17l5.59-5.59L18 9l-7 7z"/></svg>طلبات الخصوصية</div>
       <div class="ni" onclick="nav('books',this)"><svg viewBox="0 0 24 24"><path d="M12 6.1C10.55 5.3 8.85 4.9 6.9 4.9c-1.15 0-2.27.14-3.35.42-.46.12-.78.53-.78 1v12.05c0 .66.61 1.15 1.25 1 1-.25 1.96-.37 2.88-.37 1.7 0 3.18.33 4.44.99.41.22.91.22 1.32 0C13.92 19.33 15.4 19 17.1 19c.92 0 1.88.12 2.88.37.64.15 1.25-.34 1.25-1V6.32c0-.47-.32-.88-.78-1A13.44 13.44 0 0 0 17.1 4.9c-1.95 0-3.65.4-5.1 1.2zm-1.05 11.35c-1.18-.45-2.53-.68-4.05-.68-.69 0-1.39.06-2.1.17V7.18c.69-.12 1.39-.18 2.1-.18 1.55 0 2.9.29 4.05.87v9.58zm2.1 0V7.87C14.2 7.29 15.55 7 17.1 7c.71 0 1.41.06 2.1.18v9.76c-.71-.11-1.41-.17-2.1-.17-1.52 0-2.87.23-4.05.68z"/></svg>مؤلفاتي</div>
       <div class="ni" onclick="nav('profile',this)"><svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>بياناتي</div>
@@ -704,7 +705,7 @@ window.adminQuickLogin=async function(){
                 <div class="notif-panel" id="notifPanel" onclick="event.stopPropagation()">
                   <div class="notif-head">
                     <div>
-                      <strong>إشعارات طلبات الإعلان</strong>
+                      <strong>إشعارات تواصل الأعمال</strong>
                       <span>اطّلع على أحدث الطلبات أو افتح القسم الكامل.</span>
                     </div>
                     <button class="notif-close" type="button" onclick="closeNotificationsPanel()" aria-label="إغلاق">×</button>
@@ -728,7 +729,7 @@ window.adminQuickLogin=async function(){
       <!-- ANALYTICS -->
       <div class="panel" id="panel-analytics">
         <div class="analytics-page-head">
-          <div><span class="analytics-eyebrow">الرئيسية</span><h2 class="panel-title">نظرة شاملة على أداء الموقع</h2><p>قراءة موحدة للزيارات والتفاعل وطلبات الإعلان، بتوقيت المملكة العربية السعودية.</p></div>
+          <div><span class="analytics-eyebrow">الرئيسية</span><h2 class="panel-title">نظرة شاملة على أداء الموقع</h2><p>قراءة موحدة للزيارات والتفاعل وتواصل الأعمال، بتوقيت المملكة العربية السعودية.</p></div>
           <div class="stats-toolbar">
             <select id="aRange" onchange="renderAnalytics()" aria-label="الفترة الزمنية">
               <option value="7">آخر 7 أيام</option><option value="30" selected>آخر 30 يومًا</option><option value="90">آخر 3 أشهر</option><option value="all">كل الوقت</option>
@@ -874,7 +875,7 @@ window.adminQuickLogin=async function(){
             <div class="add-form-title">إضافة شريك أو إعلان</div>
             <div class="field"><label>الاسم</label><input id="pName" placeholder="اسم الجمعية أو الشركة"></div>
             <div class="field"><label>وصف مختصر</label><input id="pDesc" placeholder="وصف قصير"></div>
-            <div class="field"><label>نص زر الدعم</label><input id="pCta" placeholder="ادعم الآن"></div>
+            <div class="field"><label>نص زر الرابط</label><input id="pCta" placeholder="فتح الرابط"></div>
             <div class="field"><label>رابط الإعلان</label><input id="pUrl" placeholder="https://..." dir="ltr"></div>
             <div class="form-btns">
               <button class="btn-save" onclick="addPartner()">إضافة</button>
@@ -886,7 +887,7 @@ window.adminQuickLogin=async function(){
 
       <!-- COLLAB -->
       <div class="panel" id="panel-collab">
-        <h2 class="panel-title">التعاون والإعلان</h2>
+        <h2 class="panel-title">تواصل الأعمال</h2>
         <div class="card">
           <div class="card-hd">
             <div class="card-title">إعدادات القسم</div>
@@ -895,10 +896,10 @@ window.adminQuickLogin=async function(){
               <label class="toggle"><input type="checkbox" id="collabVisible" checked onchange="toggleSection('collab',this.checked)"><div class="track"></div></label>
             </div>
           </div>
-          <div class="field"><label>عنوان القسم</label><input id="collabTitle" placeholder="للدعم والإعلان تواصل معنا"></div>
-          <div class="field"><label>وصف مختصر</label><textarea id="collabSub" placeholder="يظهر أسفل العنوان لتوضيح آلية الإعلان والدعم"></textarea></div>
+          <div class="field"><label>عنوان القسم</label><input id="collabTitle" placeholder="لتواصل الأعمال"></div>
+          <div class="field"><label>وصف مختصر</label><textarea id="collabSub" placeholder="يظهر أسفل العنوان لتوضيح آلية تواصل الأعمال"></textarea></div>
           <div class="field"><label>ملاحظة عامة</label><textarea id="collabNotice" placeholder="مثال: نعتذر عن قبول بعض الطلبات غير المتوافقة مع هوية الحساب"></textarea></div>
-          <div class="field"><label>نص زر الدخول</label><input id="collabEntryLabel" placeholder="استعراض الفئات والأسعار"></div>
+          <div class="field"><label>نص زر الدخول</label><input id="collabEntryLabel" placeholder="تواصل معنا"></div>
           <div class="r2">
             <div class="field"><label>عدد المتابعين</label><input id="collabFollowers" placeholder="+500K"></div>
             <div class="field"><label>النقرات الشهرية</label><input id="collabClicks" placeholder="+10K"></div>
@@ -940,7 +941,7 @@ window.adminQuickLogin=async function(){
           </div>
         </div>
         <div class="card">
-          <div class="card-hd"><div><div class="card-title">طلبات الإعلان</div><div class="card-sub">الطلبات الواردة من الواجهة العامة</div></div></div>
+          <div class="card-hd"><div><div class="card-sub requests-card-sub">الطلبات الواردة</div></div></div>
           <div class="request-tools">
             <input id="requestSearchInput" placeholder="بحث بالرقم، الاسم، الجهة، الجوال، المنتج أو الملاحظات..." oninput="renderRequests()">
             <select id="requestStatusFilter" onchange="renderRequests()">
@@ -1076,12 +1077,12 @@ window.adminQuickLogin=async function(){
   <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="whatsappModalTitle">
     <div class="modal-card-hd">
       <div class="modal-badge"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm.056 2.16a9.84 9.84 0 0 1 8.36 15.04l-.23.37.99 3.61-3.7-.97-.35.21A9.82 9.82 0 0 1 2.16 12 9.85 9.85 0 0 1 12 2.16zm-3.09 4.7c-.19 0-.5.07-.76.36-.27.29-1.02 1-1.02 2.44s1.04 2.83 1.18 3.02c.14.19 2.06 3.14 4.99 4.39.7.3 1.26.48 1.68.61.71.22 1.34.19 1.85.11.57-.08 1.74-.71 1.99-1.38.25-.67.25-1.27.17-1.38-.08-.11-.29-.2-.58-.34-.29-.14-1.72-.85-2-.95-.27-.1-.46-.14-.66.14-.19.29-.74.95-.91 1.15-.17.2-.34.23-.63.08-.29-.14-1.21-.45-2.31-1.44-.85-.76-1.42-1.7-1.6-2-.17-.29-.02-.45.12-.59.12-.12.29-.34.43-.5.14-.16.19-.29.29-.49.1-.2.05-.37-.03-.51-.08-.14-.66-1.58-.9-2.16-.24-.57-.49-.49-.67-.5h-.57z"/></svg></div>
-      <div class="modal-card-title" id="whatsappModalTitle">إرسال عرض الإعلان عبر واتساب</div>
+      <div class="modal-card-title" id="whatsappModalTitle">إرسال عرض التواصل عبر واتساب</div>
     </div>
     <div class="modal-card-body">
       <input type="hidden" id="whatsappRequestId">
       <div class="whatsapp-request-summary"><div><span>صاحب الطلب</span><strong id="whatsappRequestName">—</strong></div><div><span>رقم الجوال</span><strong id="whatsappRequestPhone" dir="ltr">—</strong></div></div>
-      <div class="whatsapp-amount-field"><label for="whatsappAdAmount">قيمة الإعلان (ريال)</label><input id="whatsappAdAmount" type="text" inputmode="decimal" autocomplete="off" placeholder="أدخل قيمة الإعلان" oninput="updateWhatsAppPreview()"></div>
+      <div class="whatsapp-amount-field"><label for="whatsappAdAmount">قيمة الطلب (ريال)</label><input id="whatsappAdAmount" type="text" inputmode="decimal" autocomplete="off" placeholder="أدخل قيمة الطلب" oninput="updateWhatsAppPreview()"></div>
       <button class="whatsapp-note-toggle" id="whatsappNoteToggle" type="button" onclick="toggleWhatsAppNotes()">إضافة ملاحظات</button>
       <div class="whatsapp-notes-field" id="whatsappNotesField" hidden><label for="whatsappNotes">الملاحظات الإضافية</label><textarea id="whatsappNotes" placeholder="اكتب الملاحظات التي ستظهر بعد القالب الجاهز" oninput="updateWhatsAppPreview()"></textarea></div>
       <textarea class="whatsapp-message-preview" id="whatsappMessagePreview" aria-label="رسالة واتساب القابلة للتعديل"></textarea>
@@ -1260,7 +1261,7 @@ document.addEventListener('input',event=>{
 const PERMISSION_SECTIONS=[
   {id:'analytics',label:'الرئيسية'},
   {id:'adlinks',label:'الروابط'},
-  {id:'requests',label:'طلبات الإعلان'},
+  {id:'requests',label:'تواصل الأعمال'},
   {id:'books',label:'مؤلفاتي'},
   {id:'profile',label:'بياناتي'},
   {id:'social',label:'حساباتي'},
@@ -1882,7 +1883,7 @@ function enhanceAdminUi(){
       profile:'بياناتي',
       social:'حساباتي',
       books:'مؤلفاتي',
-      requests:'طلبات الإعلان',
+      requests:'تواصل الأعمال',
       adlinks:'الروابط',
       permissions:'منح الصلاحيات',
       settings:'الإعدادات',
@@ -1935,7 +1936,7 @@ function enhanceAdminUi(){
         requestsPanel=document.createElement('div');
         requestsPanel.className='panel';
         requestsPanel.id='panel-requests';
-        requestsPanel.innerHTML='<h2 class="panel-title">طلبات الإعلان</h2>';
+        requestsPanel.innerHTML='<h2 class="panel-title">تواصل الأعمال</h2>';
         collabPanel.insertAdjacentElement('afterend',requestsPanel);
       }
       requestsPanel.appendChild(requestsCard);
@@ -2000,7 +2001,7 @@ function enhanceAdminUi(){
         </div>
       </div>`;
   }
-  setPanelHeading('panel-requests','طلبات الإعلان');
+  setPanelHeading('panel-requests','تواصل الأعمال');
   setPanelHeading('panel-adlinks','الروابط');
   const settingsPanel=document.getElementById('panel-settings');
   if(settingsPanel){
@@ -2207,6 +2208,7 @@ async function loadAll(){
     const socialChanged=ensureSocialDefaults();
     if(socialChanged&&allowDefaultSave)save();
     const setValue=(id,value)=>{const el=document.getElementById(id);if(el)el.value=value||'';};
+    const normalizeBusinessContactTitle=value=>{const title=String(value||'').trim();return (!title||title==='\u0644\u0644\u0625\u0639\u0644\u0627\u0646'||title==='\u0644\u0644\u062f\u0639\u0645 \u0648\u0627\u0644\u0625\u0639\u0644\u0627\u0646 \u062a\u0648\u0627\u0635\u0644 \u0645\u0639\u0646\u0627')?'لتواصل الأعمال':title;};
     ['nameAr','titleAr','bioAr'].forEach(k=>{const el=document.getElementById(k);if(el)el.value=D[k]||'';});
     const mwEl=document.getElementById('mowthooqNum');if(mwEl)mwEl.value=D.mowthooqNum||'';
     if(D.avatar){
@@ -2215,7 +2217,7 @@ async function loadAll(){
     }
     document.getElementById('booksVisible').checked=!D.sectionsOff.books;
     if(document.getElementById('adLinksVisible'))document.getElementById('adLinksVisible').checked=!D.sectionsOff.adLinks;
-    setValue('collabTitle',D.collab.heroTitleAr);
+    setValue('collabTitle',normalizeBusinessContactTitle(D.collab.heroTitleAr));
     setValue('collabSub',D.collab.heroSubAr);
     setValue('collabNotice',D.collab.noticeAr);
     setValue('collabEntryLabel',D.collab.entryLabelAr);
@@ -2616,7 +2618,7 @@ function renderPerformanceChart(series){
 function renderAnalyticsDashboard(model){
   const nf=n=>Number(n||0).toLocaleString('ar-SA');
   const geoName=x=>geoLabelAr(x);
-  const cards=[['visits','إجمالي الزيارات',model.current.visits,model.previous?.visits],['clicks','إجمالي النقرات',model.current.clicks,model.previous?.clicks],['requests','إجمالي طلبات الإعلان',model.current.requests,model.previous?.requests]];
+  const cards=[['visits','إجمالي الزيارات',model.current.visits,model.previous?.visits],['clicks','إجمالي النقرات',model.current.clicks,model.previous?.clicks],['requests','إجمالي تواصل الأعمال',model.current.requests,model.previous?.requests]];
   document.getElementById('statsGrid').innerHTML=cards.map(([type,label,value])=>`<article class="analytics-kpi"><div class="analytics-kpi-top"><span class="analytics-kpi-label">${label}</span><span class="analytics-kpi-icon">${analyticsIcon(type)}</span></div><div class="analytics-kpi-value">${nf(value)}</div></article>`).join('');
   const statusColors={new:'#5577c5',review:'#7b6fc2',contacted:'#c4973a',approved:'#43825a',rejected:'#bc5656',archived:'#8b8f97'},statusLabels={new:'جديد',review:'قيد المراجعة',contacted:'تم التواصل',approved:'تمت الموافقة',rejected:'مرفوض',archived:'مؤرشف'};
   const entries=Object.entries(model.statuses).filter(([,n])=>n>0),total=entries.reduce((a,[,n])=>a+n,0);let at=0;const stops=entries.map(([k,n])=>{const from=at;at+=n/Math.max(total,1)*100;return `${statusColors[k]||'#999'} ${from}% ${at}%`}).join(',');
@@ -2631,7 +2633,7 @@ function renderAnalyticsDashboard(model){
   const cumEl=document.getElementById('cumulativeClicksVisual');
   const cumSummary=document.getElementById('cumulativeClicksSummary');
   if(cumEl){
-    const catLabels={social:'حساباتي',book:'مؤلفاتي',ad:'الروابط',request:'طلبات الإعلان',other:'أخرى'};
+    const catLabels={social:'حساباتي',book:'مؤلفاتي',ad:'الروابط',request:'تواصل الأعمال',other:'أخرى'};
     const lt=model.linkTotals||[];
     if(cumSummary)cumSummary.innerHTML=`<div class="cum-summary"><div class="cum-stat"><span class="cum-stat-l">إجمالي النقرات</span><span class="cum-stat-v">${nf(model.cumulativeTotal)}</span></div><div class="cum-stat-divider"></div><div class="cum-stat"><span class="cum-stat-l">عناصر مُتتبَّعة</span><span class="cum-stat-v">${nf(lt.length)}</span></div></div>`;
     const rows=lt.length?lt.map((x,i)=>`<tr><td><span class="cumulative-rank">${nf(i+1)}</span></td><td><span class="cumulative-link-name" title="${esc(x.name)}">${esc(x.name)}</span></td><td><span class="interaction-chip">${catLabels[x.category]||catLabels.other}</span></td><td><span class="cumulative-count">${nf(x.count)}</span></td></tr>`).join(''):'<tr><td colspan="4" style="text-align:center;color:var(--mt);padding:24px">لا توجد نقرات مسجلة بعد على أي عنصر.</td></tr>';
@@ -2843,7 +2845,7 @@ async function addPartner(){
   if(!nameAr||!url){toast('أدخل الاسم والرابط');return;}
   toast('جاري الإضافة...');
   const descAr=document.getElementById('pDesc').value.trim();
-  const ctaAr=document.getElementById('pCta').value.trim()||'ادعم الآن';
+  const ctaAr=document.getElementById('pCta').value.trim()||'فتح الرابط';
   let nameEn=nameAr,descEn=descAr,ctaEn='Support Now';
   try{
     const en=await secureTranslate({name:nameAr,desc:descAr,cta:ctaAr},200);
@@ -3058,7 +3060,7 @@ function renderAdLinks(){
     return;
   }
   if(!active.length){
-    list.innerHTML='<div class="books-empty-admin" style="display:block">أضف أول رابط إعلان أو دعم ليظهر هذا القسم هنا.</div>';
+    list.innerHTML='<div class="books-empty-admin" style="display:block">أضف أول رابط ليظهر هذا القسم هنا.</div>';
     return;
   }
   const grid=document.createElement('div');
@@ -3127,7 +3129,7 @@ async function deleteAdLinkPermanent(id){
 }
 // COLLAB
 async function saveCollab(){
-  const titleAr=document.getElementById('collabTitle').value.trim();
+  const titleAr=(document.getElementById('collabTitle').value.trim()||'لتواصل الأعمال');
   D.collab.heroTitleAr=titleAr;
   D.collab.heroSubAr=document.getElementById('collabSub').value.trim();
   D.collab.noticeAr=document.getElementById('collabNotice').value.trim();
@@ -3731,7 +3733,7 @@ function openRequestDetails(id){
   const title=document.getElementById('requestDetailTitle');
   const body=document.getElementById('requestDetailBody');
   const modal=document.getElementById('requestDetailModal');
-  if(title)title.textContent='تفاصيل طلب الإعلان';
+  if(title)title.textContent='طلب تواصل';
   const statusLabel=r.archived?'مؤرشف':(labels[r.status]||labels.new);
   const dateLine=`${requestDayName(r.created_at)} · ${requestHijriDate(r.created_at)} · ${requestGregorianDate(r.created_at)}`;
   const timeLine=requestTimeLabel(r.created_at);
@@ -3759,7 +3761,7 @@ function openRequestDetails(id){
         ${field('المنتج أو الخدمة',r.product||r.goal)}
       </div>
       ${field('المنصات المطلوبة',r.platforms)}
-      ${field('تفاصيل الإعلان',r.notes,{wide:true})}
+      ${field('تفاصيل الطلب',r.notes,{wide:true})}
       ${r.internalNotes&&r.internalNotes.trim()?field('ملاحظات داخلية',r.internalNotes,{wide:true}):''}
     </div>`;
   }
@@ -3784,7 +3786,7 @@ function normalizeAdAmount(value){
 }
 function buildWhatsAppMessage(r,amount,notes=''){
   const date=`${requestHijriDate(r.created_at)} - ${requestGregorianDate(r.created_at)}`;
-  const base=`السلام عليكم ورحمة الله وبركاته\nالمكرم (${r.name||'صاحب الطلب'})\nنسعد ونتشرف بتواصلكم معنا\n\n* بخصوص طلب الإعلان رقم (${r.requestNo||r.id||''}) وتاريخ (${date}) نفيدكم بأن قيمة الإعلان (${amount||'—'}) ريال\n* في حال موافقتكم على القيمة نأمل إشعارنا مع تزويدنا بالتراخيص الرسمية`;
+  const base=`السلام عليكم ورحمة الله وبركاته\nالمكرم (${r.name||'صاحب الطلب'})\nنسعد ونتشرف بتواصلكم معنا\n\n* بخصوص طلب التواصل رقم (${r.requestNo||r.id||''}) وتاريخ (${date}) نفيدكم بأن قيمة الطلب (${amount||'—'}) ريال\n* في حال موافقتكم على القيمة نأمل إشعارنا مع تزويدنا بالتراخيص الرسمية`;
   return notes.trim()?`${base}\n\n${notes.trim()}`:base;
 }
 function openRequestWhatsApp(id){
@@ -3831,7 +3833,7 @@ function sendRequestWhatsApp(){
   if(!r){toast('تعذر العثور على الطلب');return;}
   const raw=normalizeAdAmount(document.getElementById('whatsappAdAmount')?.value);
   const hasAmount=raw.length>0;
-  if(hasAmount&&(!/^\d+(?:\.\d{1,2})?$/.test(raw)||Number(raw)<=0)){toast('أدخل قيمة إعلان صحيحة');return;}
+  if(hasAmount&&(!/^\d+(?:\.\d{1,2})?$/.test(raw)||Number(raw)<=0)){toast('أدخل قيمة طلب صحيحة');return;}
   const phone=normalizeWhatsAppPhone(r.phone);
   if(!/^\d{8,15}$/.test(phone)){toast('رقم جوال صاحب الطلب غير صالح');return;}
   const amount=hasAmount?Number(raw).toLocaleString('ar-SA',{minimumFractionDigits:0,maximumFractionDigits:2}):'—';
@@ -3851,7 +3853,7 @@ function exportRequestsExcel(){
   const labels=requestStatusLabels();
   const rows=getFilteredRequests();
   if(!rows.length){toast('لا توجد طلبات لتصديرها');return;}
-  const headers=['رقم الطلب','الحالة','مؤرشف','تاريخ الإرسال','نوع الطلب','الاسم','الجهة / الشركة','الجوال','منتج الإعلان','المنصات','تفاصيل الطلب','ملاحظات داخلية','مصدر الحفظ'];
+  const headers=['رقم الطلب','الحالة','مؤرشف','تاريخ الإرسال','نوع الطلب','الاسم','الجهة / الشركة','الجوال','المنتج أو الخدمة','المنصات','تفاصيل الطلب','ملاحظات داخلية','مصدر الحفظ'];
   const widths=[120,110,80,180,130,150,180,140,190,210,320,260,120];
   const statusFilter=document.getElementById('requestStatusFilter')?.selectedOptions?.[0]?.textContent||'الطلبات النشطة';
   const sortLabel=document.getElementById('requestSortSelect')?.selectedOptions?.[0]?.textContent||'الأحدث أولًا';
@@ -3864,7 +3866,7 @@ function exportRequestsExcel(){
     labels[r.status]||labels.new,
     r.archived?'نعم':'لا',
     r.created_at?new Date(r.created_at).toLocaleString('ar-SA',{timeZone:'Asia/Riyadh'}):'',
-    r.planTitle||'طلب إعلان',
+    r.planTitle||'طلب تواصل',
     r.name,
     r.company,
     r.phone,
@@ -3884,7 +3886,7 @@ function exportRequestsExcel(){
     tr:nth-child(even) td{background:#fbfcfd}
     .ltr{direction:ltr;text-align:right;mso-number-format:"\\@"}
     .text{mso-number-format:"\\@"}
-  </style></head><body><table>${colgroup}<tr class="title"><td colspan="${headers.length}">تقرير طلبات الإعلان</td></tr><tr class="meta"><td colspan="${headers.length}">تاريخ التصدير: ${excelHtml(exportedAt)} | عدد السجلات: ${rows.length} | التصفية: ${excelHtml(statusFilter)} | الترتيب: ${excelHtml(sortLabel)} | البحث: ${excelHtml(search)}</td></tr><tr>${head}</tr>${bodyRows}</table></body></html>`;
+  </style></head><body><table>${colgroup}<tr class="title"><td colspan="${headers.length}">تقرير تواصل الأعمال</td></tr><tr class="meta"><td colspan="${headers.length}">تاريخ التصدير: ${excelHtml(exportedAt)} | عدد السجلات: ${rows.length} | التصفية: ${excelHtml(statusFilter)} | الترتيب: ${excelHtml(sortLabel)} | البحث: ${excelHtml(search)}</td></tr><tr>${head}</tr>${bodyRows}</table></body></html>`;
   const blob=new Blob(['\ufeff'+html],{type:'application/vnd.ms-excel;charset=utf-8'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
@@ -4311,7 +4313,7 @@ async function exportPDF(range){
   const timeOf=c=>new Date(c.ts||c.created_at||0).getTime();
   const periodClicks=allClicks.filter(c=>{const t=timeOf(c);return t>=periodStart&&t<=periodEnd;});
   const names=getNames();
-  const catLabels={social:'حساباتي',book:'مؤلفاتي',ad:'الروابط',request:'طلبات الإعلان',other:'أخرى'};
+  const catLabels={social:'حساباتي',book:'مؤلفاتي',ad:'الروابط',request:'تواصل الأعمال',other:'أخرى'};
   const catOf=id=>(D.social||[]).some(s=>s.id===id)?'social':/_link_\d+$/.test(id)?'book':(D.adLinks||[]).some(p=>p.id===id)?'ad':/^advert_/.test(id)?'request':'other';
   const archivedSet=new Set((D.adLinks||[]).filter(l=>l.archived).map(l=>l.id));
   const archivedById={};(D.adLinks||[]).filter(l=>l.archived).forEach(l=>{archivedById[l.id]=l;});
@@ -4380,7 +4382,7 @@ tbody tr:nth-child(even){background:#fbfbfc}
     <div class="kpi"><div class="v">${fmt(visitors)}</div><div class="l">إجمالي الزيارات</div></div>
     <div class="kpi"><div class="v">${fmt(cumTotal)}</div><div class="l">إجمالي النقرات التراكمية</div></div>
     <div class="kpi"><div class="v">${fmt(rows.length)}</div><div class="l">عناصر مُتتبَّعة</div></div>
-    <div class="kpi"><div class="v">${fmt(requestsTotal)}</div><div class="l">طلبات الإعلان</div></div>
+    <div class="kpi"><div class="v">${fmt(requestsTotal)}</div><div class="l">تواصل الأعمال</div></div>
   </div>`;
   h+=`<h2>\u0623\u0643\u062b\u0631 \u0627\u0644\u062f\u0648\u0644 \u0648\u0627\u0644\u0645\u062f\u0646 \u062a\u0641\u0627\u0639\u0644\u064b\u0627</h2><div class="sub">\u062a\u0648\u0632\u064a\u0639 \u062a\u0642\u0631\u064a\u0628\u064a \u0644\u0646\u0642\u0631\u0627\u062a \u0627\u0644\u0641\u062a\u0631\u0629 \u062d\u0633\u0628 \u0634\u0628\u0643\u0629 \u0627\u0644\u0632\u0627\u0626\u0631\u060c \u0628\u062f\u0648\u0646 \u062a\u062e\u0632\u064a\u0646 \u0639\u0646\u0648\u0627\u0646 IP \u0627\u0644\u062d\u0642\u064a\u0642\u064a \u0623\u0648 \u0637\u0644\u0628 \u0645\u0648\u0642\u0639 GPS.</div>`;
   h+=`<table><thead><tr><th>#</th><th>\u0627\u0644\u062f\u0648\u0644\u0629 / \u0627\u0644\u0645\u062f\u064a\u0646\u0629</th><th>\u0627\u0644\u0646\u0642\u0631\u0627\u062a</th><th>\u0627\u0644\u0646\u0633\u0628\u0629</th></tr></thead><tbody>`;

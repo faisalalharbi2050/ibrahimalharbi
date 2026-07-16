@@ -154,8 +154,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
   animation:up .5s ease both;
   box-shadow:0 4px 14px rgba(120,128,140,.05);
 }
-.collab-title{font-family:var(--fn);font-size:23px;font-weight:var(--fw-b);letter-spacing:-.2px;color:var(--tx);margin-bottom:8px;display:flex;align-items:center;gap:9px;justify-content:flex-start}
-.collab-title::before{content:'';flex:0 0 auto;width:4px;height:18px;border-radius:4px;background:var(--ac)}
+.collab-title{font-family:var(--fn);font-size:14px;font-weight:var(--fw-b);color:var(--tx);margin-bottom:8px;display:flex;align-items:center;gap:9px;justify-content:flex-start}
+.collab-title::before{content:'';flex:0 0 auto;width:4px;height:16px;border-radius:4px;background:var(--ac)}
 .collab-sub{font-size:13px;color:var(--mt);line-height:1.85;max-width:420px;margin:0 0 18px}
 .collab-stats{display:flex;justify-content:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
 .cstat{min-width:86px;padding:10px 12px;border-radius:18px;background:rgba(247,247,248,.92);border:1px solid rgba(15,23,42,.06);text-align:center}
@@ -170,23 +170,23 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
   gap:9px;
   background:#111;
   color:#fff;
-  padding:14px 28px;
+  padding:12px 24px;
   border-radius:16px;
   font-family:var(--fn);
-  font-size:15px;
+  font-size:14px;
   font-weight:var(--fw-sb);
   text-decoration:none;
   cursor:pointer;
   border:1px solid #d6d9de;
   transition:all .2s;
   width:fit-content;
-  min-width:170px;
+  min-width:160px;
   max-width:340px;
   margin-inline:auto;
   box-shadow:0 10px 24px rgba(17,17,17,.16);
 }
 .collab-entry-btn:hover{background:#27272a;border-color:#27272a;transform:translateY(-2px);box-shadow:0 14px 30px rgba(17,17,17,.2)}
-.collab-entry-btn svg{width:19px;height:19px;fill:#fff;flex-shrink:0;opacity:1}
+.collab-entry-btn svg{width:18px;height:18px;fill:#fff;flex-shrink:0;opacity:1}
 .collab-title + .collab-entry-btn{margin-top:22px}
 
 /* ADVERT CARDS */
@@ -325,8 +325,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 .offer-consent-box:focus-visible + .offer-consent-check{box-shadow:0 0 0 3px rgba(17,17,17,.18)}
 .offer-consent-text{flex:1}
 .offer-consent a{color:var(--tx);font-weight:700;text-underline-offset:3px}
-.offer-submit{width:100%;border:none;border-radius:16px;background:#111;color:#fff;padding:14px 16px;font-family:var(--fn);font-size:14px;font-weight:var(--fw-b);cursor:pointer}
+.offer-submit{width:100%;border:none;border-radius:16px;background:#111;color:#fff;padding:14px 16px;font-family:var(--fn);font-size:14px;font-weight:var(--fw-b);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
 .offer-submit:disabled{opacity:.6;cursor:not-allowed}
+.offer-submit svg{width:18px;height:18px;fill:none;stroke:currentColor;flex-shrink:0}
 .offer-error{display:none;margin-bottom:12px;padding:11px 13px;border-radius:14px;background:#fff5f5;border:1px solid rgba(180,35,24,.18);color:#b42318;font-size:12px;line-height:1.7}
 .offer-edit-notice{margin-bottom:14px;padding:13px 14px;border-radius:16px;background:#f8fafc;border:1px solid #d9e2ec;color:var(--tx);font-size:12.5px;line-height:1.8}
 .offer-edit-notice strong{display:block;font-size:13px;margin-bottom:2px}
@@ -349,7 +350,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 .platform-alert-ok{border:none;border-radius:14px;background:#111;color:#fff;font-family:var(--fn);font-size:13px;font-weight:700;padding:10px 18px;cursor:pointer}
 @media(max-width:560px){
   .collab-card{padding:24px 16px 18px;border-radius:26px}
-  .collab-title{font-size:21px}
+  .collab-title{font-size:14px}
   .collab-stats{gap:8px}
   .cstat{min-width:0;flex:1}
   .advert-card{padding:16px 14px 14px;border-radius:22px}
@@ -428,7 +429,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
   .offer-submit{position:sticky;bottom:0;z-index:2;box-shadow:0 -10px 22px rgba(255,255,255,.94)}
   .offer-plan h4{font-size:16px}
   .offer-price strong{font-size:26px}
-  .offer-select-btn,.offer-submit,.collab-entry-btn{min-height:48px}
+  .offer-select-btn,.offer-submit{min-height:48px}
+  .collab-entry-btn{min-height:44px}
   .av-wrap{width:102px;height:102px}
   .av-img,.av-ph{width:102px;height:102px}
   .p-name{font-size:24px}
@@ -510,8 +512,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
   <div class="offer-shell">
     <div class="offer-head">
       <div>
-      <h3 id="offerModalTitle">طلب إعلان</h3>
-        <p id="offerHeadSub">أرسل تفاصيل الإعلان وسيتم التواصل معكم بعد مراجعة الطلب.</p>
+      <h3 id="offerModalTitle">طلب تواصل أعمال</h3>
+        <p id="offerHeadSub">أرسل تفاصيل طلبك وسيتم التواصل معكم بعد مراجعة الطلب.</p>
       </div>
       <button class="offer-close" onclick="closeOfferFlow()" aria-label="إغلاق">&times;</button>
     </div>
@@ -999,6 +1001,20 @@ function renderPartners(){
   }).join('')}</div>`;
 }
 
+function normalizeBusinessContactTitle(value){
+  const title=String(value||'').trim();
+  if(!title||title==='\u0644\u0644\u0625\u0639\u0644\u0627\u0646'||title==='\u0644\u0644\u062f\u0639\u0645 \u0648\u0627\u0644\u0625\u0639\u0644\u0627\u0646 \u062a\u0648\u0627\u0635\u0644 \u0645\u0639\u0646\u0627')return 'لتواصل الأعمال';
+  return title;
+}
+function offerSubmitLabel(label){
+  return `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4 20-7Z"></path><path d="M22 2 11 13"></path></svg><span>${label}</span>`;
+}
+function setOfferSubmitButton(btn,label,withIcon=true){
+  if(!btn)return;
+  if(withIcon)btn.innerHTML=offerSubmitLabel(label);
+  else btn.textContent=label;
+}
+
 function legacyRenderCollabDoNotUse(){
   const wrap=document.getElementById('collabWrap');
   const sec=document.getElementById('collabSec');
@@ -1006,9 +1022,9 @@ function legacyRenderCollabDoNotUse(){
   wrap.style.display='block';
   const collab=D.collab||{};
   const waNum=collab.whatsapp||'';
-  const title=collab.heroTitleAr||'للدعم والإعلان تواصل معنا';
+  const title=normalizeBusinessContactTitle(collab.heroTitleAr);
   const sub=collab.heroSubAr||'';
-  const waMsg=encodeURIComponent('السلام عليكم، أودّ الاستفسار عن فرص الدعم والإعلان');
+  const waMsg=encodeURIComponent('السلام عليكم، أودّ الاستفسار عن تواصل الأعمال');
   const waLink=waNum?`https://wa.me/${waNum.replace(/\D/g,'')}?text=${waMsg}`:'#';
 
   const fl=collab.followers||'';const cl=collab.monthlyClicks||'';
@@ -1083,7 +1099,7 @@ function renderCollab(){
   const sec=document.getElementById('collabSec');
   wrap.style.display='block';
   const collab=D.collab||{};
-  const title=escapeHtml(collab.heroTitleAr||'للإعلان');
+  const title=escapeHtml(normalizeBusinessContactTitle(collab.heroTitleAr));
   const sub=escapeHtml(collab.heroSubAr||'');
   const fl=escapeHtml(collab.followers||'');
   const cl=escapeHtml(collab.monthlyClicks||'');
@@ -1098,7 +1114,7 @@ function renderCollab(){
     ${statsHtml}
     <button class="collab-entry-btn" type="button" onclick="openOfferFlow()">
       <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
-      ${escapeHtml(collab.entryLabelAr||'طلب إعلان')}
+      ${escapeHtml(collab.entryLabelAr||'تواصل معنا')}
     </button>
   </div>`;
 }
@@ -1163,12 +1179,19 @@ const OFFER_AR={
   editAction:'\u062a\u0639\u062f\u064a\u0644 \u0627\u0644\u0637\u0644\u0628',canSendAfter:'\u064a\u0645\u0643\u0646\u0643 \u0625\u0631\u0633\u0627\u0644 \u0637\u0644\u0628 \u062c\u062f\u064a\u062f \u0628\u0639\u062f ',defaultPlan:'\u0637\u0644\u0628 \u0625\u0639\u0644\u0627\u0646',comma:'\u060c ',
   missing:'\u064a\u0631\u062c\u0649 \u0625\u0643\u0645\u0627\u0644 \u062c\u0645\u064a\u0639 \u0627\u0644\u062d\u0642\u0648\u0644 \u0627\u0644\u0625\u0644\u0632\u0627\u0645\u064a\u0629 \u0627\u0644\u0645\u0634\u0627\u0631 \u0625\u0644\u064a\u0647\u0627 \u0628\u0627\u0644\u0646\u062c\u0645\u0629.',platformMissing:'\u064a\u0631\u062c\u0649 \u0627\u062e\u062a\u064a\u0627\u0631 \u0645\u0646\u0635\u0629 \u0648\u0627\u062d\u062f\u0629 \u0639\u0644\u0649 \u0627\u0644\u0623\u0642\u0644 \u0644\u0644\u0625\u0639\u0644\u0627\u0646.',consentMissing:'\u064a\u0631\u062c\u0649 \u0627\u0644\u0645\u0648\u0627\u0641\u0642\u0629 \u0639\u0644\u0649 \u0633\u064a\u0627\u0633\u0629 \u0627\u0644\u062e\u0635\u0648\u0635\u064a\u0629 \u0648\u0627\u0644\u0634\u0631\u0648\u0637 \u0648\u0627\u0644\u0623\u062d\u0643\u0627\u0645 \u0642\u0628\u0644 \u0625\u0631\u0633\u0627\u0644 \u0627\u0644\u0637\u0644\u0628.',remoteFail:'\u062a\u0639\u0630\u0631 \u0625\u0631\u0633\u0627\u0644 \u0627\u0644\u0637\u0644\u0628 \u062d\u0627\u0644\u064a\u0627 \u0648\u0644\u0645 \u064a\u062a\u0645 \u062d\u0641\u0638 \u0628\u064a\u0627\u0646\u0627\u062a\u0647. \u064a\u0631\u062c\u0649 \u0627\u0644\u0645\u062d\u0627\u0648\u0644\u0629 \u0644\u0627\u062d\u0642\u0627.',receivedTitle:'\u062a\u0645 \u0627\u0633\u062a\u0644\u0627\u0645 \u0637\u0644\u0628\u0643',thanks:'\u0634\u0643\u0631\u0627 \u0644\u0643. ',defaultReview:'\u062a\u062e\u0636\u0639 \u062c\u0645\u064a\u0639 \u0627\u0644\u0637\u0644\u0628\u0627\u062a \u0644\u0644\u0645\u0631\u0627\u062c\u0639\u0629\u060c \u0648\u0633\u064a\u062a\u0645 \u0627\u0644\u062a\u0648\u0627\u0635\u0644 \u0645\u0639\u0643\u0645 \u0642\u0631\u064a\u0628\u0627 \u0628\u0639\u062f \u0645\u0631\u0627\u062c\u0639\u0629 \u0627\u0644\u0637\u0644\u0628.'
 };
+Object.assign(OFFER_AR,{
+  retryPrefix:'يمكنك إرسال طلب تواصل جديد بعد ',
+  sendRequest:'إرسال الطلب',
+  defaultPlan:'طلب تواصل',
+  platformMissing:'يرجى اختيار منصة واحدة على الأقل للتواصل.',
+  editExpired:'انتهت مدة تعديل الطلب السابق. يمكنك إرسال طلب تواصل جديد بعد انتهاء فترة السماح.'
+});
 function parseOfferEditState(){try{const state=JSON.parse(localStorage.getItem(OFFER_EDIT_STORAGE_KEY)||'null');if(!state||!state.requestId||!state.editToken||!state.editableUntil)return null;if(new Date(state.editableUntil).getTime()<=Date.now()){localStorage.removeItem(OFFER_EDIT_STORAGE_KEY);return null;}return state;}catch(e){localStorage.removeItem(OFFER_EDIT_STORAGE_KEY);return null;}}
 function offerRemainingText(value){const ms=Math.max(0,new Date(value).getTime()-Date.now());const totalMinutes=Math.max(1,Math.ceil(ms/60000));if(totalMinutes>=60){const hours=Math.floor(totalMinutes/60);const minutes=totalMinutes%60;return minutes?hours+' '+OFFER_AR.hour+OFFER_AR.and+minutes+' '+OFFER_AR.minute:hours+' '+OFFER_AR.hour;}return totalMinutes+' '+OFFER_AR.minute;}
 function requestRetryText(seconds){const minutes=Math.max(1,Math.ceil((Number(seconds)||OFFER_EDIT_WINDOW_MS/1000)/60));return OFFER_AR.retryPrefix+minutes+OFFER_AR.retrySuffix;}
 function saveOfferEditState(data,form){if(!data?.requestId||!data?.editToken||!data?.editableUntil)return;localStorage.setItem(OFFER_EDIT_STORAGE_KEY,JSON.stringify({requestId:data.requestId,requestNo:data.requestNo||'',editToken:data.editToken,editableUntil:data.editableUntil,form}));}
 function getOfferFormPayload(){const offer=getActiveOffers().find(p=>p.id===selectedOfferId);const name=document.getElementById('offerNameInput').value.trim();const phone=document.getElementById('offerPhoneInput').value.trim();const company=document.getElementById('offerCompanyInput').value.trim();const product=document.getElementById('offerProductInput')?.value.trim()||'';const platforms=[...document.querySelectorAll('input[name="offerPlatforms"]:checked')].map(i=>i.value);const notes=document.getElementById('offerNotesInput').value.trim();const form={planId:offer?.id||'',planTitle:offer?.titleAr||OFFER_AR.defaultPlan,name,phone,company,product,platforms,notes};return {offer,name,phone,company,product,platforms,notes,form};}
-function hydrateOfferEditForm(editState,savedForm){if(!editState)return;const form=document.querySelector('#offerFormStep .offer-form');if(form){const notice=document.createElement('div');notice.className='offer-edit-notice';const strong=document.createElement('strong');strong.textContent=OFFER_AR.editTitle;const span=document.createElement('span');span.textContent=OFFER_AR.receivedNo+(editState.requestNo||'')+'. '+OFFER_AR.editDuring+offerRemainingText(editState.editableUntil)+OFFER_AR.newAfter;notice.append(strong,span);form.prepend(notice);}const setVal=(id,val)=>{const el=document.getElementById(id);if(el)el.value=val||'';};setVal('offerNameInput',savedForm.name);setVal('offerPhoneInput',savedForm.phone);setVal('offerCompanyInput',savedForm.company);setVal('offerProductInput',savedForm.product);setVal('offerNotesInput',savedForm.notes);const selected=Array.isArray(savedForm.platforms)?savedForm.platforms:[];document.querySelectorAll('input[name="offerPlatforms"]').forEach(input=>{input.checked=selected.includes(input.value);});const consent=document.getElementById('offerConsentInput');if(consent)consent.checked=true;const btn=document.getElementById('offerSubmitBtn');if(btn)btn.textContent=OFFER_AR.saveEdit;}
+function hydrateOfferEditForm(editState,savedForm){if(!editState)return;const form=document.querySelector('#offerFormStep .offer-form');if(form){const notice=document.createElement('div');notice.className='offer-edit-notice';const strong=document.createElement('strong');strong.textContent=OFFER_AR.editTitle;const span=document.createElement('span');span.textContent=OFFER_AR.receivedNo+(editState.requestNo||'')+'. '+OFFER_AR.editDuring+offerRemainingText(editState.editableUntil)+OFFER_AR.newAfter;notice.append(strong,span);form.prepend(notice);}const setVal=(id,val)=>{const el=document.getElementById(id);if(el)el.value=val||'';};setVal('offerNameInput',savedForm.name);setVal('offerPhoneInput',savedForm.phone);setVal('offerCompanyInput',savedForm.company);setVal('offerProductInput',savedForm.product);setVal('offerNotesInput',savedForm.notes);const selected=Array.isArray(savedForm.platforms)?savedForm.platforms:[];document.querySelectorAll('input[name="offerPlatforms"]').forEach(input=>{input.checked=selected.includes(input.value);});const consent=document.getElementById('offerConsentInput');if(consent)consent.checked=true;const btn=document.getElementById('offerSubmitBtn');if(btn)setOfferSubmitButton(btn,OFFER_AR.saveEdit);}
 function openOfferEditFromSuccess(){const state=parseOfferEditState();renderOfferRequestForm(state?.form?.planId||'');}
 
 function renderOfferRequestForm(offerId=''){
@@ -1191,11 +1214,11 @@ function renderOfferRequestForm(offerId=''){
       <input id="offerCompanyInput" placeholder="اسم الجهة أو الشركة">
     </div>
     <div class="offer-field">
-      <label>منتج الإعلان <span class="req-star">*</span></label>
-      <input id="offerProductInput" placeholder="ما المنتج أو الخدمة التي سيتم الإعلان عنها؟">
+      <label>المنتج أو الخدمة <span class="req-star">*</span></label>
+      <input id="offerProductInput" placeholder="ما المنتج أو الخدمة محل التواصل؟">
     </div>
     <div class="offer-field">
-      <label>المنصات المطلوب الإعلان فيها <span class="req-star">*</span></label>
+      <label>المنصات المطلوبة <span class="req-star">*</span></label>
       <div class="platform-checks">
         <label class="platform-check"><span>تيك توك</span><input type="checkbox" name="offerPlatforms" value="تيك توك"><span class="platform-mark"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17l9-10"/></svg></span></label>
         <label class="platform-check"><span>سناب</span><input type="checkbox" name="offerPlatforms" value="سناب"><span class="platform-mark"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17l9-10"/></svg></span></label>
@@ -1204,7 +1227,7 @@ function renderOfferRequestForm(offerId=''){
     </div>
     <div class="offer-field">
       <label>تفاصيل الطلب <span class="req-star">*</span></label>
-      <textarea id="offerNotesInput" placeholder="اكتب تفاصيل الإعلان المطلوبة، الرسالة، المدة، وأي معلومات مهمة للمراجعة."></textarea>
+      <textarea id="offerNotesInput" placeholder="اكتب تفاصيل الطلب، الرسالة، المدة، وأي معلومات مهمة للمراجعة."></textarea>
     </div>
     <label class="offer-consent" for="offerConsentInput">
       <input id="offerConsentInput" type="checkbox" class="offer-consent-box">
@@ -1212,7 +1235,7 @@ function renderOfferRequestForm(offerId=''){
       <span class="offer-consent-text">أوافق على <a href="privacy.html" target="_blank" rel="noopener">سياسة الخصوصية</a> و<a href="terms.html" target="_blank" rel="noopener">الشروط والأحكام</a>، وأقر بصحة المعلومات المقدمة.</span>
     </label>
     <div class="offer-error" id="offerSubmitError"></div>
-    <button class="offer-submit" id="offerSubmitBtn" type="button" onclick="submitOfferRequest()">إرسال طلب الإعلان</button>
+    <button class="offer-submit" id="offerSubmitBtn" type="button" onclick="submitOfferRequest()"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4 20-7Z"></path><path d="M22 2 11 13"></path></svg><span>إرسال الطلب</span></button>
   </div>`;
   hydrateOfferEditForm(editState,savedForm);
   showOfferStep('offerFormStep');
@@ -1279,7 +1302,7 @@ function selectOffer(id){
       <label>ملاحظات مختصرة</label>
       <textarea id="offerNotesInput" placeholder="اذكر الهدف من الطلب أو المدة المتوقعة أو أي ملاحظة مهمة."></textarea>
     </div>
-    <button class="offer-submit" type="button" onclick="submitOfferRequest()">إرسال الطلب</button>
+    <button class="offer-submit" type="button" onclick="submitOfferRequest()"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4 20-7Z"></path><path d="M22 2 11 13"></path></svg><span>إرسال الطلب</span></button>
   </div>`;
   showOfferStep('offerFormStep');
 }
@@ -1295,9 +1318,9 @@ async function submitOfferRequest(){
   if(!document.getElementById('offerConsentInput')?.checked){showOfferError(OFFER_AR.consentMissing);return;}
   let assignedRequestNo=editState?.requestNo||('AB-'+Date.now().toString(36).toUpperCase());
   let savedRemote=false;
-  if(submitBtn){submitBtn.disabled=true;submitBtn.textContent=editState?OFFER_AR.saving:OFFER_AR.sending;}
-  if(sb){try{const dbReq={plan_id:form.planId,plan_title:form.planTitle,name,phone,company,product,platforms:platforms.join(OFFER_AR.comma),notes,consent:true,legal_acknowledgement:true};if(editState){dbReq.request_id=editState.requestId;dbReq.edit_token=editState.editToken;}const {data,error}=await sb.functions.invoke('public-events',{body:{type:editState?'collab_request_update':'collab_request',payload:dbReq}});if(!error&&data?.ok){savedRemote=true;if(data.requestNo)assignedRequestNo=data.requestNo;if(editState)localStorage.removeItem(OFFER_EDIT_STORAGE_KEY);else saveOfferEditState({...data,requestNo:assignedRequestNo},form);}else if(data?.error==='request_recently_received'||error?.context?.status===429){showOfferError(requestRetryText(data?.retryAfterSeconds));if(submitBtn){submitBtn.disabled=false;submitBtn.textContent=editState?OFFER_AR.saveEdit:OFFER_AR.sendRequest;}return;}else if(data?.error==='edit_window_closed'||error?.context?.status===403){localStorage.removeItem(OFFER_EDIT_STORAGE_KEY);showOfferError(OFFER_AR.editExpired);if(submitBtn){submitBtn.disabled=false;submitBtn.textContent=OFFER_AR.sendRequest;}return;}}catch(e){}}
-  if(submitBtn){submitBtn.disabled=false;submitBtn.textContent=editState?OFFER_AR.saveEdit:OFFER_AR.sendRequest;}
+  if(submitBtn){submitBtn.disabled=true;setOfferSubmitButton(submitBtn,editState?OFFER_AR.saving:OFFER_AR.sending,false);}
+  if(sb){try{const dbReq={plan_id:form.planId,plan_title:form.planTitle,name,phone,company,product,platforms:platforms.join(OFFER_AR.comma),notes,consent:true,legal_acknowledgement:true};if(editState){dbReq.request_id=editState.requestId;dbReq.edit_token=editState.editToken;}const {data,error}=await sb.functions.invoke('public-events',{body:{type:editState?'collab_request_update':'collab_request',payload:dbReq}});if(!error&&data?.ok){savedRemote=true;if(data.requestNo)assignedRequestNo=data.requestNo;if(editState)localStorage.removeItem(OFFER_EDIT_STORAGE_KEY);else saveOfferEditState({...data,requestNo:assignedRequestNo},form);}else if(data?.error==='request_recently_received'||error?.context?.status===429){showOfferError(requestRetryText(data?.retryAfterSeconds));if(submitBtn){submitBtn.disabled=false;setOfferSubmitButton(submitBtn,editState?OFFER_AR.saveEdit:OFFER_AR.sendRequest);}return;}else if(data?.error==='edit_window_closed'||error?.context?.status===403){localStorage.removeItem(OFFER_EDIT_STORAGE_KEY);showOfferError(OFFER_AR.editExpired);if(submitBtn){submitBtn.disabled=false;setOfferSubmitButton(submitBtn,OFFER_AR.sendRequest);}return;}}catch(e){}}
+  if(submitBtn){submitBtn.disabled=false;setOfferSubmitButton(submitBtn,editState?OFFER_AR.saveEdit:OFFER_AR.sendRequest);}
   if(!savedRemote){showOfferError(OFFER_AR.remoteFail);return;}
   const reviewMsg=(D.collab?.noticeAr||OFFER_AR.defaultReview);
   const state=parseOfferEditState();
@@ -1338,7 +1361,7 @@ function updateStaticText(){
   document.getElementById('lblSocial').textContent=lang==='ar'?'تابعني على':'Follow Me';
   document.getElementById('lblBooks').textContent=lang==='ar'?'مؤلفاتي':'My Publications';
   document.getElementById('lblPartners').textContent=lang==='ar'?'الروابط':'Links';
-  document.getElementById('lblCollab').textContent=lang==='ar'?'التعاون والإعلان':'Advertising & Collaboration';
+  document.getElementById('lblCollab').textContent=lang==='ar'?'تواصل الأعمال':'Business Contact';
   document.getElementById('footerTxt').textContent=lang==='ar'?'© جميع الحقوق محفوظة':'© All rights reserved';
   document.getElementById('vLbl').textContent=lang==='ar'?'متواجد الآن':'online now';
 }
